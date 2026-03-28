@@ -4,25 +4,25 @@
  * Standalone script to receive all pending transactions for a specific account
  * This script provides comprehensive logging and debugging information
  * 
- * Account: nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza
+ * Account: kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza
  * Public Key: 8e35aca4499bdd1e5900745d143b5bb8628702b6c55f59da63b135c2a3d4809c
  * Private Key: 55496ae0f5.......................
  */
 
 const { tools, block, wallet } = require('nanocurrency-web');
-const { NanoTransactions } = require('../utils/nano-transactions');
-const { NanoConverter } = require('../utils/nano-converter');
+const { KakituTransactions } = require('../utils/kakitu-transactions');
+const { KakituConverter } = require('../utils/kakitu-converter');
 
 // Configure account credentials
 const ACCOUNT = {
-    address: 'nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
+    address: 'kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
     privateKey: '55496ae0.........................................',
     publicKey: '8e35aca4499bdd1e5900745d143b5bb8628702b6c55f59da63b135c2a3d4809c'
 };
 
 // Configure RPC
 const RPC_CONFIG = {
-    rpcNodes: ['https://rpc.nano.to'],
+    rpcNodes: ['https://rpc.kakitu.org'],
     rpcKey: 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23'
 };
 
@@ -79,7 +79,7 @@ function validateAccountCredentials() {
         logInfo('Validating address format...');
         const isValidAddress = tools.validateAddress(ACCOUNT.address);
         if (!isValidAddress) {
-            throw new Error('Invalid Nano address format');
+            throw new Error('Invalid Kakitu address format');
         }
         logSuccess('Address format is valid');
 
@@ -132,7 +132,7 @@ async function checkAccountStatus(nanoTx) {
         logSuccess('Account is opened and active');
         logInfo('Account Information:', {
             balance_raw: accountInfo.balance,
-            balance_xno: NanoConverter.rawToXNO(accountInfo.balance),
+            balance_xno: KakituConverter.rawToXNO(accountInfo.balance),
             frontier: accountInfo.frontier,
             representative: accountInfo.representative,
             block_count: accountInfo.block_count
@@ -178,9 +178,9 @@ async function getPendingBlocks(nanoTx) {
         logSuccess(`Found ${pendingBlocks.length} pending block(s)`);
         
         pendingBlocks.forEach((block, idx) => {
-            const amountXNO = NanoConverter.rawToXNO(block.amount);
+            const amountXNO = KakituConverter.rawToXNO(block.amount);
             logInfo(`  ${idx + 1}. Hash: ${block.hash}`);
-            logInfo(`     Amount: ${block.amount} raw (${amountXNO} XNO)`);
+            logInfo(`     Amount: ${block.amount} raw (${amountXNO} KSHS)`);
             if (block.source) {
                 logInfo(`     Source: ${block.source}`);
             }
@@ -201,7 +201,7 @@ async function processPendingBlock(nanoTx, pendingBlock, accountStatus, blockInd
     
     try {
         logInfo(`Block hash: ${pendingBlock.hash}`);
-        logInfo(`Amount: ${pendingBlock.amount} raw (${NanoConverter.rawToXNO(pendingBlock.amount)} XNO)`);
+        logInfo(`Amount: ${pendingBlock.amount} raw (${KakituConverter.rawToXNO(pendingBlock.amount)} KSHS)`);
 
         // Determine if this is a new account (first receive)
         const isNewAccount = !accountStatus.exists;
@@ -231,7 +231,7 @@ async function processPendingBlock(nanoTx, pendingBlock, accountStatus, blockInd
 
         // Determine representative
         const representative = isNewAccount ? 
-            'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf' : 
+            'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf' : 
             accountStatus.info.representative;
         logInfo(`Representative: ${representative}`);
 
@@ -348,9 +348,9 @@ async function displayResults(nanoTx, results) {
             totalReceived += BigInt(item.amount);
             logInfo(`  ${idx + 1}. Hash: ${item.hash}`);
             logInfo(`     Processed Hash: ${item.processedHash}`);
-            logInfo(`     Amount: ${item.amount} raw (${NanoConverter.rawToXNO(item.amount)} XNO)`);
+            logInfo(`     Amount: ${item.amount} raw (${KakituConverter.rawToXNO(item.amount)} KSHS)`);
         });
-        logSuccess(`Total received: ${totalReceived.toString()} raw (${NanoConverter.rawToXNO(totalReceived.toString())} XNO)`);
+        logSuccess(`Total received: ${totalReceived.toString()} raw (${KakituConverter.rawToXNO(totalReceived.toString())} KSHS)`);
     }
 
     if (results.failedCount > 0) {
@@ -371,7 +371,7 @@ async function displayResults(nanoTx, results) {
         if (finalAccountInfo && !finalAccountInfo.error) {
             logSuccess('Account Information:');
             logInfo(`  Balance (raw): ${finalAccountInfo.balance}`);
-            logInfo(`  Balance (XNO): ${NanoConverter.rawToXNO(finalAccountInfo.balance)}`);
+            logInfo(`  Balance (KSHS): ${KakituConverter.rawToXNO(finalAccountInfo.balance)}`);
             logInfo(`  Frontier: ${finalAccountInfo.frontier}`);
             logInfo(`  Representative: ${finalAccountInfo.representative}`);
             logInfo(`  Block count: ${finalAccountInfo.block_count}`);
@@ -387,7 +387,7 @@ async function displayResults(nanoTx, results) {
 async function main() {
     const scriptStartTime = Date.now();
     
-    logSection('NANO PENDING BLOCKS RECEIVER');
+    logSection('KSHS PENDING BLOCKS RECEIVER');
     logInfo('Account Address:', ACCOUNT.address);
     logInfo('Public Key:', ACCOUNT.publicKey);
     logInfo('RPC Node:', RPC_CONFIG.rpcNodes[0]);
@@ -397,10 +397,10 @@ async function main() {
         // Step 1: Validate credentials
         validateAccountCredentials();
 
-        // Step 2: Initialize Nano Transactions
-        logSubSection('Initializing Nano Transactions');
-        const nanoTx = new NanoTransactions(RPC_CONFIG);
-        logSuccess('NanoTransactions initialized');
+        // Step 2: Initialize Kakitu Transactions
+        logSubSection('Initializing Kakitu Transactions');
+        const nanoTx = new KakituTransactions(RPC_CONFIG);
+        logSuccess('KakituTransactions initialized');
 
         // Step 3: Check account status
         const accountStatus = await checkAccountStatus(nanoTx);

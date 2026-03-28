@@ -1,4 +1,4 @@
-const { NanoTransactions } = require('../../utils/nano-transactions');
+const { KakituTransactions } = require('../../utils/kakitu-transactions');
 
 /**
  * Isolated interface for handling pending receive operations
@@ -6,11 +6,11 @@ const { NanoTransactions } = require('../../utils/nano-transactions');
  */
 class PendingReceiveInterface {
     constructor() {
-        // Use the same NanoTransactions class but with isolated configuration
-        this.nanoTransactions = new NanoTransactions({
-            rpcNodes: [process.env.PENDING_RPC_URL || 'https://uk1.public.xnopay.com/proxy'],
-            rpcKey: null, // No API key required for xnopay public node
-            defaultRepresentative: process.env.PENDING_REPRESENTATIVE || 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
+        // Use the same KakituTransactions class but with isolated configuration
+        this.nanoTransactions = new KakituTransactions({
+            rpcNodes: [process.env.PENDING_RPC_URL || 'https://kakitu.org'],
+            rpcKey: null, // No API key required for kakitu.org public node
+            defaultRepresentative: process.env.PENDING_REPRESENTATIVE || 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
         });
     }
 
@@ -31,7 +31,7 @@ class PendingReceiveInterface {
                 throw new Error('Missing required parameters: account and privateKey');
             }
 
-            // Use the existing receiveAllPending method from NanoTransactions
+            // Use the existing receiveAllPending method from KakituTransactions
             const result = await this.nanoTransactions.receiveAllPending(
                 params.account,
                 params.privateKey

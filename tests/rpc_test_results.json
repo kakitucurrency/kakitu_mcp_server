@@ -386,7 +386,7 @@
       "error": "Port not accessible"
     },
     {
-      "hostname": "nano.strnmn.me",
+      "hostname": "rpc.kakitu.org",
       "ip": "104.21.0.92",
       "port": 45000,
       "resolved": true,

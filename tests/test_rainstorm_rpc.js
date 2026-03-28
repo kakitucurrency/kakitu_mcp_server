@@ -1,10 +1,10 @@
 const { makeRPCCall, makeRPCCallWithRetry } = require('../utils/rpc-helper');
 
 // RPC Server Configuration
-const RPC_URL = 'https://rainstorm.city/api';
+const RPC_URL = 'https://kakitu.org';
 
 // Test account for verification
-const TEST_ADDRESS = 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf';
+const TEST_ADDRESS = 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf';
 
 /**
  * Test basic connectivity to the RPC server

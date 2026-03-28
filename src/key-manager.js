@@ -1,8 +1,8 @@
-const { NanoTransactions } = require('../utils/nano-transactions');
+const { KakituTransactions } = require('../utils/kakitu-transactions');
 
 class KeyManager {
     constructor(config) {
-        this.nanoTransactions = new NanoTransactions({}, config);
+        this.nanoTransactions = new KakituTransactions({}, config);
     }
 
     async generateKeyPair() {

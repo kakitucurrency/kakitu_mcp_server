@@ -9,7 +9,7 @@
 Your production server was experiencing work generation timeouts that caused the application to hang during receive operations. The error occurred at:
 ```
 Computing work with RECEIVE/OPEN difficulty threshold: fffffe0000000000
-at NanoTransactions.generateWork (line 184)
+at KakituTransactions.generateWork (line 184)
 ```
 
 ### Root Causes
@@ -28,7 +28,7 @@ at NanoTransactions.generateWork (line 184)
 - All tests pass: **12/12 ✅**
 
 #### Step 2: Implemented Timeout Protection ✅
-**File:** `utils/nano-transactions.js`
+**File:** `utils/kakitu-transactions.js`
 
 Added `_generateWorkWithTimeout()` method:
 - **Send blocks:** 30-second timeout
@@ -169,7 +169,7 @@ maxRetries: 2             // 3 total attempts
 ## Files Modified
 
 ### Core Implementation
-- ✅ `utils/nano-transactions.js` - Added timeout and retry logic
+- ✅ `utils/kakitu-transactions.js` - Added timeout and retry logic
 
 ### Testing
 - ✅ `tests/work-generation.test.js` - 12 comprehensive tests (NEW)

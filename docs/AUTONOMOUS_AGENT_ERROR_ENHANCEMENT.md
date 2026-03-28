@@ -35,8 +35,8 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
     },
     "nextSteps": [
         "Check current balance: Use getBalance or getAccountInfo",
-        "Option 1: Reduce send amount to maximum 0.09 NANO or less",
-        "Option 2: Fund account with additional 0.91 NANO minimum",
+        "Option 1: Reduce send amount to maximum 0.09 KSHS or less",
+        "Option 2: Fund account with additional 0.91 KSHS minimum",
         "After funding, use receiveAllPending to process pending blocks"
     ],
     "relatedFunctions": ["getBalance", "getAccountInfo", "receiveAllPending"]
@@ -55,7 +55,7 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
     "error": "Account not initialized",
     "errorCode": "ACCOUNT_NOT_INITIALIZED",
     "details": {
-        "address": "nano_xxx",
+        "address": "kshs_xxx",
         "hasPendingBlocks": true,
         "pendingCount": 1,
         "pendingAmount": "100000000000000000000000000"
@@ -69,7 +69,7 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
         "jsonrpc": "2.0",
         "method": "initializeAccount",
         "params": {
-            "address": "nano_xxx",
+            "address": "kshs_xxx",
             "privateKey": "your_private_key"
         }
     }
@@ -86,7 +86,7 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
     "error": "Pending blocks detected",
     "errorCode": "PENDING_BLOCKS_NOT_RECEIVED",
     "details": {
-        "address": "nano_xxx",
+        "address": "kshs_xxx",
         "pendingCount": 2,
         "totalPendingAmount": "500000000000000000000000000",
         "totalPendingAmountNano": "0.5"
@@ -112,11 +112,11 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
     "details": {
         "providedAmount": "0.1",
         "expectedFormat": "raw units (string of digits)",
-        "reason": "Amount must be in raw units, not NANO"
+        "reason": "Amount must be in raw units, not KSHS"
     },
     "conversionHelper": {
-        "toConvert_0.1_NANO_to_raw": "100000000000000000000000000",
-        "formula": "raw = NANO × 10^30",
+        "toConvert_0.1_KSHS_to_raw": "100000000000000000000000000",
+        "formula": "raw = KSHS × 10^30",
         "examples": {
             "0.001_NANO": "1000000000000000000000000000",
             "0.01_NANO": "10000000000000000000000000",
@@ -125,8 +125,8 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
         }
     },
     "nextSteps": [
-        "Convert your NANO amount to raw units",
-        "Use the conversion formula: raw = NANO × 10^30",
+        "Convert your KSHS amount to raw units",
+        "Use the conversion formula: raw = KSHS × 10^30",
         "Provide amount as string in raw units"
     ]
 }
@@ -150,7 +150,7 @@ validateSendTransaction(fromAddress, toAddress, amountRaw, privateKey):
 ### 2. Balance Converter Helper
 ```javascript
 convertBalance(amount, from, to):
-  - from/to: 'nano', 'raw'
+  - from/to: 'kakitu', 'raw'
   - Returns converted value
   - Includes validation
 ```
@@ -160,8 +160,8 @@ convertBalance(amount, from, to):
 getAccountStatus(address):
   Returns:
   - initialized: boolean
-  - balance: {raw, nano}
-  - pending: {count, amount in raw/nano}
+  - balance: {raw, kakitu}
+  - pending: {count, amount in raw/kakitu}
   - needsAction: [array of required actions]
   - canSend: boolean
   - canReceive: boolean
@@ -186,7 +186,7 @@ checkTransactionPrerequisites(fromAddress, toAddress, amount):
 - [ ] Missing parameters with examples
 
 ### Phase 2: Helper Functions (High Priority)
-- [ ] Balance converter (raw ↔ nano)
+- [ ] Balance converter (raw ↔ kakitu)
 - [ ] Account status checker
 - [ ] Transaction prerequisites validator
 - [ ] Workflow validator
@@ -245,7 +245,7 @@ All errors should follow this structure:
 
 ### Test Suite 3: Format Errors
 - [ ] Invalid address format
-- [ ] Wrong amount units (NANO instead of raw)
+- [ ] Wrong amount units (KSHS instead of raw)
 - [ ] Missing required parameters
 - [ ] Invalid private key format
 
@@ -293,7 +293,7 @@ All errors should follow this structure:
 
 ## Files to Modify
 
-1. `utils/nano-transactions.js` - Add error enhancement wrapper
+1. `utils/kakitu-transactions.js` - Add error enhancement wrapper
 2. `src/server.js` - Add helper functions and validators
 3. `utils/error-handler.js` - NEW: Centralized error formatting
 4. `utils/balance-converter.js` - NEW: Unit conversion utilities
@@ -302,7 +302,7 @@ All errors should follow this structure:
 ## Next Actions
 
 1. Create error-handler.js with standard error formatting
-2. Wrap all nano-transactions methods with enhanced error handling
+2. Wrap all kakitu-transactions methods with enhanced error handling
 3. Add helper functions to server.js
 4. Test each error scenario
 5. Document all error codes

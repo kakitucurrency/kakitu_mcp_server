@@ -19,7 +19,7 @@
 | 3 | getBalance (invalid address) | Validation | ✅ PASS | < 1s | INVALID_ADDRESS_PREFIX error perfect |
 | 4 | getBalance (missing param) | Validation | ✅ PASS | < 1s | MISSING_PARAMETER error perfect |
 | 5 | sendTransaction (wrong unit) | Smart detect | ✅ PASS | < 1s | AMOUNT_WRONG_UNIT with auto-correct |
-| 6 | convertBalance (NANO→raw) | Helper | ✅ PASS | < 1s | Correct conversion |
+| 6 | convertBalance (KSHS→raw) | Helper | ✅ PASS | < 1s | Correct conversion |
 | 7 | getAccountStatus (wallet 1) | Status | ✅ PASS | 2-3s | Detected pending, gave needsAction |
 | 8 | getAccountStatus (wallet 2) | Status | ✅ PASS | 2-3s | Detected pending, gave needsAction |
 | 9 | initializeAccount (wallet 1) | Account init | ✅ PASS | 8-12s | Successfully initialized |
@@ -32,7 +32,7 @@
 | 16 | nonExistentMethod | Validation | ✅ PASS | < 1s | METHOD_NOT_FOUND lists all methods |
 | 17 | getBalance (invalid chars) | Validation | ✅ PASS | < 1s | INVALID_ADDRESS_LENGTH detected |
 | 18 | getAccountInfo | Query | ✅ PASS | 1-2s | Detailed account info returned |
-| 19 | convertBalance (raw→NANO) | Helper | ✅ PASS | < 1s | Correct conversion 0.0004 NANO |
+| 19 | convertBalance (raw→KSHS) | Helper | ✅ PASS | < 1s | Correct conversion 0.0004 KSHS |
 | 20 | convertBalance (invalid units) | Validation | ✅ PASS | < 1s | INVALID_CONVERSION_UNITS perfect |
 | 21 | getTestWallets | Test wallet | ✅ PASS | < 1s | Retrieved wallet info |
 | 22 | checkTestWalletsFunding | Test wallet | ✅ PASS | 1-2s | Checked funding status |
@@ -71,7 +71,7 @@
 
 ### 1. Smart Auto-Correction ⭐⭐⭐⭐⭐
 
-**Test:** Sent "0.1" as amountRaw (NANO format instead of raw)
+**Test:** Sent "0.1" as amountRaw (KSHS format instead of raw)
 
 **Server Response:**
 ```json
@@ -93,7 +93,7 @@
 
 **One call returns everything:**
 - initialized status (true/false)
-- balance (raw + NANO)
+- balance (raw + KSHS)
 - pending blocks (count + amount)
 - capabilities (canSend, canReceive)
 - **needsAction array** (what to do next)
@@ -200,7 +200,7 @@ Status: Transaction did NOT complete
    ```
 
 3. **Long-term: Optimization options**
-   - Use external work server (nano_work_server)
+   - Use external work server (kshs_work_server)
    - Implement work caching
    - Add async work generation with polling
    - Use distributed POW services
@@ -403,7 +403,7 @@ Add:
 
 **Overall Assessment:** ⭐⭐⭐⭐½ (4.5/5)
 
-The NANO MCP Server is **production-ready for AI agents** with excellent error handling, comprehensive validation, and smart features. The only issue is work generation timeout which is addressable through documentation updates and future optimization.
+The Kakitu MCP Server is **production-ready for AI agents** with excellent error handling, comprehensive validation, and smart features. The only issue is work generation timeout which is addressable through documentation updates and future optimization.
 
 ---
 

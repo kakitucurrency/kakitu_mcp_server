@@ -5,7 +5,7 @@ async function testPendingReceive() {
         console.log('Starting Pending Receive Test...\n');
 
         // Use the provided test wallet
-        const account = "nano_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj";
+        const account = "kshs_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj";
         const privateKey = "xx";
 
         console.log('Using test wallet:');

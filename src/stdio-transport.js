@@ -2,8 +2,8 @@ const readline = require('readline');
 
 class StdioTransport {
     /**
-     * Creates a new stdio transport for NANO MCP Server
-     * @param {NanoMCPServer} server - The NANO MCP server instance
+     * Creates a new stdio transport for Kakitu MCP Server
+     * @param {KakituMCPServer} server - The Kakitu MCP server instance
      */
     constructor(server, input = process.stdin, output = process.stdout) {
         this.server = server;
@@ -15,7 +15,7 @@ class StdioTransport {
      * Starts the stdio transport
      */
     start() {
-        console.error('NANO MCP Server running in stdio mode');
+        console.error('Kakitu MCP Server running in stdio mode');
         
         this.rl = readline.createInterface({
             input: this.input,

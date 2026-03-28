@@ -1,22 +1,22 @@
 /**
  * Balance Converter Utility
- * Converts between NANO and raw units with validation
+ * Converts between KSHS and raw units with validation
  * Provides conversion helpers for autonomous agents
  */
 
 "use strict";
 
-const NANO_TO_RAW_MULTIPLIER = BigInt("1000000000000000000000000000000"); // 10^30
+const KSHS_TO_RAW_MULTIPLIER = BigInt("1000000000000000000000000000000"); // 10^30
 
 class BalanceConverter {
     /**
-     * Convert NANO to raw units
-     * @param {string|number} nanoAmount - Amount in NANO
+     * Convert KSHS to raw units
+     * @param {string|number} nanoAmount - Amount in KSHS
      * @returns {string} Amount in raw units
      */
     static nanoToRaw(nanoAmount) {
         try {
-            console.log(`[BalanceConverter] Converting ${nanoAmount} NANO to raw`);
+            console.log(`[BalanceConverter] Converting ${nanoAmount} KSHS to raw`);
             
             // Handle string with decimal
             const nanoStr = String(nanoAmount);
@@ -26,7 +26,7 @@ class BalanceConverter {
             const paddedDecimal = decimal.padEnd(30, '0').slice(0, 30);
             
             // Combine and convert to BigInt
-            const wholePart = BigInt(whole || '0') * NANO_TO_RAW_MULTIPLIER;
+            const wholePart = BigInt(whole || '0') * KSHS_TO_RAW_MULTIPLIER;
             const decimalPart = BigInt(paddedDecimal);
             const raw = wholePart + decimalPart;
             
@@ -34,27 +34,27 @@ class BalanceConverter {
             console.log(`[BalanceConverter] Result: ${result} raw`);
             return result;
         } catch (error) {
-            console.error('[BalanceConverter] Error converting NANO to raw:', error);
-            throw new Error(`Invalid NANO amount: ${nanoAmount}. Must be a valid number.`);
+            console.error('[BalanceConverter] Error converting KSHS to raw:', error);
+            throw new Error(`Invalid KSHS amount: ${nanoAmount}. Must be a valid number.`);
         }
     }
 
     /**
-     * Convert raw units to NANO
+     * Convert raw units to KSHS
      * @param {string|BigInt} rawAmount - Amount in raw units
-     * @returns {string} Amount in NANO (decimal string)
+     * @returns {string} Amount in KSHS (decimal string)
      */
     static rawToNano(rawAmount) {
         try {
-            console.log(`[BalanceConverter] Converting ${rawAmount} raw to NANO`);
+            console.log(`[BalanceConverter] Converting ${rawAmount} raw to KSHS`);
             
             const raw = BigInt(rawAmount);
             
-            // Simple division: raw / 10^30 = NANO
+            // Simple division: raw / 10^30 = KSHS
             // Use string manipulation for precision
             const rawStr = raw.toString().padStart(31, '0'); // Ensure at least 31 digits
             const len = rawStr.length;
-            const decimalPos = len - 30; // 30 decimals for NANO
+            const decimalPos = len - 30; // 30 decimals for KSHS
             
             const wholePart = rawStr.substring(0, decimalPos) || '0';
             const decimalPart = rawStr.substring(decimalPos);
@@ -63,10 +63,10 @@ class BalanceConverter {
             const combined = wholePart + '.' + decimalPart;
             const result = combined.replace(/\.?0+$/, '').replace(/^0+(?=\.)/, '0');
             
-            console.log(`[BalanceConverter] Result: ${result} NANO`);
+            console.log(`[BalanceConverter] Result: ${result} KSHS`);
             return result;
         } catch (error) {
-            console.error('[BalanceConverter] Error converting raw to NANO:', error);
+            console.error('[BalanceConverter] Error converting raw to KSHS:', error);
             throw new Error(`Invalid raw amount: ${rawAmount}. Must be a valid number string.`);
         }
     }
@@ -111,8 +111,8 @@ class BalanceConverter {
         const nano = this.rawToNano(rawAmount);
         return {
             raw: rawAmount,
-            nano: nano,
-            display: `${nano} NANO`
+            kakitu: kakitu,
+            display: `${kakitu} KSHS`
         };
     }
 
@@ -122,12 +122,12 @@ class BalanceConverter {
      */
     static getConversionHelp() {
         return {
-            description: "NANO uses raw units for all on-chain operations. 1 NANO = 10^30 raw",
-            formula: "raw = NANO × 10^30",
-            reverseFormula: "NANO = raw ÷ 10^30",
+            description: "KSHS uses raw units for all on-chain operations. 1 KSHS = 10^30 raw",
+            formula: "raw = KSHS × 10^30",
+            reverseFormula: "KSHS = raw ÷ 10^30",
             examples: this.getConversionExamples(),
             commonMistakes: [
-                "Using NANO value instead of raw in amountRaw parameter",
+                "Using KSHS value instead of raw in amountRaw parameter",
                 "Providing decimal numbers as raw units",
                 "Not converting before API calls"
             ],

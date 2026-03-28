@@ -124,7 +124,7 @@ The README.md has been completely rewritten with **AI agents as the primary audi
 ## 💡 Writing Style Changes
 
 ### Before (Human-focused):
-> "The NANO MCP Server provides a JSON-RPC 2.0 API for developers who want to integrate NANO cryptocurrency into their applications..."
+> "The Kakitu MCP Server provides a JSON-RPC 2.0 API for developers who want to integrate Kakitu cryptocurrency into their applications..."
 
 ### After (AI agent-focused):
 > "For AI Agents: This server is designed specifically for autonomous agents. All errors are self-documenting with step-by-step guidance. No external documentation needed."
@@ -162,7 +162,7 @@ An AI agent reading this README should be able to:
 
 ## 📁 File Location
 
-- **File**: `NANO_MCP_SERVER/README.md`
+- **File**: `KAKITU_MCP_SERVER/README.md`
 - **Length**: ~800 lines (focused and organized)
 - **Format**: Markdown with consistent structure
 - **Target**: AI agents and autonomous systems

@@ -1,5 +1,5 @@
 /**
- * TypeScript Type Definitions for NANO MCP Server
+ * TypeScript Type Definitions for Kakitu MCP Server
  * Auto-generated from JSON Schema for AI agents and TypeScript clients
  */
 
@@ -7,7 +7,7 @@
 // BASE TYPES
 // ============================================================================
 
-export type NanoAddress = string; // Pattern: ^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$
+export type KakituAddress = string; // Pattern: ^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$
 export type PrivateKey = string;   // Pattern: ^[0-9A-Fa-f]{64}$
 export type PublicKey = string;    // Pattern: ^[0-9A-Fa-f]{64}$
 export type Seed = string;         // Pattern: ^[0-9A-Fa-f]{64}$
@@ -106,7 +106,7 @@ export interface InitializeResult {
 export interface GenerateWalletParams {}
 
 export interface GenerateWalletResult {
-  address: NanoAddress;
+  address: KakituAddress;
   privateKey: PrivateKey;
   publicKey: PublicKey;
   seed: Seed;
@@ -117,7 +117,7 @@ export interface GenerateWalletResult {
 // ============================================================================
 
 export interface GetBalanceParams {
-  address: NanoAddress;
+  address: KakituAddress;
 }
 
 export interface GetBalanceResult {
@@ -132,7 +132,7 @@ export interface GetBalanceResult {
 // ============================================================================
 
 export interface GetAccountInfoParams {
-  address: NanoAddress;
+  address: KakituAddress;
 }
 
 export interface GetAccountInfoResult {
@@ -142,7 +142,7 @@ export interface GetAccountInfoResult {
   balance: RawAmount;
   modified_timestamp: string;
   block_count: string;
-  representative: NanoAddress;
+  representative: KakituAddress;
 }
 
 // ============================================================================
@@ -150,12 +150,12 @@ export interface GetAccountInfoResult {
 // ============================================================================
 
 export interface GetPendingBlocksParams {
-  address: NanoAddress;
+  address: KakituAddress;
 }
 
 export interface PendingBlock {
   amount: RawAmount;
-  source: NanoAddress;
+  source: KakituAddress;
 }
 
 export interface GetPendingBlocksResult {
@@ -167,7 +167,7 @@ export interface GetPendingBlocksResult {
 // ============================================================================
 
 export interface InitializeAccountParams {
-  address: NanoAddress;
+  address: KakituAddress;
   privateKey: PrivateKey;
 }
 
@@ -175,7 +175,7 @@ export interface InitializeAccountResult {
   initialized: boolean;
   hash: BlockHash;
   balance?: RawAmount;
-  representative?: NanoAddress;
+  representative?: KakituAddress;
 }
 
 // ============================================================================
@@ -183,8 +183,8 @@ export interface InitializeAccountResult {
 // ============================================================================
 
 export interface SendTransactionParams {
-  fromAddress: NanoAddress;
-  toAddress: NanoAddress;
+  fromAddress: KakituAddress;
+  toAddress: KakituAddress;
   amountRaw: RawAmount;
   privateKey: PrivateKey;
 }
@@ -199,7 +199,7 @@ export interface SendTransactionResult {
 // ============================================================================
 
 export interface ReceiveAllPendingParams {
-  address: NanoAddress;
+  address: KakituAddress;
   privateKey: PrivateKey;
 }
 
@@ -214,7 +214,7 @@ export type ReceiveAllPendingResult = ReceiveBlockResult[];
 // ============================================================================
 
 export interface GenerateQrCodeParams {
-  address: NanoAddress;
+  address: KakituAddress;
   amount?: string;
 }
 
@@ -229,15 +229,15 @@ export interface GenerateQrCodeResult {
 
 export interface ConvertBalanceParams {
   amount: string;
-  from: "nano" | "raw";
-  to: "nano" | "raw";
+  from: "kakitu" | "raw";
+  to: "kakitu" | "raw";
 }
 
 export interface ConvertBalanceResult {
   original: string;
   converted: string;
-  from: "nano" | "raw";
-  to: "nano" | "raw";
+  from: "kakitu" | "raw";
+  to: "kakitu" | "raw";
 }
 
 // ============================================================================
@@ -245,11 +245,11 @@ export interface ConvertBalanceResult {
 // ============================================================================
 
 export interface GetAccountStatusParams {
-  address: NanoAddress;
+  address: KakituAddress;
 }
 
 export interface GetAccountStatusResult {
-  address: NanoAddress;
+  address: KakituAddress;
   initialized: boolean;
   balance: RawAmount;
   balanceNano: NanoAmount;
@@ -258,7 +258,7 @@ export interface GetAccountStatusResult {
   totalPendingNano: NanoAmount;
   canSend: boolean;
   needsAction: string[];
-  representative?: NanoAddress;
+  representative?: KakituAddress;
 }
 
 // ============================================================================
@@ -268,7 +268,7 @@ export interface GetAccountStatusResult {
 export interface SetupTestWalletsParams {}
 
 export interface TestWalletInfo {
-  address: NanoAddress;
+  address: KakituAddress;
   funded: boolean;
 }
 
@@ -286,7 +286,7 @@ export interface GetTestWalletsParams {
 }
 
 export interface TestWalletFull {
-  address: NanoAddress;
+  address: KakituAddress;
   privateKey?: PrivateKey;
   balance: RawAmount;
   funded: boolean;

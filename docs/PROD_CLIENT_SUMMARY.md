@@ -8,7 +8,7 @@ You provided TypeScript code with bugs and requested a **production-level MCP cl
 
 ### **3 Production Files (1,450+ lines)**
 
-1. **`nano-mcp-client.ts`** (650+ lines)
+1. **`kakitu-mcp-client.ts`** (650+ lines)
    - Complete TypeScript MCP client class
    - Full type safety with interfaces
    - All 16 MCP methods implemented
@@ -44,7 +44,7 @@ You provided TypeScript code with bugs and requested a **production-level MCP cl
 ```typescript
 ✅ Complete TypeScript types from JSON Schema
 ✅ Full callMCP implementation with fetch
-✅ Proper NANO address validation (regex)
+✅ Proper KSHS address validation (regex)
 ✅ Auto-retry with exponential backoff (2s, 4s, 8s)
 ✅ Production timeouts (30s/60s)
 ✅ Rich error formatting with nextSteps
@@ -101,8 +101,8 @@ async sendTransaction(...) {
 ```typescript
 // Client-side (instant, no network call)
 private validateAddress(address: string): void {
-  if (!NANO_ADDRESS_REGEX.test(address)) {
-    throw new Error('Invalid NANO address');
+  if (!KAKITU_ADDRESS_REGEX.test(address)) {
+    throw new Error('Invalid KSHS address');
   }
 }
 
@@ -147,22 +147,22 @@ const INITIAL_RETRY_DELAY = 2000; // 2 seconds
 
 ### **6. Helper Functions**
 ```typescript
-// Convert NANO to raw (instant, no API call)
+// Convert KSHS to raw (instant, no API call)
 export function nanoToRaw(nanoAmount: string | number): string {
-  const nano = typeof nanoAmount === 'string' ? parseFloat(nanoAmount) : nanoAmount;
-  const rawBigInt = BigInt(Math.floor(nano * 1e6)) * BigInt('1000000000000000000000000');
+  const kakitu = typeof nanoAmount === 'string' ? parseFloat(nanoAmount) : nanoAmount;
+  const rawBigInt = BigInt(Math.floor(kakitu * 1e6)) * BigInt('1000000000000000000000000');
   return rawBigInt.toString();
 }
 
-// Convert raw to NANO (instant, no API call)
+// Convert raw to KSHS (instant, no API call)
 export function rawToNano(rawAmount: string): string {
   const raw = BigInt(rawAmount);
-  const nano = Number(raw) / 1e30;
-  return nano.toFixed(6);
+  const kakitu = Number(raw) / 1e30;
+  return kakitu.toFixed(6);
 }
 
 // Constants
-export const XNO = {
+export const KSHS = {
   ONE_NANO: '1000000000000000000000000000000',
   POINT_ONE_NANO: '100000000000000000000000000000',
   POINT_ZERO_ONE_NANO: '10000000000000000000000000000',
@@ -217,9 +217,9 @@ async getTypeScriptDefinitions(): Promise<string> {
 
 ### **Quick Start**
 ```typescript
-import { NanoMcpClient, nanoToRaw } from './nano-mcp-client';
+import { NanoMcpClient, nanoToRaw } from './kakitu-mcp-client';
 
-const client = new NanoMcpClient('https://nano-mcp.replit.app');
+const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
 
 // Generate wallet
 const wallet = await client.generateWallet();
@@ -275,7 +275,7 @@ try {
 | Error Handling | ❌ Generic | ✅ Rich with guidance |
 | Timeouts | ❌ Not managed | ✅ Production (30s/60s) |
 | Helper Functions | ❌ Missing | ✅ nanoToRaw, rawToNano |
-| Constants | ❌ Missing | ✅ XNO.ONE_NANO, etc. |
+| Constants | ❌ Missing | ✅ KSHS.ONE_NANO, etc. |
 | Schema Integration | ❌ None | ✅ Full discovery |
 | Examples | ❌ None | ✅ 9 complete examples |
 | Documentation | ❌ None | ✅ Comprehensive README |
@@ -288,7 +288,7 @@ try {
 ### **File Structure**
 ```
 client-examples/typescript/
-├── nano-mcp-client.ts      (650+ lines) - Production client
+├── kakitu-mcp-client.ts      (650+ lines) - Production client
 ├── example-usage.ts        (500+ lines) - 9 runnable examples
 └── README.md               (300+ lines) - Complete docs
 ```
@@ -316,9 +316,9 @@ cp -r client-examples/typescript/* your-project/src/
 
 ### **2. Use in Your Code**
 ```typescript
-import { NanoMcpClient, nanoToRaw } from './nano-mcp-client';
+import { NanoMcpClient, nanoToRaw } from './kakitu-mcp-client';
 
-const client = new NanoMcpClient('https://nano-mcp.replit.app');
+const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
 const wallet = await client.generateWallet();
 ```
 
@@ -358,7 +358,7 @@ ts-node example-usage.ts
 
 **🎯 Status:** PRODUCTION READY  
 **📦 Committed:** `b916702`  
-**🔗 GitHub:** https://github.com/dhyabi2/NANO_MCP_SERVER  
+**🔗 GitHub:** https://github.com/dhyabi2/KAKITU_MCP_SERVER  
 **📂 Location:** `client-examples/typescript/`
 
 ---

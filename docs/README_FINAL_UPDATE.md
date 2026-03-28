@@ -11,16 +11,16 @@
 - ✅ Added prominent **ACTION REQUIRED** section highlighting human funding requirement
 - ✅ Step-by-step instructions for copying wallet addresses and funding them
 - ✅ Clear formatting with specific wallet addresses displayed
-- ✅ Funding instructions with recommended amounts (0.1 NANO per wallet)
+- ✅ Funding instructions with recommended amounts (0.1 KSHS per wallet)
 
 **Key Addition:**
 ```markdown
 **⚠️ IMPORTANT - ACTION REQUIRED:**
 **HUMAN MUST FUND THESE WALLETS!**
-1. Copy Wallet 1 Address: nano_3h3m...
-2. Copy Wallet 2 Address: nano_39is...
-3. Send test NANO to BOTH addresses (0.1 NANO recommended per wallet)
-4. Use a NANO faucet or your own wallet to send test funds
+1. Copy Wallet 1 Address: kshs_3h3m...
+2. Copy Wallet 2 Address: kshs_39is...
+3. Send test KSHS to BOTH addresses (0.1 KSHS recommended per wallet)
+4. Use a KSHS faucet or your own wallet to send test funds
 5. Wait for confirmation (usually < 5 seconds)
 ```
 
@@ -67,36 +67,36 @@
 **Improvements:**
 - ✅ Detailed parameter descriptions with data types
 - ✅ Complete return value documentation
-- ✅ Full example request showing actual NANO address
+- ✅ Full example request showing actual KSHS address
 - ✅ Full example response with base64 structure
 - ✅ **5 practical use cases:**
   - Display QR in web/mobile apps
   - Generate payment links for invoicing
   - Create shareable payment requests
   - HTML embedding example: `<img src="data:image/png;base64,..." />`
-  - Deep link usage for NANO wallets
+  - Deep link usage for Kakitu wallets
 
 **Before:**
 ```markdown
 ### generateQrCode
 **Purpose:** Create QR code for payment
-**Parameters:** `address`, `amount` (in NANO)
+**Parameters:** `address`, `amount` (in KSHS)
 **Returns:** `qrCode` (base64), `paymentString`
 ```
 
 **After:**
 ```markdown
 ### generateQrCode
-**Purpose:** Generate payment QR code for receiving NANO
+**Purpose:** Generate payment QR code for receiving KSHS
 **Parameters:** 
-- `address` (string, required) - NANO address to receive payment
-- `amount` (string, optional) - Amount in NANO (decimal format)
+- `address` (string, required) - KSHS address to receive payment
+- `amount` (string, optional) - Amount in KSHS (decimal format)
 
 **Returns:** 
 - `qrCode` (string) - Base64 encoded PNG image
-- `paymentString` (string) - NANO URI for payment
-- `address` (string) - The NANO address
-- `amount` (string) - The amount in NANO
+- `paymentString` (string) - KSHS URI for payment
+- `address` (string) - The KSHS address
+- `amount` (string) - The amount in KSHS
 
 **Example Request:** [full JSON]
 **Example Response:** [full JSON with base64]
@@ -139,7 +139,7 @@
 - ✅ **16/16 functions fully documented** (100%)
 - ✅ All test wallet functions detailed with use cases
 - ✅ All helper functions explained for autonomous agents
-- ✅ All core NANO functions with examples
+- ✅ All core KSHS functions with examples
 
 ### Documentation Quality
 - ✅ Every function has purpose, parameters, returns, and example
@@ -208,7 +208,7 @@ The README is now **100% complete** for autonomous agent integration:
 
 ## 📝 Files Modified
 
-- ✅ `NANO_MCP_SERVER/README.md` - Complete rewrite now finalized with all functions documented
+- ✅ `KAKITU_MCP_SERVER/README.md` - Complete rewrite now finalized with all functions documented
 
 ---
 

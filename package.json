@@ -1,10 +1,10 @@
 {
-  "name": "nano-mcp",
+  "name": "kakitu-mcp",
   "version": "1.5.1",
-  "description": "NANO MCP (Nano Cryptocurrency) Server for AI Assistants - A JSON-RPC 2.0 API server for Nano cryptocurrency operations with QR code generation, local work generation and auto-receive pending blocks",
+  "description": "KAKITU MCP (Kakitu Cryptocurrency) Server for AI Assistants - A JSON-RPC 2.0 API server for Kakitu cryptocurrency operations with QR code generation, local work generation and auto-receive pending blocks",
   "main": "src/index.js",
   "bin": {
-    "nano-mcp": "src/index.js"
+    "kakitu-mcp": "src/index.js"
   },
   "scripts": {
     "start": "node src/index.js",
@@ -13,9 +13,9 @@
     "test:coverage": "jest --coverage"
   },
   "keywords": [
-    "nano",
+    "kakitu",
     "cryptocurrency",
-    "nano-mcp",
+    "kakitu-mcp",
     "server",
     "json-rpc",
     "api",
@@ -23,8 +23,8 @@
     "wallet"
   ],
   "author": {
-    "name": "NANO MCP Team",
-    "url": "https://github.com/dhyabi2/NANO_MCP_SERVER"
+    "name": "Kakitu MCP Team",
+    "url": "https://github.com/kakitucurrency/kakitu_mcp_server"
   },
   "license": "MIT",
   "dependencies": {
@@ -44,12 +44,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/dhyabi2/NANO_MCP_SERVER.git"
+    "url": "git+https://github.com/kakitucurrency/kakitu_mcp_server.git"
   },
   "bugs": {
-    "url": "https://github.com/dhyabi2/NANO_MCP_SERVER/issues"
+    "url": "https://github.com/kakitucurrency/kakitu_mcp_server/issues"
   },
-  "homepage": "https://github.com/dhyabi2/NANO_MCP_SERVER",
+  "homepage": "https://github.com/kakitucurrency/kakitu_mcp_server",
   "engines": {
     "node": ">=16.0.0"
   },

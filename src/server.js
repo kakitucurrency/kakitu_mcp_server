@@ -1,11 +1,11 @@
 const http = require('http');
 const swaggerUi = require('swagger-ui-express');
 const swaggerSpecs = require('./swagger');
-const { NanoTransactions } = require('../utils/nano-transactions');
+const { KakituTransactions } = require('../utils/kakitu-transactions');
 const { SchemaValidator } = require('../utils/schema-validator');
 const { TestWalletManager } = require('../tests/test-wallet-manager');
 const { BalanceConverter } = require('../utils/balance-converter');
-const { NanoConverter } = require('../utils/nano-converter');
+const { KakituConverter } = require('../utils/kakitu-converter');
 const { EnhancedErrorHandler } = require('../utils/error-handler');
 const { schemaProvider } = require('../utils/schema-provider');
 const path = require('path');
@@ -30,7 +30,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "getBalance",
         params: {
-            address: "nano_3xxxxx..."
+            address: "kshs_3xxxxx..."
         },
         id: 1
     },
@@ -38,7 +38,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "getAccountInfo",
         params: {
-            address: "nano_3xxxxx..."
+            address: "kshs_3xxxxx..."
         },
         id: 1
     },
@@ -46,7 +46,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "getPendingBlocks",
         params: {
-            address: "nano_3xxxxx..."
+            address: "kshs_3xxxxx..."
         },
         id: 1
     },
@@ -54,7 +54,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "initializeAccount",
         params: {
-            address: "nano_3xxxxx...",
+            address: "kshs_3xxxxx...",
             privateKey: "your_private_key_here"
         },
         id: 1
@@ -63,8 +63,8 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "sendTransaction",
         params: {
-            fromAddress: "nano_3xxxxx...",
-            toAddress: "nano_1xxxxx...",
+            fromAddress: "kshs_3xxxxx...",
+            toAddress: "kshs_1xxxxx...",
             amountRaw: "1000000000000000000000000000",
             privateKey: "your_private_key_here"
         },
@@ -74,7 +74,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "receiveAllPending",
         params: {
-            address: "nano_3xxxxx...",
+            address: "kshs_3xxxxx...",
             privateKey: "your_private_key_here"
         },
         id: 1
@@ -83,7 +83,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "generateQrCode",
         params: {
-            address: "nano_3xxxxx...",
+            address: "kshs_3xxxxx...",
             amount: "0.1"
         },
         id: 1
@@ -129,7 +129,7 @@ const REQUEST_TEMPLATES = {
         params: {
             amount: "100000000000000000000000000",
             from: "raw",
-            to: "nano"
+            to: "kakitu"
         },
         id: 1
     },
@@ -137,7 +137,7 @@ const REQUEST_TEMPLATES = {
         jsonrpc: "2.0",
         method: "getAccountStatus",
         params: {
-            address: "nano_3xxxxx..."
+            address: "kshs_3xxxxx..."
         },
         id: 1
     },
@@ -165,7 +165,7 @@ const MCP_TOOLS = [
     },
     {
         name: 'generateWallet',
-        description: 'Generate a new NANO wallet with address and private key',
+        description: 'Generate a new Kakitu wallet with address and private key',
         inputSchema: {
             type: 'object',
             properties: {},
@@ -174,13 +174,13 @@ const MCP_TOOLS = [
     },
     {
         name: 'getBalance',
-        description: 'Get the balance and pending amounts for a NANO address',
+        description: 'Get the balance and pending amounts for a KSHS address',
         inputSchema: {
             type: 'object',
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to check balance for'
+                    description: 'KSHS address to check balance for'
                 }
             },
             required: ['address']
@@ -188,13 +188,13 @@ const MCP_TOOLS = [
     },
     {
         name: 'getAccountInfo',
-        description: 'Get detailed account information for a NANO address',
+        description: 'Get detailed account information for a KSHS address',
         inputSchema: {
             type: 'object',
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to get information for'
+                    description: 'KSHS address to get information for'
                 }
             },
             required: ['address']
@@ -202,13 +202,13 @@ const MCP_TOOLS = [
     },
     {
         name: 'getPendingBlocks',
-        description: 'Get pending blocks (incoming transactions) for a NANO address',
+        description: 'Get pending blocks (incoming transactions) for a KSHS address',
         inputSchema: {
             type: 'object',
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to get pending blocks for'
+                    description: 'KSHS address to get pending blocks for'
                 }
             },
             required: ['address']
@@ -216,17 +216,17 @@ const MCP_TOOLS = [
     },
     {
         name: 'initializeAccount',
-        description: 'Initialize a NANO account by publishing the first receive block',
+        description: 'Initialize a KSHS account by publishing the first receive block',
         inputSchema: {
             type: 'object',
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to initialize'
+                    description: 'KSHS address to initialize'
                 },
                 privateKey: {
                     type: 'string',
-                    description: 'Private key of the NANO address'
+                    description: 'Private key of the KSHS address'
                 }
             },
             required: ['address', 'privateKey']
@@ -234,17 +234,17 @@ const MCP_TOOLS = [
     },
     {
         name: 'sendTransaction',
-        description: 'Send NANO from one address to another',
+        description: 'Send KSHS from one address to another',
         inputSchema: {
             type: 'object',
             properties: {
                 fromAddress: {
                     type: 'string',
-                    description: 'NANO address to send from'
+                    description: 'KSHS address to send from'
                 },
                 toAddress: {
                     type: 'string',
-                    description: 'NANO address to send to'
+                    description: 'KSHS address to send to'
                 },
                 amountRaw: {
                     type: 'string',
@@ -260,17 +260,17 @@ const MCP_TOOLS = [
     },
     {
         name: 'receiveAllPending',
-        description: 'Receive all pending transactions for a NANO address',
+        description: 'Receive all pending transactions for a KSHS address',
         inputSchema: {
             type: 'object',
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to receive pending transactions for'
+                    description: 'KSHS address to receive pending transactions for'
                 },
                 privateKey: {
                     type: 'string',
-                    description: 'Private key of the NANO address'
+                    description: 'Private key of the KSHS address'
                 }
             },
             required: ['address', 'privateKey']
@@ -278,17 +278,17 @@ const MCP_TOOLS = [
     },
     {
         name: 'generateQrCode',
-        description: 'Generate a QR code for a NANO payment with address and amount',
+        description: 'Generate a QR code for a KSHS payment with address and amount',
         inputSchema: {
             type: 'object',
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to receive payment'
+                    description: 'KSHS address to receive payment'
                 },
                 amount: {
                     type: 'string',
-                    description: 'Amount in decimal XNO (e.g., "0.1" for 0.1 NANO)'
+                    description: 'Amount in decimal KSHS (e.g., "0.1" for 0.1 KSHS)'
                 }
             },
             required: ['address', 'amount']
@@ -296,7 +296,7 @@ const MCP_TOOLS = [
     },
     {
         name: 'setupTestWallets',
-        description: 'Generate two test wallets for integration testing. Saves wallets with private keys and prompts user to fund them with test NANO.',
+        description: 'Generate two test wallets for integration testing. Saves wallets with private keys and prompts user to fund them with test KSHS.',
         inputSchema: {
             type: 'object',
             properties: {},
@@ -355,7 +355,7 @@ const MCP_TOOLS = [
     },
     {
         name: 'convertBalance',
-        description: 'Convert between NANO and raw units. Helps autonomous agents with amount formatting.',
+        description: 'Convert between KSHS and raw units. Helps autonomous agents with amount formatting.',
         inputSchema: {
             type: 'object',
             properties: {
@@ -365,11 +365,11 @@ const MCP_TOOLS = [
                 },
                 from: {
                     type: 'string',
-                    description: 'Source unit: "nano" or "raw"'
+                    description: 'Source unit: "kakitu" or "raw"'
                 },
                 to: {
                     type: 'string',
-                    description: 'Target unit: "nano" or "raw"'
+                    description: 'Target unit: "kakitu" or "raw"'
                 }
             },
             required: ['amount', 'from', 'to']
@@ -383,7 +383,7 @@ const MCP_TOOLS = [
             properties: {
                 address: {
                     type: 'string',
-                    description: 'NANO address to check status for'
+                    description: 'KSHS address to check status for'
                 }
             },
             required: ['address']
@@ -391,7 +391,7 @@ const MCP_TOOLS = [
     },
     {
         name: 'nanoConverterHelp',
-        description: 'Get comprehensive help and examples for Nano (XNO) conversion utilities. Includes conversion formulas, common mistakes, best practices, and ready-to-use examples. Essential for clients who are unfamiliar with Nano number formats and raw unit conversions.',
+        description: 'Get comprehensive help and examples for Kakitu (KSHS) conversion utilities. Includes conversion formulas, common mistakes, best practices, and ready-to-use examples. Essential for clients who are unfamiliar with Kakitu number formats and raw unit conversions.',
         inputSchema: {
             type: 'object',
             properties: {},
@@ -421,28 +421,28 @@ const MCP_TOOLS = [
  *         description: List of tools
  */
 /**
- * NANO MCP (NANO Cryptocurrency) Server implementation
- * Provides a JSON-RPC 2.0 interface for interacting with the NANO network
+ * Kakitu MCP (Kakitu Cryptocurrency) Server implementation
+ * Provides a JSON-RPC 2.0 interface for interacting with the Kakitu network
  * Supports both HTTP and stdio transports
  */
-class NanoMCPServer {
+class KakituMCPServer {
     /**
-     * Creates a new NANO MCP Server instance
+     * Creates a new Kakitu MCP Server instance
      * @param {Object} config - Server configuration
      * @param {number} [config.port=3000] - HTTP server port
-     * @param {string} [config.apiUrl='https://rpc.nano.to'] - NANO RPC node URL
+     * @param {string} [config.apiUrl='https://rpc.kakitu.org'] - KSHS RPC node URL
      * @param {string} [config.rpcKey] - API key for authenticated RPC nodes
      * @param {string} [config.defaultRepresentative] - Default representative for new accounts
      */
     constructor(config = {}) {
         this.config = {
             port: process.env.MCP_PORT || 8080,
-            apiUrl: process.env.NANO_RPC_URL || 'https://rpc.nano.to',
-            rpcKey: process.env.NANO_RPC_KEY || 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23',
-            defaultRepresentative: process.env.NANO_REPRESENTATIVE || 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf',
+            apiUrl: process.env.KAKITU_RPC_URL || 'https://rpc.kakitu.org',
+            rpcKey: process.env.KAKITU_RPC_KEY || 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23',
+            defaultRepresentative: process.env.KAKITU_REPRESENTATIVE || 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf',
             ...config
         };
-        this.nanoTransactions = new NanoTransactions(this.config);
+        this.nanoTransactions = new KakituTransactions(this.config);
         this.schemaValidator = SchemaValidator.getInstance();
         this.testWalletManager = new TestWalletManager();
     }
@@ -482,7 +482,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'getBalance', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                         });
                     }
                     
@@ -501,7 +501,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'getAccountInfo', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                         });
                     }
                     
@@ -516,7 +516,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'getPendingBlocks', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                         });
                     }
                     
@@ -531,7 +531,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'initializeAccount', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
                             privateKey: "your_private_key_here"
                         });
                     }
@@ -560,8 +560,8 @@ class NanoMCPServer {
                     // Validate fromAddress parameter
                     if (!params || !params.fromAddress) {
                         return EnhancedErrorHandler.missingParameter('fromAddress', 'sendTransaction', {
-                            fromAddress: "nano_3sender_address_here",
-                            toAddress: "nano_3receiver_address_here",
+                            fromAddress: "kshs_3sender_address_here",
+                            toAddress: "kshs_3receiver_address_here",
                             amountRaw: "100000000000000000000000000000",
                             privateKey: "your_private_key_here"
                         });
@@ -576,7 +576,7 @@ class NanoMCPServer {
                     if (!params.toAddress) {
                         return EnhancedErrorHandler.missingParameter('toAddress', 'sendTransaction', {
                             fromAddress: params.fromAddress,
-                            toAddress: "nano_3receiver_address_here",
+                            toAddress: "kshs_3receiver_address_here",
                             amountRaw: "100000000000000000000000000000",
                             privateKey: "your_private_key_here"
                         });
@@ -628,7 +628,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'receiveAllPending', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
                             privateKey: "your_private_key_here"
                         });
                     }
@@ -657,7 +657,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'generateQrCode', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
                             amount: "0.1"
                         });
                     }
@@ -667,7 +667,7 @@ class NanoMCPServer {
                         return qrAddressError;
                     }
                     
-                    // Validate amount parameter (in NANO format)
+                    // Validate amount parameter (in KSHS format)
                     if (!params.amount) {
                         return EnhancedErrorHandler.missingParameter('amount', 'generateQrCode', {
                             address: params.address,
@@ -685,11 +685,11 @@ class NanoMCPServer {
                                 providedValue: params.amount,
                                 providedType: typeof params.amount,
                                 expectedType: "string",
-                                expectedFormat: "Decimal string in NANO (e.g., '0.1', '1.5')"
+                                expectedFormat: "Decimal string in KSHS (e.g., '0.1', '1.5')"
                             },
                             nextSteps: [
                                 "Step 1: Provide amount as a string",
-                                "Step 2: Amount should be in NANO format (decimal allowed)",
+                                "Step 2: Amount should be in KSHS format (decimal allowed)",
                                 "Step 3: Examples: '0.1', '1.0', '5.5'",
                                 "Step 4: Do NOT use raw format for QR codes"
                             ],
@@ -714,11 +714,11 @@ class NanoMCPServer {
                             details: {
                                 parameter: "amount",
                                 providedValue: params.amount,
-                                expectedFormat: "Decimal string in NANO (e.g., '0.1', '1.5')",
+                                expectedFormat: "Decimal string in KSHS (e.g., '0.1', '1.5')",
                                 issue: "Amount must be a valid decimal number"
                             },
                             nextSteps: [
-                                "Step 1: Use decimal NANO format (not raw)",
+                                "Step 1: Use decimal KSHS format (not raw)",
                                 "Step 2: Examples: '0.1', '1.0', '5.5', '100'",
                                 "Step 3: No special characters except decimal point",
                                 "Step 4: Amount must be positive"
@@ -777,7 +777,7 @@ class NanoMCPServer {
                     if (!params || !params.amount) {
                         return EnhancedErrorHandler.missingParameter('amount', 'convertBalance', {
                             amount: "0.1",
-                            from: "nano",
+                            from: "kakitu",
                             to: "raw"
                         });
                     }
@@ -804,7 +804,7 @@ class NanoMCPServer {
                     if (!params.from) {
                         return EnhancedErrorHandler.missingParameter('from', 'convertBalance', {
                             amount: params.amount,
-                            from: "nano",
+                            from: "kakitu",
                             to: "raw"
                         });
                     }
@@ -822,7 +822,7 @@ class NanoMCPServer {
                     const to = params.to.toLowerCase();
                     
                     // Validate from and to values
-                    if (!['nano', 'raw'].includes(from) || !['nano', 'raw'].includes(to)) {
+                    if (!['kakitu', 'raw'].includes(from) || !['kakitu', 'raw'].includes(to)) {
                         return {
                             success: false,
                             error: "Invalid conversion units",
@@ -830,30 +830,30 @@ class NanoMCPServer {
                             details: {
                                 providedFrom: params.from,
                                 providedTo: params.to,
-                                allowedValues: ['nano', 'raw']
+                                allowedValues: ['kakitu', 'raw']
                             },
                             nextSteps: [
-                                "Step 1: 'from' parameter must be either 'nano' or 'raw'",
-                                "Step 2: 'to' parameter must be either 'nano' or 'raw'",
-                                "Step 3: Supported conversions: nano→raw or raw→nano",
+                                "Step 1: 'from' parameter must be either 'kakitu' or 'raw'",
+                                "Step 2: 'to' parameter must be either 'kakitu' or 'raw'",
+                                "Step 3: Supported conversions: kakitu→raw or raw→kakitu",
                                 "Step 4: Parameter values are case-insensitive"
                             ],
                             exampleRequests: [
                                 {
-                                    description: "Convert NANO to raw",
+                                    description: "Convert KSHS to raw",
                                     request: {
                                         jsonrpc: "2.0",
                                         method: "convertBalance",
-                                        params: { amount: "0.1", from: "nano", to: "raw" },
+                                        params: { amount: "0.1", from: "kakitu", to: "raw" },
                                         id: 1
                                     }
                                 },
                                 {
-                                    description: "Convert raw to NANO",
+                                    description: "Convert raw to KSHS",
                                     request: {
                                         jsonrpc: "2.0",
                                         method: "convertBalance",
-                                        params: { amount: "100000000000000000000000000000", from: "raw", to: "nano" },
+                                        params: { amount: "100000000000000000000000000000", from: "raw", to: "kakitu" },
                                         id: 1
                                     }
                                 }
@@ -873,30 +873,30 @@ class NanoMCPServer {
                             },
                             nextSteps: [
                                 "Step 1: 'from' and 'to' must be different units",
-                                "Step 2: Use 'nano' and 'raw' for conversion",
-                                "Step 3: Example: from='nano' to='raw' or from='raw' to='nano'"
+                                "Step 2: Use 'kakitu' and 'raw' for conversion",
+                                "Step 3: Example: from='kakitu' to='raw' or from='raw' to='kakitu'"
                             ]
                         };
                     }
                     
                     try {
-                        if (from === 'nano' && to === 'raw') {
+                        if (from === 'kakitu' && to === 'raw') {
                             const raw = BalanceConverter.nanoToRaw(params.amount);
                             result = {
                                 original: params.amount,
-                                originalUnit: 'NANO',
+                                originalUnit: 'KSHS',
                                 converted: raw,
                                 convertedUnit: 'raw',
-                                formula: 'raw = NANO × 10^30'
+                                formula: 'raw = KSHS × 10^30'
                             };
-                        } else if (from === 'raw' && to === 'nano') {
+                        } else if (from === 'raw' && to === 'kakitu') {
                             const nano = BalanceConverter.rawToNano(params.amount);
                             result = {
                                 original: params.amount,
                                 originalUnit: 'raw',
-                                converted: nano,
-                                convertedUnit: 'NANO',
-                                formula: 'NANO = raw ÷ 10^30'
+                                converted: kakitu,
+                                convertedUnit: 'KSHS',
+                                formula: 'KSHS = raw ÷ 10^30'
                             };
                         }
                     } catch (error) {
@@ -912,7 +912,7 @@ class NanoMCPServer {
                             },
                             nextSteps: [
                                 "Step 1: Verify the amount format is correct",
-                                "Step 2: For NANO: use decimal format (e.g., '0.1', '1.5')",
+                                "Step 2: For KSHS: use decimal format (e.g., '0.1', '1.5')",
                                 "Step 3: For raw: use integer string (e.g., '100000000000000000000000000000')",
                                 "Step 4: Ensure amount is positive and within valid range"
                             ]
@@ -923,7 +923,7 @@ class NanoMCPServer {
                     // Validate address parameter
                     if (!params || !params.address) {
                         return EnhancedErrorHandler.missingParameter('address', 'getAccountStatus', {
-                            address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                            address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                         });
                     }
                     
@@ -1006,44 +1006,44 @@ class NanoMCPServer {
                     };
                     break;
                 case 'nanoConverterHelp':
-                    // Return comprehensive Nano conversion help for clients unfamiliar with Nano formats
+                    // Return comprehensive Kakitu conversion help for clients unfamiliar with Kakitu formats
                     result = {
-                        ...NanoConverter.getConversionHelp(),
+                        ...KakituConverter.getConversionHelp(),
                         utilityFunctions: {
                             xnoToRaw: {
-                                description: "Convert XNO amount to raw units (use this for all transaction amounts)",
+                                description: "Convert KSHS amount to raw units (use this for all transaction amounts)",
                                 example: "xnoToRaw(1) => '1000000000000000000000000000000'",
                                 usage: "Always use this before sending transactions"
                             },
                             rawToXNO: {
-                                description: "Convert raw units to XNO amount (use for display purposes)",
+                                description: "Convert raw units to KSHS amount (use for display purposes)",
                                 example: "rawToXNO('1000000000000000000000000000000') => '1'",
                                 usage: "Use for human-readable display of balances"
                             },
-                            isValidNanoAddress: {
-                                description: "Validate Nano address format before transactions",
-                                example: "isValidNanoAddress('nano_3xxx...') => true",
+                            isValidKakituAddress: {
+                                description: "Validate Kakitu address format before transactions",
+                                example: "isValidKakituAddress('kshs_3xxx...') => true",
                                 usage: "Always validate addresses before sending"
                             },
                             formatXNO: {
-                                description: "Format XNO amount for display with specific decimal places",
+                                description: "Format KSHS amount for display with specific decimal places",
                                 example: "formatXNO('0.123456789', 6) => '0.123457'",
                                 usage: "Use for consistent display formatting (display only, not for calculations)"
                             }
                         },
                         exampleWorkflow: [
-                            "Step 1: Get user input in XNO (e.g., '0.1')",
-                            "Step 2: Convert to raw using NanoConverter.xnoToRaw('0.1')",
-                            "Step 3: Validate address using NanoConverter.isValidNanoAddress(address)",
+                            "Step 1: Get user input in KSHS (e.g., '0.1')",
+                            "Step 2: Convert to raw using KakituConverter.xnoToRaw('0.1')",
+                            "Step 3: Validate address using KakituConverter.isValidKakituAddress(address)",
                             "Step 4: Use raw amount in sendTransaction",
-                            "Step 5: Display confirmation using NanoConverter.formatXNO()"
+                            "Step 5: Display confirmation using KakituConverter.formatXNO()"
                         ],
                         integrationWithMCP: {
                             convertBalance: "Use 'convertBalance' MCP method for conversions in production",
-                            getAccountStatus: "Use 'getAccountStatus' to see balances in both raw and XNO",
+                            getAccountStatus: "Use 'getAccountStatus' to see balances in both raw and KSHS",
                             sendTransaction: "Always use raw amounts for 'amountRaw' parameter"
                         },
-                        warning: "IMPORTANT: Most clients don't know Nano uses 30 decimal places. Always educate users that 1 XNO = 10^30 raw units. Never use floating-point arithmetic for currency calculations."
+                        warning: "IMPORTANT: Most clients don't know Kakitu uses 30 decimal places. Always educate users that 1 KSHS = 10^30 raw units. Never use floating-point arithmetic for currency calculations."
                     };
                     break;
                 default:
@@ -1301,7 +1301,7 @@ class NanoMCPServer {
         // Start server
         const server = http.createServer(app);
         server.listen(this.config.port, '0.0.0.0', () => {
-            console.log(`NANO MCP Server running on port ${this.config.port}`);
+            console.log(`Kakitu MCP Server running on port ${this.config.port}`);
             console.log(`API documentation available at http://0.0.0.0:${this.config.port}/api-docs`);
         });
 
@@ -1325,10 +1325,10 @@ function getContentType(filePath) {
     return contentTypes[ext] || 'text/plain';
 }
 
-module.exports = { NanoMCPServer };
+module.exports = { KakituMCPServer };
 
 // Start the server if this file is run directly
 if (require.main === module) {
-    const server = new NanoMCPServer();
+    const server = new KakituMCPServer();
     server.startHttp();
 }

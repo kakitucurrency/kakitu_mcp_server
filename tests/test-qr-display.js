@@ -78,12 +78,12 @@ async function testGenerateAndDisplayQrCode() {
     console.log('='.repeat(60));
 
     try {
-        // Test 1: Generate QR code for 0.1 NANO
-        console.log('\n📱 Test 1: Generate QR code for 0.1 NANO payment');
+        // Test 1: Generate QR code for 0.1 KSHS
+        console.log('\n📱 Test 1: Generate QR code for 0.1 KSHS payment');
         console.log('-'.repeat(60));
         
         const test1 = await makeRequest('generateQrCode', {
-            address: 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf',
+            address: 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf',
             amount: '0.1'
         });
 
@@ -91,11 +91,11 @@ async function testGenerateAndDisplayQrCode() {
             console.log('✅ QR Code Generated Successfully!');
             console.log('\n📋 Payment Details:');
             console.log('   Address:', test1.result.address);
-            console.log('   Amount:', test1.result.amount, 'NANO');
+            console.log('   Amount:', test1.result.amount, 'KSHS');
             console.log('   Payment String:', test1.result.paymentString);
             console.log('   Format:', test1.result.format);
             
-            const savedPath = saveQrCodeImage(test1.result.qrCode, 'qr-payment-0.1-nano.png');
+            const savedPath = saveQrCodeImage(test1.result.qrCode, 'qr-payment-0.1-kakitu.png');
             if (savedPath) {
                 console.log('\n🖼️  You can now open the QR code image:');
                 console.log('   ', savedPath);
@@ -106,12 +106,12 @@ async function testGenerateAndDisplayQrCode() {
 
         console.log('\n' + '='.repeat(60));
 
-        // Test 2: Generate QR code for 1.5 NANO (different amount)
-        console.log('\n📱 Test 2: Generate QR code for 1.5 NANO payment');
+        // Test 2: Generate QR code for 1.5 KSHS (different amount)
+        console.log('\n📱 Test 2: Generate QR code for 1.5 KSHS payment');
         console.log('-'.repeat(60));
         
         const test2 = await makeRequest('generateQrCode', {
-            address: 'nano_13ptrmobmsd9xawyequr83cz833x4usybeejtrc7sr6i358k89yumtyko5ao',
+            address: 'kshs_13ptrmobmsd9xawyequr83cz833x4usybeejtrc7sr6i358k89yumtyko5ao',
             amount: '1.5'
         });
 
@@ -119,10 +119,10 @@ async function testGenerateAndDisplayQrCode() {
             console.log('✅ QR Code Generated Successfully!');
             console.log('\n📋 Payment Details:');
             console.log('   Address:', test2.result.address);
-            console.log('   Amount:', test2.result.amount, 'NANO');
+            console.log('   Amount:', test2.result.amount, 'KSHS');
             console.log('   Payment String:', test2.result.paymentString);
             
-            const savedPath = saveQrCodeImage(test2.result.qrCode, 'qr-payment-1.5-nano.png');
+            const savedPath = saveQrCodeImage(test2.result.qrCode, 'qr-payment-1.5-kakitu.png');
             if (savedPath) {
                 console.log('\n🖼️  You can now open the QR code image:');
                 console.log('   ', savedPath);
@@ -134,11 +134,11 @@ async function testGenerateAndDisplayQrCode() {
         console.log('\n' + '='.repeat(60));
 
         // Test 3: Generate QR code for your specific wallet
-        console.log('\n📱 Test 3: Generate QR code for 0.5 NANO to your wallet');
+        console.log('\n📱 Test 3: Generate QR code for 0.5 KSHS to your wallet');
         console.log('-'.repeat(60));
         
         const test3 = await makeRequest('generateQrCode', {
-            address: 'nano_3h5fu37g8mcz8ndu8xgfx3dds6dks6qnp3k8rhjf8knuzec7zr1gdujjqqwc',
+            address: 'kshs_3h5fu37g8mcz8ndu8xgfx3dds6dks6qnp3k8rhjf8knuzec7zr1gdujjqqwc',
             amount: '0.5'
         });
 
@@ -146,7 +146,7 @@ async function testGenerateAndDisplayQrCode() {
             console.log('✅ QR Code Generated Successfully!');
             console.log('\n📋 Payment Details:');
             console.log('   Address:', test3.result.address);
-            console.log('   Amount:', test3.result.amount, 'NANO');
+            console.log('   Amount:', test3.result.amount, 'KSHS');
             console.log('   Payment String:', test3.result.paymentString);
             
             const savedPath = saveQrCodeImage(test3.result.qrCode, 'qr-payment-your-wallet.png');
@@ -162,7 +162,7 @@ async function testGenerateAndDisplayQrCode() {
         console.log('\n🎉 All QR codes have been generated and saved!');
         console.log('\n💡 How to use:');
         console.log('   1. Open the PNG files in your file explorer');
-        console.log('   2. Scan with any NANO wallet (Natrium, Nault, etc.)');
+        console.log('   2. Scan with any Kakitu wallet (Natrium, Nault, etc.)');
         console.log('   3. The wallet will automatically fill in the address and amount');
         console.log('\n📁 Files saved in:', __dirname);
         console.log('\n');

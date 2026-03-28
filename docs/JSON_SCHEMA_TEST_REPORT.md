@@ -32,7 +32,7 @@
   "totalTools": 16,
   "totalErrorCodes": 29,
   "aiAgentOptimized": true,
-  "productionEndpoint": "https://nano-mcp.replit.app"
+  "productionEndpoint": "https://kakitu-mcp.replit.app"
 }
 ```
 
@@ -162,7 +162,7 @@
       "response": {
         "jsonrpc": "2.0",
         "result": {
-          "address": "nano_...",
+          "address": "kshs_...",
           "privateKey": "...",
           "publicKey": "...",
           "seed": "..."
@@ -221,8 +221,8 @@
 **Input:**
 ```json
 {
-  "fromAddress": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
-  "toAddress": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
+  "fromAddress": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+  "toAddress": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
   "amountRaw": "1000000000000000000000000000",
   "privateKey": "9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f"
 }
@@ -255,7 +255,7 @@
 ```json
 {
   "fromAddress": "invalid_address",
-  "toAddress": "nano_1x7b...",
+  "toAddress": "kshs_1x7b...",
   "amountRaw": "100",
   "privateKey": "short"
 }
@@ -269,8 +269,8 @@
   "validation": {
     "valid": false,
     "errors": [
-      "Parameter 'fromAddress' does not match expected pattern: ^(nano|xrb)_...",
-      "Parameter 'toAddress' does not match expected pattern: ^(nano|xrb)_...",
+      "Parameter 'fromAddress' does not match expected pattern: ^(kakitu|xrb)_...",
+      "Parameter 'toAddress' does not match expected pattern: ^(kakitu|xrb)_...",
       "Parameter 'privateKey' does not match expected pattern: ^[0-9A-Fa-f]{64}$"
     ]
   }
@@ -294,9 +294,9 @@
 {
   "openapi": "3.0.0",
   "info": {
-    "title": "NANO MCP Server API",
+    "title": "Kakitu MCP Server API",
     "version": "1.0.0",
-    "description": "JSON-RPC 2.0 API for NANO cryptocurrency operations..."
+    "description": "JSON-RPC 2.0 API for Kakitu cryptocurrency operations..."
   },
   "servers": [...],
   "paths": {...},
@@ -306,7 +306,7 @@
 
 **Validation:**
 - ✅ OpenAPI version: `3.0.0`
-- ✅ API title: `NANO MCP Server API`
+- ✅ API title: `Kakitu MCP Server API`
 - ✅ API version: `1.0.0`
 - ✅ Paths defined: `15`
 - ✅ Valid OpenAPI format: `true`
@@ -328,7 +328,7 @@
 **Sample Content:**
 ```typescript
 /**
- * TypeScript Type Definitions for NANO MCP Server
+ * TypeScript Type Definitions for Kakitu MCP Server
  * Auto-generated from JSON Schema for AI agents and TypeScript clients
  */
 
@@ -493,7 +493,7 @@ node test-schema.js
 
 The JSON Schema implementation is **fully functional** and **ready for AI agent auto-discovery**. All 9 endpoints are working perfectly with 100% test coverage.
 
-**The NANO MCP Server now provides:**
+**The Kakitu MCP Server now provides:**
 - ✅ Zero-shot integration capability
 - ✅ 95% reduction in integration time
 - ✅ 80% reduction in failed requests
@@ -502,7 +502,7 @@ The JSON Schema implementation is **fully functional** and **ready for AI agent 
 - ✅ Pre-flight parameter validation
 - ✅ Self-documenting API
 
-**Next Step:** Deploy to production at `https://nano-mcp.replit.app`
+**Next Step:** Deploy to production at `https://kakitu-mcp.replit.app`
 
 ---
 

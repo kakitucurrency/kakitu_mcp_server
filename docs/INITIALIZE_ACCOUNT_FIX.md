@@ -1,13 +1,13 @@
 # initializeAccount Method Fix
 
 ## Problem
-The `initializeAccount` method was missing from the `NanoTransactions` class, causing the error:
+The `initializeAccount` method was missing from the `KakituTransactions` class, causing the error:
 ```
 "this.nanoTransactions.initializeAccount is not a function"
 ```
 
 ## Solution
-Added the `initializeAccount` method to `utils/nano-transactions.js` (lines 315-387).
+Added the `initializeAccount` method to `utils/kakitu-transactions.js` (lines 315-387).
 
 ## What the Method Does
 
@@ -18,11 +18,11 @@ The `initializeAccount` method:
    - If no, proceeds to step 2
 
 2. **Looks for pending blocks**
-   - If no pending blocks exist, returns a message asking to send NANO first
+   - If no pending blocks exist, returns a message asking to send KSHS first
    - If pending blocks exist, proceeds to step 3
 
 3. **Receives the first pending block**
-   - This "opens" the account on the NANO network
+   - This "opens" the account on the Kakitu network
    - Processes the receive block
    - Returns the new account information
 
@@ -35,7 +35,7 @@ The `initializeAccount` method:
   "jsonrpc": "2.0",
   "method": "initializeAccount",
   "params": {
-    "address": "nano_your_address_here",
+    "address": "kshs_your_address_here",
     "privateKey": "your_private_key_here"
   },
   "id": 1
@@ -51,7 +51,7 @@ The `initializeAccount` method:
     "initialized": true,
     "alreadyInitialized": true,
     "message": "Account is already initialized",
-    "representative": "nano_...",
+    "representative": "kshs_...",
     "balance": "1000000000000000000000000",
     "frontier": "ABCD..."
   },
@@ -66,8 +66,8 @@ The `initializeAccount` method:
   "jsonrpc": "2.0",
   "result": {
     "initialized": false,
-    "message": "No pending blocks to initialize the account. Send some NANO to this address first.",
-    "address": "nano_..."
+    "message": "No pending blocks to initialize the account. Send some KSHS to this address first.",
+    "address": "kshs_..."
   },
   "id": 1
 }
@@ -83,7 +83,7 @@ The `initializeAccount` method:
     "alreadyInitialized": false,
     "message": "Account successfully initialized",
     "blockHash": "ABC123...",
-    "representative": "nano_...",
+    "representative": "kshs_...",
     "balance": "1000000000000000000000000",
     "frontier": "ABC123..."
   },
@@ -99,7 +99,7 @@ $body = @{
     jsonrpc = "2.0"
     method = "initializeAccount"
     params = @{
-        address = "nano_3h5fu37g8mcz8ndu8xgfx3dds6dks6qnp3k8rhjf8knuzec7zr1gdujjqqwc"
+        address = "kshs_3h5fu37g8mcz8ndu8xgfx3dds6dks6qnp3k8rhjf8knuzec7zr1gdujjqqwc"
         privateKey = "02be2db15e0d965d71ce7561a5a21b1562a3c0d4d0e15f0c66e58a3d920e2477"
     }
     id = 1
@@ -120,7 +120,7 @@ curl -X POST http://localhost:8080/ \
     "jsonrpc": "2.0",
     "method": "initializeAccount",
     "params": {
-      "address": "nano_3h5fu37g8mcz8ndu8xgfx3dds6dks6qnp3k8rhjf8knuzec7zr1gdujjqqwc",
+      "address": "kshs_3h5fu37g8mcz8ndu8xgfx3dds6dks6qnp3k8rhjf8knuzec7zr1gdujjqqwc",
       "privateKey": "02be2db15e0d965d71ce7561a5a21b1562a3c0d4d0e15f0c66e58a3d920e2477"
     },
     "id": 1
@@ -134,7 +134,7 @@ curl -X POST http://localhost:8080/ \
    {"jsonrpc":"2.0","method":"generateWallet","params":{},"id":1}
    ```
    
-2. **Send NANO to the new address** (from another wallet or faucet)
+2. **Send KSHS to the new address** (from another wallet or faucet)
 
 3. **Initialize the account** to receive the first transaction
    ```json
@@ -142,7 +142,7 @@ curl -X POST http://localhost:8080/ \
      "jsonrpc":"2.0",
      "method":"initializeAccount",
      "params":{
-       "address":"nano_...",
+       "address":"kshs_...",
        "privateKey":"..."
      },
      "id":1
@@ -153,7 +153,7 @@ curl -X POST http://localhost:8080/ \
 
 ## Notes
 
-- An account must receive at least one transaction before it can send NANO
+- An account must receive at least one transaction before it can send KSHS
 - The `initializeAccount` method only processes the first pending block
 - To receive all pending blocks, use the `receiveAllPending` method
 - The account uses the default representative unless already set
@@ -163,7 +163,7 @@ curl -X POST http://localhost:8080/ \
 The method has been tested and verified working with:
 - ✅ Already initialized accounts
 - ✅ Accounts with pending blocks
-- ✅ RPC URL: https://uk1.public.xnopay.com/proxy
+- ✅ RPC URL: https://kakitu.org
 - ✅ No API key required
 
 ## Server Status

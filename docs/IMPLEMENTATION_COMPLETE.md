@@ -1,4 +1,4 @@
-# ✅ Implementation Complete: Autonomous Agent-Ready NANO MCP Server
+# ✅ Implementation Complete: Autonomous Agent-Ready Kakitu MCP Server
 
 ## 🎯 Goal Achieved
 
@@ -24,16 +24,16 @@
 - ✅ Validation Errors (with correct examples)
 
 **Enhanced in:**
-- `utils/nano-transactions.js` - Integrated enhanced errors
+- `utils/kakitu-transactions.js` - Integrated enhanced errors
 
 ### 2. Helper Functions for Autonomous Agents
 **New MCP Functions:**
 
-1. **convertBalance** - Convert between NANO and raw units
+1. **convertBalance** - Convert between KSHS and raw units
    ```json
    {
        "method": "convertBalance",
-       "params": { "amount": "0.1", "from": "nano", "to": "raw" }
+       "params": { "amount": "0.1", "from": "kakitu", "to": "raw" }
    }
    ```
    Returns: `{ "converted": "100000000000000000000000000", "formula": "..." }`
@@ -42,12 +42,12 @@
    ```json
    {
        "method": "getAccountStatus",
-       "params": { "address": "nano_xxx" }
+       "params": { "address": "kshs_xxx" }
    }
    ```
    Returns:
    - initialized status
-   - balance (raw + nano)
+   - balance (raw + kakitu)
    - pending blocks info
    - capabilities (canSend, canReceive)
    - needsAction array with priorities
@@ -93,8 +93,8 @@ All with 21/21 passing tests!
     },
     "nextSteps": [
         "Step 1: Check current balance using getBalance or getAccountInfo",
-        "Step 2: Either reduce send amount to maximum 0.00016 NANO or less",
-        "Step 3: Or fund account with additional 0.00184 NANO minimum",
+        "Step 2: Either reduce send amount to maximum 0.00016 KSHS or less",
+        "Step 3: Or fund account with additional 0.00184 KSHS minimum",
         "Step 4: After funding, use receiveAllPending to process pending blocks",
         "Step 5: Retry your send transaction"
     ],
@@ -134,7 +134,7 @@ All with 21/21 passing tests!
 
 ### Modified Files (3)
 1. `src/server.js` - Added helper functions, enhanced errors
-2. `utils/nano-transactions.js` - Integrated enhanced error handling
+2. `utils/kakitu-transactions.js` - Integrated enhanced error handling
 3. `package.json` - Added Jest testing
 
 ---
@@ -220,7 +220,7 @@ Legend: ✅ Complete | ⚠️ Partial/Implicit | ❌ Not done
 - Related functions listed
 
 ✅ **Zero External Documentation Required**
-- Agent doesn't need to read docs.nano.org
+- Agent doesn't need to read docs.kakitu.org
 - All information in error responses
 - Conversion helpers built-in
 
@@ -258,7 +258,7 @@ for (const action of status.result.needsAction) {
 
 // 3. Convert amount
 const converted = await mcp.call("convertBalance", {
-    amount: "0.01", from: "nano", to: "raw"
+    amount: "0.01", from: "kakitu", to: "raw"
 });
 
 // 4. Send transaction
@@ -297,7 +297,7 @@ if (!result.success) {
 
 ## 🚀 Ready for Production
 
-The NANO MCP Server is now:
+The Kakitu MCP Server is now:
 - ✅ Autonomous-agent-ready
 - ✅ Self-documenting
 - ✅ Error-recovery capable
@@ -329,9 +329,9 @@ The NANO MCP Server is now:
 - ✅ Fastest possible integration (5-10 min)
 - ✅ Zero struggling - errors guide you
 
-The NANO MCP Server now provides the **best autonomous agent integration experience** possible!
+The Kakitu MCP Server now provides the **best autonomous agent integration experience** possible!
 
 ---
 
-**Thank you for using NANO MCP Server!** 🚀
+**Thank you for using Kakitu MCP Server!** 🚀
 

@@ -18,7 +18,7 @@ async function makeRPCCall(action, params = {}) {
         });
 
         const options = {
-            hostname: 'rpc.nano.to',
+            hostname: 'rpc.kakitu.org',
             port: 443,
             path: '/',
             method: 'POST',

@@ -55,8 +55,8 @@ describe('TestWalletManager', () => {
             expect(result.wallet2).toHaveProperty('funded');
 
             // Verify address format
-            expect(result.wallet1.address).toMatch(/^nano_[13][13-9a-km-uw-z]{59}$/);
-            expect(result.wallet2.address).toMatch(/^nano_[13][13-9a-km-uw-z]{59}$/);
+            expect(result.wallet1.address).toMatch(/^kshs_[13][13-9a-km-uw-z]{59}$/);
+            expect(result.wallet2.address).toMatch(/^kshs_[13][13-9a-km-uw-z]{59}$/);
 
             // Verify wallets are different
             expect(result.wallet1.address).not.toBe(result.wallet2.address);
@@ -145,7 +145,7 @@ describe('TestWalletManager', () => {
     describe('updateWalletBalance', () => {
         test('should update wallet balance and funding status', async () => {
             await walletManager.generateTestWallets();
-            const testBalance = '1000000000000000000000000000'; // 1 NANO in raw
+            const testBalance = '1000000000000000000000000000'; // 1 KSHS in raw
 
             const result = await walletManager.updateWalletBalance('wallet1', testBalance);
 
@@ -169,7 +169,7 @@ describe('TestWalletManager', () => {
 
         test('should persist balance updates to file', async () => {
             await walletManager.generateTestWallets();
-            const testBalance = '2000000000000000000000000000'; // 2 NANO in raw
+            const testBalance = '2000000000000000000000000000'; // 2 KSHS in raw
 
             await walletManager.updateWalletBalance('wallet1', testBalance);
 

@@ -191,8 +191,8 @@ async function runTests() {
     try {
         console.log('\n📋 Test 8: POST /schema/validate/sendTransaction (Valid Params)');
         const params = {
-            fromAddress: 'nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn',
-            toAddress: 'nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
+            fromAddress: 'kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn',
+            toAddress: 'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
             amountRaw: '1000000000000000000000000000',
             privateKey: '9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f'
         };
@@ -216,7 +216,7 @@ async function runTests() {
         console.log('\n📋 Test 9: POST /schema/validate/sendTransaction (Invalid Params)');
         const params = {
             fromAddress: 'invalid_address',
-            toAddress: 'nano_1x7b...',
+            toAddress: 'kshs_1x7b...',
             amountRaw: '100',
             privateKey: 'short'
         };

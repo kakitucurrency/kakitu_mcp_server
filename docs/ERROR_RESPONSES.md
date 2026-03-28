@@ -1,6 +1,6 @@
 # Enhanced Error Responses with Templates
 
-The NANO MCP Server now provides **helpful error responses** with templates showing the correct way to send requests.
+The Kakitu MCP Server now provides **helpful error responses** with templates showing the correct way to send requests.
 
 ## Error Response Format
 
@@ -43,7 +43,7 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
   "jsonrpc": "2.0",
   "method": "sendTransaction",
   "params": {
-    "fromAddress": "nano_3h5fu..."
+    "fromAddress": "kshs_3h5fu..."
   },
   "id": 1
 }
@@ -61,8 +61,8 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
         "jsonrpc": "2.0",
         "method": "sendTransaction",
         "params": {
-          "fromAddress": "nano_3xxxxx...",
-          "toAddress": "nano_1xxxxx...",
+          "fromAddress": "kshs_3xxxxx...",
+          "toAddress": "kshs_1xxxxx...",
           "amountRaw": "1000000000000000000000000000",
           "privateKey": "your_private_key_here"
         },
@@ -72,7 +72,7 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
       "yourRequest": {
         "method": "sendTransaction",
         "params": {
-          "fromAddress": "nano_3h5fu..."
+          "fromAddress": "kshs_3h5fu..."
         }
       }
     }
@@ -188,7 +188,7 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
   "jsonrpc": "2.0",
   "method": "getBalance",
   "params": {
-    "address": "nano_3xxxxx..."
+    "address": "kshs_3xxxxx..."
   },
   "id": 1
 }
@@ -200,7 +200,7 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
   "jsonrpc": "2.0",
   "method": "getAccountInfo",
   "params": {
-    "address": "nano_3xxxxx..."
+    "address": "kshs_3xxxxx..."
   },
   "id": 1
 }
@@ -212,7 +212,7 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
   "jsonrpc": "2.0",
   "method": "getPendingBlocks",
   "params": {
-    "address": "nano_3xxxxx..."
+    "address": "kshs_3xxxxx..."
   },
   "id": 1
 }
@@ -224,21 +224,21 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
   "jsonrpc": "2.0",
   "method": "initializeAccount",
   "params": {
-    "address": "nano_3xxxxx...",
+    "address": "kshs_3xxxxx...",
     "privateKey": "your_private_key_here"
   },
   "id": 1
 }
 ```
 
-### `sendTransaction` - Send NANO (with auto-receive)
+### `sendTransaction` - Send KSHS (with auto-receive)
 ```json
 {
   "jsonrpc": "2.0",
   "method": "sendTransaction",
   "params": {
-    "fromAddress": "nano_3xxxxx...",
-    "toAddress": "nano_1xxxxx...",
+    "fromAddress": "kshs_3xxxxx...",
+    "toAddress": "kshs_1xxxxx...",
     "amountRaw": "1000000000000000000000000000",
     "privateKey": "your_private_key_here"
   },
@@ -254,7 +254,7 @@ When an error occurs, the server returns a JSON-RPC 2.0 error response with help
   "jsonrpc": "2.0",
   "method": "receiveAllPending",
   "params": {
-    "address": "nano_3xxxxx...",
+    "address": "kshs_3xxxxx...",
     "privateKey": "your_private_key_here"
   },
   "id": 1
@@ -284,8 +284,8 @@ try {
     jsonrpc: "2.0",
     method: "sendTransaction",
     params: {
-      fromAddress: "nano_...",
-      toAddress: "nano_...",
+      fromAddress: "kshs_...",
+      toAddress: "kshs_...",
       amountRaw: "1000000000000000000000000000",
       privateKey: "your_key"
     },
@@ -312,8 +312,8 @@ try:
         "jsonrpc": "2.0",
         "method": "sendTransaction",
         "params": {
-            "fromAddress": "nano_...",
-            "toAddress": "nano_...",
+            "fromAddress": "kshs_...",
+            "toAddress": "kshs_...",
             "amountRaw": "1000000000000000000000000000",
             "privateKey": "your_key"
         },

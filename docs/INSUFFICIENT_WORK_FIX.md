@@ -5,15 +5,15 @@ Date: 2025-11-11
 Error: `Block work is insufficient` when attempting send transactions
 
 ## Root Cause
-The work generation function `generateWork()` was calling `nanocurrency.work(hash)` **without specifying the difficulty threshold**. This caused the generated work to not meet the NANO network's minimum difficulty requirements.
+The work generation function `generateWork()` was calling `nanocurrency.work(hash)` **without specifying the difficulty threshold**. This caused the generated work to not meet the Kakitu network's minimum difficulty requirements.
 
-## NANO Network Difficulty Thresholds
+## KSHS Network Difficulty Thresholds
 - **Send/Change blocks**: `fffffff800000000` (higher difficulty, ~10-15 seconds)
 - **Receive/Open blocks**: `fffffe0000000000` (lower difficulty, ~4-6 seconds)
 
 ## Fix Applied
 
-### 1. Updated `generateWork()` in `utils/nano-transactions.js`
+### 1. Updated `generateWork()` in `utils/kakitu-transactions.js`
 ```javascript
 // BEFORE (incorrect):
 const work = await nanocurrency.work(hash);
@@ -53,7 +53,7 @@ Updated both `createReceiveBlock()` and `sendTransaction()` to pass:
 ```json
 {
   "success": false,
-  "error": "Block work is insufficient - work does not meet NANO network difficulty threshold",
+  "error": "Block work is insufficient - work does not meet Kakitu network difficulty threshold",
   "errorCode": "INSUFFICIENT_WORK",
   "details": {
     "hash": "3F8E...",
@@ -64,7 +64,7 @@ Updated both `createReceiveBlock()` and `sendTransaction()` to pass:
   },
   "nextSteps": [
     "Step 1: This is likely a transient issue - SIMPLY RETRY the same operation",
-    "Step 2: Work generation now uses correct NANO network difficulty thresholds:",
+    "Step 2: Work generation now uses correct Kakitu network difficulty thresholds:",
     "   • Send/Change blocks: fffffff800000000 (takes 10-15 seconds)",
     "   • Receive/Open blocks: fffffe0000000000 (takes 4-6 seconds)",
     "Step 3: If retrying fails repeatedly, possible causes:",
@@ -122,6 +122,6 @@ The error response now guides agents to:
 4. Verify second attempt succeeds with new work value
 
 ## Files Modified
-- `utils/nano-transactions.js` - Fixed `generateWork()`, added error context
+- `utils/kakitu-transactions.js` - Fixed `generateWork()`, added error context
 - `utils/error-handler.js` - Added `insufficientWork()` method
 

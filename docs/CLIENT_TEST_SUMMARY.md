@@ -76,10 +76,10 @@ node test-client.js
 ```
 ================================================================================
 
-🧪 NANO MCP CLIENT - COMPREHENSIVE TEST SUITE
+🧪 Kakitu MCP CLIENT - COMPREHENSIVE TEST SUITE
 ================================================================================
 
-Testing against: https://nano-mcp.replit.app
+Testing against: https://kakitu-mcp.replit.app
 Started at: 2025-11-12T12:00:00.000Z
 ================================================================================
 
@@ -88,14 +88,14 @@ Started at: 2025-11-12T12:00:00.000Z
 🧪 Test 1: Client Initialization
 ================================================================================
 ✅ PASS: Client instantiated successfully
-   Server URL: https://nano-mcp.replit.app
+   Server URL: https://kakitu-mcp.replit.app
 
 ================================================================================
 
 🧪 Test 2: Generate Wallet
 ================================================================================
 ✅ PASS: Wallet generated successfully
-   Address: nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn...
+   Address: kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn...
    Private Key: 9f0e444c69...
    Public Key: c008b814ca...
    Seed: a1b2c3d4e5...
@@ -105,8 +105,8 @@ Started at: 2025-11-12T12:00:00.000Z
 🧪 Test 3: Get Balance
 ================================================================================
 ✅ PASS: Balance retrieved successfully
-   Balance: 0.000000 NANO (0 raw)
-   Pending: 0.000000 NANO (0 raw)
+   Balance: 0.000000 KSHS (0 raw)
+   Pending: 0.000000 KSHS (0 raw)
 
 ... (9 more tests) ...
 
@@ -147,7 +147,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 - ✅ TypeScript compile-time checks
 
 ### **Real Integration Tests**
-- ✅ Tests against production server (`https://nano-mcp.replit.app`)
+- ✅ Tests against production server (`https://kakitu-mcp.replit.app`)
 - ✅ No mocking - real API calls
 - ✅ Validates actual responses
 - ✅ Tests real network conditions
@@ -185,7 +185,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 ### **Helper Functions**
 - ✅ `nanoToRaw()` conversion
 - ✅ `rawToNano()` conversion
-- ✅ `XNO` constants
+- ✅ `KSHS` constants
 - ✅ Unit conversion accuracy
 
 ### **Schema Integration**
@@ -206,10 +206,10 @@ Completed at: 2025-11-12T12:00:15.000Z
 ## 📁 **File Locations**
 
 ```
-NANO_MCP_SERVER/
+KAKITU_MCP_SERVER/
 └── client-examples/
     └── typescript/
-        ├── nano-mcp-client.ts      (650+ lines) - Production client
+        ├── kakitu-mcp-client.ts      (650+ lines) - Production client
         ├── test-client.ts          (600+ lines) ✅ NEW TEST SUITE
         ├── example-usage.ts        (500+ lines) - Usage examples
         ├── package.json            ✅ NEW
@@ -230,7 +230,7 @@ NANO_MCP_SERVER/
 ### **Test 2: Generate Wallet**
 **Validates:**
 - Wallet is generated successfully
-- Address format (60+ chars, starts with nano_)
+- Address format (60+ chars, starts with kshs_)
 - Private key format (64 hex chars)
 - Public key format (64 hex chars)
 - Seed format (64 hex chars)
@@ -240,7 +240,7 @@ NANO_MCP_SERVER/
 - Balance retrieved successfully
 - Response has balance, balanceNano, pending, pendingNano
 - All values are strings
-- NANO and raw units are both present
+- KSHS and raw units are both present
 
 ### **Test 4: Get Account Status**
 **Validates:**
@@ -259,8 +259,8 @@ NANO_MCP_SERVER/
 
 ### **Test 6: Convert Balance**
 **Validates:**
-- 0.1 NANO → raw conversion correct
-- raw → NANO conversion correct
+- 0.1 KSHS → raw conversion correct
+- raw → KSHS conversion correct
 - Response has original, converted, from, to
 - Conversion accuracy
 
@@ -268,7 +268,7 @@ NANO_MCP_SERVER/
 **Validates:**
 - `nanoToRaw('0.1')` returns correct value
 - `rawToNano(raw)` returns correct value
-- `XNO.ONE_NANO` constant correct
+- `KSHS.ONE_NANO` constant correct
 - No network calls (instant)
 
 ### **Test 8: Schema Discovery**
@@ -289,8 +289,8 @@ NANO_MCP_SERVER/
 **Validates:**
 - QR code generated successfully
 - Base64 string returned
-- NANO URI returned
-- URI format correct (starts with "nano:")
+- KSHS URI returned
+- URI format correct (starts with "kakitu:")
 
 ### **Test 11: Error Handling**
 **Validates:**
@@ -380,7 +380,7 @@ NANO_MCP_SERVER/
 ---
 
 **📦 Committed:** `fef4fee`  
-**🔗 GitHub:** https://github.com/dhyabi2/NANO_MCP_SERVER  
+**🔗 GitHub:** https://github.com/dhyabi2/KAKITU_MCP_SERVER  
 **📂 Location:** `client-examples/typescript/`  
 
 ---

@@ -1,15 +1,15 @@
 /**
- * Comprehensive Test Suite for NANO MCP TypeScript Client
+ * Comprehensive Test Suite for Kakitu MCP TypeScript Client
  * Tests all client methods against production server
  * 
  * Run: ts-node test-client.ts
  * Or: node test-client.js (if compiled)
  */
 
-import { NanoMcpClient, nanoToRaw, rawToNano, XNO } from './nano-mcp-client';
+import { NanoMcpClient, nanoToRaw, rawToNano, KSHS } from './kakitu-mcp-client';
 
 // Test configuration
-const TEST_SERVER = 'https://nano-mcp.replit.app';
+const TEST_SERVER = 'https://kakitu-mcp.replit.app';
 const COLORS = {
   reset: '\x1b[0m',
   red: '\x1b[31m',
@@ -132,14 +132,14 @@ async function test3_GetBalance(client: NanoMcpClient, address: string) {
     
     // Display based on available fields
     if (balance.balanceNano !== undefined) {
-      testInfo(`Balance: ${balance.balanceNano} NANO (${balance.balance} raw)`);
+      testInfo(`Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
     } else {
       testInfo(`Balance: ${balance.balance} raw`);
     }
     
     if (balance.pending !== undefined) {
       if (balance.pendingNano !== undefined) {
-        testInfo(`Pending: ${balance.pendingNano} NANO (${balance.pending} raw)`);
+        testInfo(`Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
       } else {
         testInfo(`Pending: ${balance.pending} raw`);
       }
@@ -174,13 +174,13 @@ async function test4_GetAccountStatus(client: NanoMcpClient, address: string) {
       testInfo(`Initialized: ${status.initialized}`);
     }
     if (status.balanceNano !== undefined) {
-      testInfo(`Balance: ${status.balanceNano} NANO`);
+      testInfo(`Balance: ${status.balanceNano} KSHS`);
     } else if (status.balance !== undefined) {
       testInfo(`Balance: ${status.balance} raw`);
     }
     if (status.pendingCount !== undefined) {
       if (status.totalPendingNano !== undefined) {
-        testInfo(`Pending: ${status.pendingCount} blocks (${status.totalPendingNano} NANO)`);
+        testInfo(`Pending: ${status.pendingCount} blocks (${status.totalPendingNano} KSHS)`);
       } else {
         testInfo(`Pending: ${status.pendingCount} blocks`);
       }
@@ -221,7 +221,7 @@ async function test5_ClientValidation(client: NanoMcpClient) {
     await client.getBalance('invalid_address');
     testFail('Validation should have thrown error for invalid address');
   } catch (error: any) {
-    if (error.message.includes('valid NANO address')) {
+    if (error.message.includes('valid KSHS address')) {
       testPass('Client-side validation caught invalid address');
       testInfo('Error message: ' + error.message.split('\n')[0]);
     } else {
@@ -238,25 +238,25 @@ async function test6_ConvertBalance(client: NanoMcpClient) {
   testHeader('Test 6: Convert Balance (Server-Side)');
   
   try {
-    const result = await client.convertBalance('0.1', 'nano', 'raw');
+    const result = await client.convertBalance('0.1', 'kakitu', 'raw');
     
     // Validate response
     if (result.original !== '0.1') {
       throw new Error('Invalid original amount');
     }
-    if (result.from !== 'nano' || result.to !== 'raw') {
+    if (result.from !== 'kakitu' || result.to !== 'raw') {
       throw new Error('Invalid from/to units');
     }
     if (result.converted !== '100000000000000000000000000000') {
       throw new Error('Incorrect conversion result');
     }
     
-    testPass('Balance conversion (nano → raw) successful');
+    testPass('Balance conversion (kakitu → raw) successful');
     testInfo(`${result.original} ${result.from} = ${result.converted} ${result.to}`);
     
     // Test reverse conversion
-    const reverse = await client.convertBalance(result.converted, 'raw', 'nano');
-    testPass('Balance conversion (raw → nano) successful');
+    const reverse = await client.convertBalance(result.converted, 'raw', 'kakitu');
+    testPass('Balance conversion (raw → kakitu) successful');
     testInfo(`${reverse.original} ${reverse.from} = ${reverse.converted} ${reverse.to}`);
     
   } catch (error: any) {
@@ -278,23 +278,23 @@ async function test7_HelperFunctions() {
       throw new Error('nanoToRaw conversion incorrect');
     }
     testPass('nanoToRaw() conversion correct');
-    testInfo(`0.1 NANO = ${raw} raw`);
+    testInfo(`0.1 KSHS = ${raw} raw`);
     
     // Test rawToNano
     const nano = rawToNano('100000000000000000000000000000');
-    if (nano !== '0.100000') {
+    if (kakitu !== '0.100000') {
       throw new Error('rawToNano conversion incorrect');
     }
     testPass('rawToNano() conversion correct');
-    testInfo(`100000000000000000000000000000 raw = ${nano} NANO`);
+    testInfo(`100000000000000000000000000000 raw = ${kakitu} KSHS`);
     
     // Test constants
-    if (XNO.ONE_NANO !== '1000000000000000000000000000000') {
-      throw new Error('XNO.ONE_NANO constant incorrect');
+    if (KSHS.ONE_NANO !== '1000000000000000000000000000000') {
+      throw new Error('KSHS.ONE_NANO constant incorrect');
     }
-    testPass('XNO constants defined correctly');
-    testInfo(`XNO.ONE_NANO = ${XNO.ONE_NANO}`);
-    testInfo(`XNO.POINT_ONE_NANO = ${XNO.POINT_ONE_NANO}`);
+    testPass('KSHS constants defined correctly');
+    testInfo(`KSHS.ONE_NANO = ${KSHS.ONE_NANO}`);
+    testInfo(`KSHS.POINT_ONE_NANO = ${KSHS.POINT_ONE_NANO}`);
     
   } catch (error: any) {
     testFail('Helper functions test failed', error);
@@ -359,8 +359,8 @@ async function test9_ParameterValidation(client: NanoMcpClient) {
   try {
     // Test valid parameters
     const validParams = {
-      fromAddress: 'nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn',
-      toAddress: 'nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
+      fromAddress: 'kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn',
+      toAddress: 'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
       amountRaw: '1000000000000000000000000000',
       privateKey: '9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f'
     };
@@ -377,7 +377,7 @@ async function test9_ParameterValidation(client: NanoMcpClient) {
     // Test invalid parameters
     const invalidParams = {
       fromAddress: 'invalid_address',
-      toAddress: 'nano_...',
+      toAddress: 'kshs_...',
       amountRaw: '100',
       privateKey: 'short'
     };
@@ -413,12 +413,12 @@ async function test10_GenerateQrCode(client: NanoMcpClient, address: string) {
     if (!qr.qrCode || typeof qr.qrCode !== 'string') {
       throw new Error('Invalid QR code data');
     }
-    if (!qr.nanoUri || !qr.nanoUri.startsWith('nano:')) {
-      throw new Error('Invalid NANO URI');
+    if (!qr.nanoUri || !qr.nanoUri.startsWith('kakitu:')) {
+      throw new Error('Invalid KSHS URI');
     }
     
     testPass('QR code generated successfully');
-    testInfo(`NANO URI: ${qr.nanoUri}`);
+    testInfo(`KSHS URI: ${qr.nanoUri}`);
     testInfo(`QR Code size: ${qr.qrCode.length} characters (base64)`);
     
   } catch (error: any) {
@@ -485,7 +485,7 @@ async function test12_TypeSafety() {
 
 async function runAllTests() {
   console.log('\n' + '='.repeat(80));
-  log('NANO MCP CLIENT - COMPREHENSIVE TEST SUITE', COLORS.cyan);
+  log('Kakitu MCP CLIENT - COMPREHENSIVE TEST SUITE', COLORS.cyan);
   console.log('='.repeat(80));
   log(`\nTesting against: ${TEST_SERVER}`, COLORS.yellow);
   log('Started at: ' + new Date().toISOString(), COLORS.yellow);

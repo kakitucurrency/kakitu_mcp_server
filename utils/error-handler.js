@@ -37,8 +37,8 @@ class EnhancedErrorHandler {
             },
             nextSteps: [
                 "Step 1: Check current balance using getBalance or getAccountInfo",
-                `Step 2: Either reduce send amount to maximum ${BalanceConverter.rawToNano(currentBalance)} NANO or less`,
-                `Step 3: Or fund account with additional ${BalanceConverter.rawToNano(shortfall.toString())} NANO minimum`,
+                `Step 2: Either reduce send amount to maximum ${BalanceConverter.rawToNano(currentBalance)} KSHS or less`,
+                `Step 3: Or fund account with additional ${BalanceConverter.rawToNano(shortfall.toString())} KSHS minimum`,
                 "Step 4: After funding, use receiveAllPending to process pending blocks",
                 "Step 5: Retry your send transaction"
             ],
@@ -124,7 +124,7 @@ class EnhancedErrorHandler {
         } else {
             nextSteps.push(
                 "Step 1: Account has no pending blocks to initialize with",
-                "Step 2: Send some NANO to this address first",
+                "Step 2: Send some KSHS to this address first",
                 "Step 3: Then use initializeAccount or receiveAllPending to open the account",
                 "Step 4: After receiving funds, you can send transactions"
             );
@@ -141,7 +141,7 @@ class EnhancedErrorHandler {
                 },
                 nextSteps: nextSteps,
                 relatedFunctions: ["initializeAccount", "receiveAllPending"],
-                note: "An account must receive its first transaction before it can send. Send NANO to this address first."
+                note: "An account must receive its first transaction before it can send. Send KSHS to this address first."
             };
         }
     }
@@ -200,7 +200,7 @@ class EnhancedErrorHandler {
     static invalidAmountFormat(providedAmount, reason = null) {
         console.log('[EnhancedErrorHandler] Creating invalid amount format error');
         
-        // Try to detect if user provided NANO instead of raw
+        // Try to detect if user provided KSHS instead of raw
         const looksLikeNano = /^\d+\.?\d*$/.test(providedAmount) && parseFloat(providedAmount) < 1000;
         let suggestedConversion = null;
 
@@ -219,24 +219,24 @@ class EnhancedErrorHandler {
             details: {
                 providedAmount: providedAmount,
                 expectedFormat: "String of digits representing raw units",
-                reason: reason || "Amount must be in raw units (10^30 raw = 1 NANO)"
+                reason: reason || "Amount must be in raw units (10^30 raw = 1 KSHS)"
             },
             conversionHelper: {
-                description: "NANO amounts must be converted to raw units",
-                formula: "raw = NANO × 10^30",
+                description: "KSHS amounts must be converted to raw units",
+                formula: "raw = KSHS × 10^30",
                 examples: BalanceConverter.getConversionExamples()
             },
             nextSteps: [
-                "Step 1: Convert your NANO amount to raw units using the formula above",
+                "Step 1: Convert your KSHS amount to raw units using the formula above",
                 "Step 2: Provide amount as a string of digits (no decimals) in raw units",
-                "Step 3: Example: To send 0.1 NANO, use '100000000000000000000000000'"
+                "Step 3: Example: To send 0.1 KSHS, use '100000000000000000000000000'"
             ],
             relatedInfo: BalanceConverter.getConversionHelp()
         };
 
         if (suggestedConversion) {
             error.suggestedCorrection = {
-                description: `If you meant to send ${providedAmount} NANO, use this value:`,
+                description: `If you meant to send ${providedAmount} KSHS, use this value:`,
                 correctedAmount: suggestedConversion,
                 correctedAmountNano: providedAmount
             };
@@ -261,7 +261,7 @@ class EnhancedErrorHandler {
         
         return {
             success: false,
-            error: "Block work is insufficient - work does not meet NANO network difficulty threshold",
+            error: "Block work is insufficient - work does not meet Kakitu network difficulty threshold",
             errorCode: "INSUFFICIENT_WORK",
             details: {
                 hash: hash,
@@ -272,7 +272,7 @@ class EnhancedErrorHandler {
             },
             nextSteps: [
                 "Step 1: This is likely a transient issue - SIMPLY RETRY the same operation",
-                "Step 2: Work generation now uses correct NANO network difficulty thresholds:",
+                "Step 2: Work generation now uses correct Kakitu network difficulty thresholds:",
                 `   • Send/Change blocks: fffffff800000000 (takes 10-15 seconds)`,
                 `   • Receive/Open blocks: fffffe0000000000 (takes 4-6 seconds)`,
                 "Step 3: If retrying fails repeatedly, possible causes:",
@@ -334,7 +334,7 @@ class EnhancedErrorHandler {
                 },
                 nextSteps: [
                     "Step 1: Check your account balance with getBalance",
-                    "Step 2: Verify you have enough NANO for the transaction",
+                    "Step 2: Verify you have enough KSHS for the transaction",
                     "Step 3: Remember: You cannot spend your entire balance (need to leave dust amount)"
                 ],
                 relatedFunctions: ["getBalance", "getAccountInfo"]
@@ -415,7 +415,7 @@ class EnhancedErrorHandler {
     }
 
     /**
-     * Validate NANO address format
+     * Validate KSHS address format
      * @param {string} address - Address to validate
      * @param {string} parameterName - Name of the parameter for error messages
      * @returns {Object|null} Error object if invalid, null if valid
@@ -434,16 +434,16 @@ class EnhancedErrorHandler {
                     issue: address ? "Invalid type" : "Missing required parameter"
                 },
                 nextSteps: [
-                    `Step 1: Provide a valid NANO address for ${parameterName}`,
-                    "Step 2: NANO addresses start with 'nano_' or 'xrb_'",
+                    `Step 1: Provide a valid KSHS address for ${parameterName}`,
+                    "Step 2: KSHS addresses start with 'kshs_' or 'xrb_'",
                     "Step 3: Addresses are 64-65 characters long",
-                    "Step 4: Example: nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                    "Step 4: Example: kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                 ],
                 exampleRequest: {
                     jsonrpc: "2.0",
                     method: "getBalance",
                     params: {
-                        address: "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                        address: "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                     },
                     id: 1
                 }
@@ -452,22 +452,22 @@ class EnhancedErrorHandler {
 
         const trimmedAddress = address.trim();
         
-        // Check if address starts with nano_ or xrb_
-        if (!trimmedAddress.startsWith('nano_') && !trimmedAddress.startsWith('xrb_')) {
+        // Check if address starts with kshs_ or xrb_
+        if (!trimmedAddress.startsWith('kshs_') && !trimmedAddress.startsWith('xrb_')) {
             return {
                 success: false,
-                error: `Invalid ${parameterName} format - must start with 'nano_' or 'xrb_'`,
+                error: `Invalid ${parameterName} format - must start with 'kshs_' or 'xrb_'`,
                 errorCode: "INVALID_ADDRESS_PREFIX",
                 details: {
                     parameter: parameterName,
                     providedValue: address,
-                    issue: "Address must start with 'nano_' or 'xrb_' prefix",
+                    issue: "Address must start with 'kshs_' or 'xrb_' prefix",
                     detectedPrefix: trimmedAddress.substring(0, 5)
                 },
                 nextSteps: [
-                    "Step 1: Ensure address starts with 'nano_' (modern format) or 'xrb_' (legacy format)",
+                    "Step 1: Ensure address starts with 'kshs_' (modern format) or 'xrb_' (legacy format)",
                     "Step 2: Check for typos in the address prefix",
-                    "Step 3: Example valid address: nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+                    "Step 3: Example valid address: kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                 ],
                 relatedFunctions: ["generateWallet"]
             };
@@ -488,7 +488,7 @@ class EnhancedErrorHandler {
                 },
                 nextSteps: [
                     "Step 1: Verify you copied the complete address",
-                    "Step 2: NANO addresses are exactly 64-65 characters including prefix",
+                    "Step 2: KSHS addresses are exactly 64-65 characters including prefix",
                     "Step 3: Check for extra spaces or missing characters",
                     "Step 4: Generate a new address with generateWallet if needed"
                 ],
@@ -506,11 +506,11 @@ class EnhancedErrorHandler {
                 details: {
                     parameter: parameterName,
                     providedValue: address,
-                    issue: "Address contains invalid characters (NANO uses base32 encoding: 13456789abcdefghijkmnopqrstuwxyz)",
+                    issue: "Address contains invalid characters (KSHS uses base32 encoding: 13456789abcdefghijkmnopqrstuwxyz)",
                     invalidCharacters: "Detected characters not in base32 alphabet"
                 },
                 nextSteps: [
-                    "Step 1: NANO addresses use only specific characters: 13456789abcdefghijkmnopqrstuwxyz",
+                    "Step 1: KSHS addresses use only specific characters: 13456789abcdefghijkmnopqrstuwxyz",
                     "Step 2: Check for typos (note: 0, 2, l, o, v are NOT valid)",
                     "Step 3: Verify the address was copied correctly without corruption",
                     "Step 4: Generate a new address with generateWallet if address is corrupted"
@@ -541,7 +541,7 @@ class EnhancedErrorHandler {
                     issue: privateKey ? "Invalid type" : "Missing required parameter"
                 },
                 nextSteps: [
-                    "Step 1: Provide a valid NANO private key",
+                    "Step 1: Provide a valid KSHS private key",
                     "Step 2: Private keys are 64-character hexadecimal strings",
                     "Step 3: Characters allowed: 0-9, a-f (lowercase or uppercase)",
                     "Step 4: Generate a new wallet with generateWallet if you don't have a private key"
@@ -623,9 +623,9 @@ class EnhancedErrorHandler {
                 },
                 nextSteps: [
                     `Step 1: Provide ${parameterName} as a string of digits`,
-                    "Step 2: Amount must be in raw units (not NANO)",
-                    "Step 3: Use convertBalance to convert NANO to raw",
-                    "Step 4: Example: '100000000000000000000000000000' (0.1 NANO in raw)"
+                    "Step 2: Amount must be in raw units (not KSHS)",
+                    "Step 3: Use convertBalance to convert KSHS to raw",
+                    "Step 4: Example: '100000000000000000000000000000' (0.1 KSHS in raw)"
                 ],
                 conversionHelper: BalanceConverter.getConversionHelp(),
                 relatedFunctions: ["convertBalance"],
@@ -634,7 +634,7 @@ class EnhancedErrorHandler {
                     method: "convertBalance",
                     params: {
                         amount: "0.1",
-                        from: "nano",
+                        from: "kakitu",
                         to: "raw"
                     },
                     id: 1
@@ -646,7 +646,7 @@ class EnhancedErrorHandler {
 
         // Check if it's a valid number string (digits only)
         if (!/^\d+$/.test(trimmedAmount)) {
-            // Check if it looks like a decimal (NANO format instead of raw)
+            // Check if it looks like a decimal (KSHS format instead of raw)
             if (/^\d+\.\d+$/.test(trimmedAmount) || /^\d+\.?\d*$/.test(trimmedAmount)) {
                 let converted = null;
                 try {
@@ -657,24 +657,24 @@ class EnhancedErrorHandler {
 
                 return {
                     success: false,
-                    error: `${parameterName} appears to be in NANO format, not raw`,
+                    error: `${parameterName} appears to be in KSHS format, not raw`,
                     errorCode: "AMOUNT_WRONG_UNIT",
                     details: {
                         parameter: parameterName,
                         providedValue: amountRaw,
-                        detectedFormat: "NANO (decimal)",
+                        detectedFormat: "KSHS (decimal)",
                         expectedFormat: "raw (integer string)",
-                        issue: "Amounts must be in raw units, not NANO"
+                        issue: "Amounts must be in raw units, not KSHS"
                     },
                     nextSteps: [
-                        "Step 1: Convert NANO amount to raw units",
+                        "Step 1: Convert KSHS amount to raw units",
                         "Step 2: Use convertBalance function to convert",
-                        `Step 3: If you meant ${trimmedAmount} NANO, use the corrected value below`,
+                        `Step 3: If you meant ${trimmedAmount} KSHS, use the corrected value below`,
                         "Step 4: Retry your request with the raw amount"
                     ],
                     suggestedCorrection: converted ? {
                         originalValue: trimmedAmount,
-                        originalUnit: "NANO",
+                        originalUnit: "KSHS",
                         correctedValue: converted,
                         correctedUnit: "raw"
                     } : null,
@@ -684,7 +684,7 @@ class EnhancedErrorHandler {
                         method: "convertBalance",
                         params: {
                             amount: trimmedAmount,
-                            from: "nano",
+                            from: "kakitu",
                             to: "raw"
                         },
                         id: 1
@@ -705,7 +705,7 @@ class EnhancedErrorHandler {
                 nextSteps: [
                     "Step 1: Amount must be a string of digits only",
                     "Step 2: No decimals allowed (raw units are integers)",
-                    "Step 3: Use convertBalance to convert NANO to raw if needed",
+                    "Step 3: Use convertBalance to convert KSHS to raw if needed",
                     "Step 4: Example valid amount: '100000000000000000000000000000'"
                 ],
                 relatedFunctions: ["convertBalance"]
@@ -728,7 +728,7 @@ class EnhancedErrorHandler {
                     nextSteps: [
                         "Step 1: Provide an amount greater than zero",
                         "Step 2: Minimum: '1' raw (extremely small)",
-                        "Step 3: Typical minimum: '1000000000000000000000000' (0.000001 NANO)",
+                        "Step 3: Typical minimum: '1000000000000000000000000' (0.000001 KSHS)",
                         "Step 4: Check your amount calculation"
                     ]
                 };
@@ -745,7 +745,7 @@ class EnhancedErrorHandler {
                 },
                 nextSteps: [
                     "Step 1: Verify the amount is reasonable",
-                    "Step 2: Maximum NANO supply: ~133 million NANO",
+                    "Step 2: Maximum KSHS supply: ~133 million KSHS",
                     "Step 3: Check for extra zeros or calculation errors",
                     "Step 4: Use convertBalance to verify your amount"
                 ],

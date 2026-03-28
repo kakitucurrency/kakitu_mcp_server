@@ -2,7 +2,7 @@
 
 ## 🌐 Production Server
 
-**URL:** `https://nano-mcp.replit.app`  
+**URL:** `https://kakitu-mcp.replit.app`  
 **Test Date:** November 11, 2025  
 **Status:** ✅ **ALL TESTS PASSED** (14/14 = 100%)
 
@@ -17,7 +17,7 @@
 | 3 | getBalance (invalid address) | Validation | ✅ PASS | INVALID_ADDRESS_PREFIX perfect |
 | 4 | sendTransaction (invalid address) | Validation | ✅ PASS | INVALID_ADDRESS_LENGTH caught |
 | 5 | sendTransaction (wrong unit) | Smart Feature | ✅ PASS | **AMOUNT_WRONG_UNIT with auto-correct** |
-| 6 | convertBalance | Helper | ✅ PASS | Correct NANO→raw conversion |
+| 6 | convertBalance | Helper | ✅ PASS | Correct KSHS→raw conversion |
 | 7 | getBalance (missing param) | Validation | ✅ PASS | MISSING_PARAMETER perfect |
 | 8 | nonExistentMethod | Validation | ✅ PASS | METHOD_NOT_FOUND lists 16 methods |
 | 9 | getAccountStatus | Core | ✅ PASS | Comprehensive with needsAction |
@@ -62,7 +62,7 @@
 
 ### 2. ✅ Smart Auto-Correction Feature
 
-**Test:** Sent "0.1" as amountRaw (NANO format instead of raw)
+**Test:** Sent "0.1" as amountRaw (KSHS format instead of raw)
 
 **Production Response:**
 ```json
@@ -70,14 +70,14 @@
     "errorCode": "AMOUNT_WRONG_UNIT",
     "suggestedCorrection": {
         "originalValue": "0.1",
-        "originalUnit": "NANO",
+        "originalUnit": "KSHS",
         "correctedValue": "100000000000000000000000000000",
         "correctedUnit": "raw"
     },
     "exampleConversion": {
         "jsonrpc": "2.0",
         "method": "convertBalance",
-        "params": {"amount": "0.1", "from": "nano", "to": "raw"},
+        "params": {"amount": "0.1", "from": "kakitu", "to": "raw"},
         "id": 1
     }
 }
@@ -105,7 +105,7 @@
     "initialized": true,
     "balance": {
         "raw": "325586539664609129644855132177",
-        "nano": "0.651173"
+        "kakitu": "0.651173"
     },
     "pending": {
         "count": 1,
@@ -131,7 +131,7 @@
 **Status:** ✅ **WORKING PERFECTLY**
 
 **Features:**
-- Shows balance in both raw and NANO
+- Shows balance in both raw and KSHS
 - Detects pending blocks automatically
 - Provides needsAction array with priorities
 - Gives clear recommendations
@@ -211,7 +211,7 @@
 
 ### Deployment Checklist:
 
-- [x] Server is accessible at https://nano-mcp.replit.app
+- [x] Server is accessible at https://kakitu-mcp.replit.app
 - [x] All 16 MCP functions available
 - [x] Enhanced error handling working (28 error codes)
 - [x] Smart auto-correction functioning
@@ -303,7 +303,7 @@
 
 **✅ PRODUCTION READY AND VERIFIED**
 
-The NANO MCP Server at `https://nano-mcp.replit.app` is:
+The Kakitu MCP Server at `https://kakitu-mcp.replit.app` is:
 - Fully functional
 - AI-agent optimized
 - Comprehensively validated
@@ -329,7 +329,7 @@ AI agents can integrate immediately with:
 
 ### Test URLs:
 
-All tests executed against: `https://nano-mcp.replit.app`
+All tests executed against: `https://kakitu-mcp.replit.app`
 
 ### Sample Requests Tested:
 

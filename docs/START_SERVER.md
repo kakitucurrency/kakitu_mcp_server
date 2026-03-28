@@ -1,10 +1,10 @@
-# NANO MCP Server - Startup Guide
+# Kakitu MCP Server - Startup Guide
 
 ## Configuration
 
-The server has been configured to use the xnopay public RPC node:
+The server has been configured to use the kakitu.org public RPC node:
 
-- **RPC URL**: https://uk1.public.xnopay.com/proxy
+- **RPC URL**: https://kakitu.org
 - **API Key**: None required (public node)
 - **Port**: 8080
 - **Transport**: HTTP
@@ -30,7 +30,7 @@ node quick-test.js
 
 After starting, the server should display:
 ```
-NANO MCP Server running on port 8080
+Kakitu MCP Server running on port 8080
 API documentation available at http://0.0.0.0:8080/api-docs
 ```
 
@@ -52,18 +52,18 @@ API documentation available at http://0.0.0.0:8080/api-docs
    ```bash
    curl -X POST http://localhost:8080/ \
      -H "Content-Type: application/json" \
-     -d '{"jsonrpc":"2.0","method":"getBalance","params":{"address":"nano_..."},"id":1}'
+     -d '{"jsonrpc":"2.0","method":"getBalance","params":{"address":"kshs_..."},"id":1}'
    ```
 
 ## Available Methods
 
 - `initialize` - Get server capabilities
-- `generateWallet` - Create new NANO wallet
+- `generateWallet` - Create new Kakitu wallet
 - `getBalance` - Check account balance
 - `getAccountInfo` - Get detailed account information
 - `getPendingBlocks` - Check pending transactions
 - `initializeAccount` - Initialize account for transactions
-- `sendTransaction` - Send NANO to another address
+- `sendTransaction` - Send KSHS to another address
 - `receiveAllPending` - Process pending receive blocks
 
 ## API Documentation
@@ -73,13 +73,13 @@ Once the server is running, visit:
 
 ## Files Modified
 
-1. **src/index.js** - Updated to use xnopay RPC URL without API key
-2. **utils/nano-transactions.js** - Modified to handle null API keys
+1. **src/index.js** - Updated to use kakitu.org RPC URL without API key
+2. **utils/kakitu-transactions.js** - Modified to handle null API keys
 3. **src/interfaces/pending-receive.interface.js** - Updated RPC configuration
 
 ## Notes
 
-- The server uses the xnopay public node which doesn't require an API key
+- The server uses the kakitu.org public node which doesn't require an API key
 - All requests must follow JSON-RPC 2.0 format
 - The server supports CORS for cross-origin requests
 

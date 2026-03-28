@@ -1,15 +1,15 @@
 /**
- * Nano Converter MCP Integration Tests
+ * Kakitu Converter MCP Integration Tests
  * Tests the nanoConverterHelp MCP tool integration
  */
 
-const { NanoMCPServer } = require('../src/server');
+const { KakituMCPServer } = require('../src/server');
 
-describe('NanoConverter MCP Integration', () => {
+describe('KakituConverter MCP Integration', () => {
     let server;
 
     beforeEach(() => {
-        server = new NanoMCPServer();
+        server = new KakituMCPServer();
     });
 
     describe('nanoConverterHelp method', () => {
@@ -47,8 +47,8 @@ describe('NanoConverter MCP Integration', () => {
 
             const result = response.result;
             expect(result.description).toContain('10^30');
-            expect(result.formula).toBe('raw = XNO × 10^30');
-            expect(result.reverseFormula).toBe('XNO = raw ÷ 10^30');
+            expect(result.formula).toBe('raw = KSHS × 10^30');
+            expect(result.reverseFormula).toBe('KSHS = raw ÷ 10^30');
             expect(result.decimalPlaces).toBe(30);
         });
 
@@ -212,7 +212,7 @@ describe('NanoConverter MCP Integration', () => {
                 method: "convertBalance",
                 params: {
                     amount: "0.1",
-                    from: "nano",
+                    from: "kakitu",
                     to: "raw"
                 },
                 id: 2
@@ -310,7 +310,7 @@ describe('NanoConverter MCP Integration', () => {
                 id: 1
             });
 
-            // The NanoConverter utilities log when accessed
+            // The KakituConverter utilities log when accessed
             // No direct logging for the MCP method itself, but the utilities log
             
             consoleLogSpy.mockRestore();

@@ -1,21 +1,21 @@
 # Node Redundancy Implementation Summary
 
 ## Overview
-Successfully tested and implemented RPC node redundancy for NANO MCP Server to ensure high availability and fault tolerance.
+Successfully tested and implemented RPC node redundancy for Kakitu MCP Server to ensure high availability and fault tolerance.
 
 ## Test Results
 
-### Primary Node: `https://uk1.public.xnopay.com/proxy`
+### Primary Node: `https://kakitu.org`
 - ✅ Block count queries: **PASSED**
-- ✅ Version queries: **PASSED** (Nano V28.1)
+- ✅ Version queries: **PASSED** (Kakitu V28.1)
 - ✅ Account info queries: **PASSED**
 - ✅ Response time: **~140ms** (excellent)
 - ✅ Work generation: **AVAILABLE**
 - **Status:** Fully operational
 
-### Backup Node: `https://node.somenano.com/proxy`
+### Backup Node: `https://kakitu.org`
 - ✅ Block count queries: **PASSED**
-- ✅ Version queries: **PASSED** (Nano V28.2)
+- ✅ Version queries: **PASSED** (Kakitu V28.2)
 - ✅ Account info queries: **PASSED**
 - ✅ Pending block queries: **PASSED**
 - ✅ Response time: **~340ms** (acceptable)
@@ -38,13 +38,13 @@ Successfully tested and implemented RPC node redundancy for NANO MCP Server to e
 
 ```javascript
 rpcNodes: [
-    'https://uk1.public.xnopay.com/proxy',  // Primary RPC node
-    'https://node.somenano.com/proxy'       // Backup RPC node (redundancy)
+    'https://kakitu.org',  // Primary RPC node
+    'https://kakitu.org'       // Backup RPC node (redundancy)
 ]
 ```
 
 ### Failover Mechanism
-The existing failover logic in `utils/nano-transactions.js` automatically handles node switching:
+The existing failover logic in `utils/kakitu-transactions.js` automatically handles node switching:
 
 1. **Primary node used by default** (`currentNodeIndex = 0`)
 2. **Automatic failover** if primary node:
@@ -56,7 +56,7 @@ The existing failover logic in `utils/nano-transactions.js` automatically handle
 4. **Maximum attempts:** `rpcNodes.length * 2` (tries each node twice)
 
 ### Code Reference
-Failover logic in `nano-transactions.js`:
+Failover logic in `kakitu-transactions.js`:
 
 ```javascript
 async rpcCall(action, params = {}) {
@@ -120,8 +120,8 @@ npm test -- tests/node-redundancy.test.js
 - Better performance during high traffic
 
 ### 3. Geographical Diversity
-- Primary: UK-based node (xnopay)
-- Backup: Different provider (somenano)
+- Primary: UK-based node (kakitu.org)
+- Backup: Different provider (kakitu.org)
 - Reduces risk of single point of failure
 
 ### 4. Production Reliability
@@ -134,10 +134,10 @@ npm test -- tests/node-redundancy.test.js
 The system includes comprehensive logging for redundancy operations:
 
 ```
-[NanoTransactions] Switching to RPC node: https://node.somenano.com/proxy
-Making RPC call to https://node.somenano.com/proxy: { action: 'account_info', ... }
+[KakituTransactions] Switching to RPC node: https://kakitu.org
+Making RPC call to https://kakitu.org: { action: 'account_info', ... }
 Rate limit hit, switching nodes...
-Error with RPC node https://uk1.public.xnopay.com/proxy: timeout
+Error with RPC node https://kakitu.org: timeout
 ```
 
 ## Recommendations
@@ -151,7 +151,7 @@ Error with RPC node https://uk1.public.xnopay.com/proxy: timeout
 ### Potential Additional Backup Nodes
 If you want to add more redundancy, consider testing these nodes:
 - `https://proxy.nanos.cc/proxy`
-- `https://rainstorm.city/api`
+- `https://kakitu.org`
 - `https://mynano.ninja/api/node`
 
 Follow the same TDD approach:
@@ -167,7 +167,7 @@ Follow the same TDD approach:
 ✅ **No breaking changes**
 ✅ **Follows TDD principles**
 
-The backup node `https://node.somenano.com/proxy` has been thoroughly tested and added as redundancy to the primary node. The system will automatically fail over if the primary node becomes unavailable, ensuring continuous service availability.
+The backup node `https://kakitu.org` has been thoroughly tested and added as redundancy to the primary node. The system will automatically fail over if the primary node becomes unavailable, ensuring continuous service availability.
 
 ---
 

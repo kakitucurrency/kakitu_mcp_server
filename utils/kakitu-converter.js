@@ -1,12 +1,12 @@
 /**
- * Centralized Nano (XNO) Conversion Utilities
+ * Centralized Kakitu (KSHS) Conversion Utilities
  * 
  * Uses string-based BigInt arithmetic for exact precision.
  * NO floating-point math to avoid rounding errors.
  * 
- * Nano uses 30 decimal places (10^30 raw units = 1 XNO)
+ * Kakitu uses 30 decimal places (10^30 raw units = 1 KSHS)
  * 
- * This utility helps clients who don't know about Nano conversion,
+ * This utility helps clients who don't know about Kakitu conversion,
  * numbers, and formats. It provides clear, precise conversions with
  * comprehensive logging and validation.
  */
@@ -15,10 +15,10 @@
 
 const ONE_XNO_RAW = BigInt("1000000000000000000000000000000"); // 10^30
 
-class NanoConverter {
+class KakituConverter {
     /**
-     * Convert XNO amount to raw units
-     * @param {number|string} xno - Amount in XNO (number or string)
+     * Convert KSHS amount to raw units
+     * @param {number|string} kshs - Amount in KSHS (number or string)
      * @returns {string} Raw amount as string
      * 
      * @example
@@ -26,27 +26,27 @@ class NanoConverter {
      * xnoToRaw(0.000001) // "1000000000000000000000000"
      * xnoToRaw("0.1")    // "100000000000000000000000000000"
      */
-    static xnoToRaw(xno) {
+    static xnoToRaw(kshs) {
         try {
-            console.log(`[NanoConverter] Converting ${xno} XNO to raw`);
+            console.log(`[KakituConverter] Converting ${kshs} KSHS to raw`);
             
             // Convert to string - use toString() to avoid floating-point precision errors
             // DO NOT use toFixed() as it exposes floating-point representation errors
             let xnoStr;
-            if (typeof xno === 'number') {
+            if (typeof kshs === 'number') {
                 // Convert to string using toString() which gives clean representation
-                xnoStr = xno.toString();
+                xnoStr = kshs.toString();
                 // Handle scientific notation (e.g., 1e-9 becomes 0.000000001)
                 if (xnoStr.includes('e')) {
-                    xnoStr = xno.toFixed(30).replace(/0+$/, '');
+                    xnoStr = kshs.toFixed(30).replace(/0+$/, '');
                 }
             } else {
-                xnoStr = xno;
+                xnoStr = kshs;
             }
             
             // Validate input
             if (!xnoStr || xnoStr.trim() === '') {
-                throw new Error('XNO amount cannot be empty');
+                throw new Error('KSHS amount cannot be empty');
             }
             
             // Split into whole and decimal parts
@@ -59,18 +59,18 @@ class NanoConverter {
             const rawStr = whole + paddedDecimal;
             
             const result = BigInt(rawStr).toString();
-            console.log(`[NanoConverter] Result: ${result} raw`);
+            console.log(`[KakituConverter] Result: ${result} raw`);
             return result;
         } catch (error) {
-            console.error('[NanoConverter] Error converting XNO to raw:', error);
-            throw new Error(`Invalid XNO amount: ${xno}. ${error.message}`);
+            console.error('[KakituConverter] Error converting KSHS to raw:', error);
+            throw new Error(`Invalid KSHS amount: ${kshs}. ${error.message}`);
         }
     }
 
     /**
-     * Convert raw units to XNO amount
+     * Convert raw units to KSHS amount
      * @param {string} raw - Raw amount as string
-     * @returns {string} XNO amount as string
+     * @returns {string} KSHS amount as string
      * 
      * @example
      * rawToXNO("1000000000000000000000000000000") // "1"
@@ -79,7 +79,7 @@ class NanoConverter {
      */
     static rawToXNO(raw) {
         try {
-            console.log(`[NanoConverter] Converting ${raw} raw to XNO`);
+            console.log(`[KakituConverter] Converting ${raw} raw to KSHS`);
             
             const rawBigInt = BigInt(raw);
             
@@ -101,55 +101,55 @@ class NanoConverter {
                 result = `${whole}.${trimmedDecimal}`;
             }
             
-            console.log(`[NanoConverter] Result: ${result} XNO`);
+            console.log(`[KakituConverter] Result: ${result} KSHS`);
             return result;
         } catch (error) {
-            console.error('[NanoConverter] Error converting raw to XNO:', error);
+            console.error('[KakituConverter] Error converting raw to KSHS:', error);
             throw new Error(`Invalid raw amount: ${raw}. ${error.message}`);
         }
     }
 
     /**
-     * Validate Nano address format
-     * @param {string} address - Nano address to validate
+     * Validate Kakitu address format
+     * @param {string} address - Kakitu address to validate
      * @returns {boolean} true if valid format
      * 
      * @example
-     * isValidNanoAddress("nano_3xxx...") // true
-     * isValidNanoAddress("xrb_1xxx...")  // true
-     * isValidNanoAddress("invalid")      // false
+     * isValidKakituAddress("kshs_3xxx...") // true
+     * isValidKakituAddress("xrb_1xxx...")  // true
+     * isValidKakituAddress("invalid")      // false
      */
-    static isValidNanoAddress(address) {
+    static isValidKakituAddress(address) {
         try {
-            const isValid = /^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$/.test(address);
-            console.log(`[NanoConverter] Address validation for ${address}: ${isValid}`);
+            const isValid = /^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$/.test(address);
+            console.log(`[KakituConverter] Address validation for ${address}: ${isValid}`);
             return isValid;
         } catch (error) {
-            console.error('[NanoConverter] Error validating address:', error);
+            console.error('[KakituConverter] Error validating address:', error);
             return false;
         }
     }
 
     /**
-     * Format XNO amount for display
-     * @param {string|number} xno - XNO amount as string or number
+     * Format KSHS amount for display
+     * @param {string|number} kshs - KSHS amount as string or number
      * @param {number} decimals - Number of decimal places to show (default: 6)
-     * @returns {string} Formatted XNO string
+     * @returns {string} Formatted KSHS string
      * 
      * @example
      * formatXNO("0.123456789", 6) // "0.123457"
      * formatXNO("1.5", 2)         // "1.50"
      */
-    static formatXNO(xno, decimals = 6) {
+    static formatXNO(kshs, decimals = 6) {
         try {
-            console.log(`[NanoConverter] Formatting ${xno} XNO to ${decimals} decimals`);
-            const xnoNum = typeof xno === 'string' ? parseFloat(xno) : xno;
+            console.log(`[KakituConverter] Formatting ${kshs} KSHS to ${decimals} decimals`);
+            const xnoNum = typeof kshs === 'string' ? parseFloat(kshs) : kshs;
             const result = xnoNum.toFixed(decimals);
-            console.log(`[NanoConverter] Formatted result: ${result}`);
+            console.log(`[KakituConverter] Formatted result: ${result}`);
             return result;
         } catch (error) {
-            console.error('[NanoConverter] Error formatting XNO:', error);
-            throw new Error(`Invalid XNO amount for formatting: ${xno}. ${error.message}`);
+            console.error('[KakituConverter] Error formatting KSHS:', error);
+            throw new Error(`Invalid KSHS amount for formatting: ${kshs}. ${error.message}`);
         }
     }
 
@@ -176,23 +176,23 @@ class NanoConverter {
      */
     static getConversionHelp() {
         return {
-            description: "Nano (XNO) uses raw units for all on-chain operations. 1 XNO = 10^30 raw. This ensures exact precision without floating-point errors.",
-            formula: "raw = XNO × 10^30",
-            reverseFormula: "XNO = raw ÷ 10^30",
+            description: "Kakitu (KSHS) uses raw units for all on-chain operations. 1 KSHS = 10^30 raw. This ensures exact precision without floating-point errors.",
+            formula: "raw = KSHS × 10^30",
+            reverseFormula: "KSHS = raw ÷ 10^30",
             decimalPlaces: 30,
             examples: this.getConversionExamples(),
             commonMistakes: [
-                "Using XNO value instead of raw in amountRaw parameter",
+                "Using KSHS value instead of raw in amountRaw parameter",
                 "Providing decimal numbers as raw units",
                 "Not converting before API calls",
                 "Using floating-point arithmetic which causes rounding errors",
-                "Confusing NANO with XNO (they are the same currency)"
+                "Confusing KSHS with KSHS (they are the same currency)"
             ],
             tools: {
-                xnoToRaw: "NanoConverter.xnoToRaw('0.1') => '100000000000000000000000000000'",
-                rawToXNO: "NanoConverter.rawToXNO('100000000000000000000000000000') => '0.1'",
-                isValidNanoAddress: "NanoConverter.isValidNanoAddress('nano_3xxx...') => true",
-                formatXNO: "NanoConverter.formatXNO('0.123456789', 6) => '0.123457'"
+                xnoToRaw: "KakituConverter.xnoToRaw('0.1') => '100000000000000000000000000000'",
+                rawToXNO: "KakituConverter.rawToXNO('100000000000000000000000000000') => '0.1'",
+                isValidKakituAddress: "KakituConverter.isValidKakituAddress('kshs_3xxx...') => true",
+                formatXNO: "KakituConverter.formatXNO('0.123456789', 6) => '0.123457'"
             },
             bestPractices: [
                 "Always use string-based BigInt arithmetic for conversions",
@@ -214,31 +214,31 @@ class NanoConverter {
             const raw = BigInt(rawAmount);
             return raw >= 0;
         } catch (error) {
-            console.error('[NanoConverter] Error validating raw amount:', error);
+            console.error('[KakituConverter] Error validating raw amount:', error);
             return false;
         }
     }
 
     /**
-     * Format balance for display with both raw and XNO
+     * Format balance for display with both raw and KSHS
      * @param {string} rawAmount - Amount in raw
      * @returns {Object} Formatted balance
      */
     static formatBalance(rawAmount) {
         try {
-            const xno = this.rawToXNO(rawAmount);
+            const kshs = this.rawToXNO(rawAmount);
             return {
                 raw: rawAmount,
-                xno: xno,
-                formatted: this.formatXNO(xno, 6),
-                display: `${this.formatXNO(xno, 6)} XNO`
+                kshs: kshs,
+                formatted: this.formatXNO(kshs, 6),
+                display: `${this.formatXNO(kshs, 6)} KSHS`
             };
         } catch (error) {
-            console.error('[NanoConverter] Error formatting balance:', error);
+            console.error('[KakituConverter] Error formatting balance:', error);
             throw new Error(`Invalid raw amount for formatting: ${rawAmount}. ${error.message}`);
         }
     }
 }
 
-module.exports = { NanoConverter };
+module.exports = { KakituConverter };
 

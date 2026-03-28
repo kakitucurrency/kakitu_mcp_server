@@ -1,6 +1,6 @@
 import { ConfigValidationResult } from '../types/config';
-import { AccountInfo, Block, PendingBlocks } from '../types/nano';
-export declare class NanoTransactions {
+import { AccountInfo, Block, PendingBlocks } from '../types/kakitu';
+export declare class KakituTransactions {
     private apiUrl;
     private rpcKey;
     private gpuKey;

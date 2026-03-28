@@ -7,7 +7,7 @@ const { describe, test, expect, beforeAll } = require('@jest/globals');
 
 describe('Receive All Pending Transactions - Specific Account Test', () => {
     const testAccount = {
-        address: 'nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
+        address: 'kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
         privateKey: '55496ae0',
         publicKey: '8e35aca4499bdd1e5900745d143b5bb8628702b6c55f59da63b135c2a3d4809c'
     };
@@ -21,7 +21,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         console.log('='.repeat(60));
     });
 
-    test('should verify account address is valid Nano format', () => {
+    test('should verify account address is valid Kakitu format', () => {
         const { tools } = require('nanocurrency-web');
         
         const isValid = tools.validateAddress(testAccount.address);
@@ -64,10 +64,10 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
     });
 
     test('should check account status', async () => {
-        const { NanoTransactions } = require('../utils/nano-transactions');
+        const { KakituTransactions } = require('../utils/kakitu-transactions');
         
-        const nanoTx = new NanoTransactions({
-            rpcNodes: ['https://rpc.nano.to'],
+        const nanoTx = new KakituTransactions({
+            rpcNodes: ['https://rpc.kakitu.org'],
             rpcKey: 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23'
         });
 

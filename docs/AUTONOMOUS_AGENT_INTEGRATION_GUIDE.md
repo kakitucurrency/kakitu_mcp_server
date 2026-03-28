@@ -2,7 +2,7 @@
 
 ## 🎯 Goal Achieved
 
-The NANO MCP Server now provides **self-documenting, autonomous-agent-friendly** error messages and helper functions. No need to read external documentation!
+The Kakitu MCP Server now provides **self-documenting, autonomous-agent-friendly** error messages and helper functions. No need to read external documentation!
 
 ---
 
@@ -18,9 +18,9 @@ Every error includes:
 - ✅ **Example requests** for correction
 
 ### 2. **Helper Functions**
-- `convertBalance` - Convert between NANO and raw units
+- `convertBalance` - Convert between KSHS and raw units
 - `getAccountStatus` - Get comprehensive account readiness check
-- Balance is shown in both raw and NANO in all responses
+- Balance is shown in both raw and KSHS in all responses
 
 ### 3. **Proactive Guidance**
 - Errors detect common issues and suggest fixes
@@ -38,7 +38,7 @@ Every error includes:
     "jsonrpc": "2.0",
     "method": "getAccountStatus",
     "params": {
-        "address": "nano_xxx"
+        "address": "kshs_xxx"
     },
     "id": 1
 }
@@ -46,7 +46,7 @@ Every error includes:
 
 **Response includes:**
 - `initialized`: Is account opened?
-- `balance`: Current balance (raw + nano)
+- `balance`: Current balance (raw + kakitu)
 - `pending`: Pending blocks count and amount
 - `capabilities`: `canSend`, `canReceive`
 - `needsAction`: Array of required actions with priority
@@ -55,11 +55,11 @@ Every error includes:
 **Example Response:**
 ```json
 {
-    "address": "nano_xxx",
+    "address": "kshs_xxx",
     "initialized": true,
     "balance": {
         "raw": "80000000000000000000000000",
-        "nano": "0.00016"
+        "kakitu": "0.00016"
     },
     "pending": {
         "count": 0,
@@ -78,7 +78,7 @@ Every error includes:
 
 ---
 
-### Workflow 2: Convert NANO to Raw for Transactions
+### Workflow 2: Convert KSHS to Raw for Transactions
 
 ```json
 {
@@ -86,7 +86,7 @@ Every error includes:
     "method": "convertBalance",
     "params": {
         "amount": "0.1",
-        "from": "nano",
+        "from": "kakitu",
         "to": "raw"
     },
     "id": 2
@@ -97,10 +97,10 @@ Every error includes:
 ```json
 {
     "original": "0.1",
-    "originalUnit": "NANO",
+    "originalUnit": "KSHS",
     "converted": "100000000000000000000000000000",
     "convertedUnit": "raw",
-    "formula": "raw = NANO × 10^30"
+    "formula": "raw = KSHS × 10^30"
 }
 ```
 
@@ -113,8 +113,8 @@ Every error includes:
     "jsonrpc": "2.0",
     "method": "sendTransaction",
     "params": {
-        "fromAddress": "nano_xxx",
-        "toAddress": "nano_yyy",
+        "fromAddress": "kshs_xxx",
+        "toAddress": "kshs_yyy",
         "amountRaw": "100000000000000000000000000",
         "privateKey": "your_private_key"
     },
@@ -137,7 +137,7 @@ Every error includes:
     "error": "Insufficient balance",
     "errorCode": "INSUFFICIENT_BALANCE",
     "details": {
-        "address": "nano_xxx",
+        "address": "kshs_xxx",
         "currentBalance": "80000000000000000000000000",
         "currentBalanceNano": "0.00016",
         "attemptedAmount": "1000000000000000000000000000",
@@ -147,8 +147,8 @@ Every error includes:
     },
     "nextSteps": [
         "Step 1: Check current balance using getBalance or getAccountInfo",
-        "Step 2: Either reduce send amount to maximum 0.00016 NANO or less",
-        "Step 3: Or fund account with additional 0.00184 NANO minimum",
+        "Step 2: Either reduce send amount to maximum 0.00016 KSHS or less",
+        "Step 3: Or fund account with additional 0.00184 KSHS minimum",
         "Step 4: After funding, use receiveAllPending to process pending blocks",
         "Step 5: Retry your send transaction"
     ],
@@ -157,7 +157,7 @@ Every error includes:
         "jsonrpc": "2.0",
         "method": "getBalance",
         "params": {
-            "address": "nano_xxx"
+            "address": "kshs_xxx"
         },
         "id": 1
     }
@@ -170,9 +170,9 @@ Every error includes:
 
 | Error Code | Meaning | Auto-Recoverable | Next Action |
 |------------|---------|------------------|-------------|
-| `INSUFFICIENT_BALANCE` | Not enough NANO to send | Yes | Reduce amount or fund account |
+| `INSUFFICIENT_BALANCE` | Not enough KSHS to send | Yes | Reduce amount or fund account |
 | `ACCOUNT_NOT_INITIALIZED` | Account unopened | Yes | Use initializeAccount or receiveAllPending |
-| `ACCOUNT_NOT_INITIALIZED_NO_PENDING` | Account unopened, no funds | No | Send NANO to address first |
+| `ACCOUNT_NOT_INITIALIZED_NO_PENDING` | Account unopened, no funds | No | Send KSHS to address first |
 | `PENDING_BLOCKS_NOT_RECEIVED` | Has pending blocks | Yes | Use receiveAllPending |
 | `INVALID_AMOUNT_FORMAT` | Wrong unit or format | Yes | Use convertBalance helper |
 | `BLOCKCHAIN_ERROR` | Generic blockchain issue | Maybe | Check account status, retry |
@@ -229,7 +229,7 @@ Check Account Status (getAccountStatus)
 // Step 1: Check if we need to convert amount
 const convertResponse = await call({
     method: "convertBalance",
-    params: { amount: "0.01", from: "nano", to: "raw" }
+    params: { amount: "0.01", from: "kakitu", to: "raw" }
 });
 const amountRaw = convertResponse.result.converted;
 
@@ -309,12 +309,12 @@ if (statusResponse.result.readyForTesting) {
 3. `getAccountInfo` - Get detailed account info
 4. `getPendingBlocks` - List pending transactions
 5. `initializeAccount` - Open new account
-6. `sendTransaction` - Send NANO (with enhanced errors)
+6. `sendTransaction` - Send KSHS (with enhanced errors)
 7. `receiveAllPending` - Receive all pending blocks
 8. `generateQrCode` - Create QR code for payment
 
 ### Helper Functions (New!)
-9. `convertBalance` - Convert NANO ↔ raw
+9. `convertBalance` - Convert KSHS ↔ raw
 10. `getAccountStatus` - Comprehensive status check
 
 ### Test Wallet Management
@@ -357,7 +357,7 @@ if (response.result.error.includes("Insufficient")) {
 ### 3. Convert Amounts Proactively
 ```javascript
 // GOOD: Use convertBalance
-const converted = await convertBalance("0.1", "nano", "raw");
+const converted = await convertBalance("0.1", "kakitu", "raw");
 await sendTransaction({ ..., amountRaw: converted.result.converted });
 
 // BAD: Manual conversion (error-prone)
@@ -384,7 +384,7 @@ if (!response.result.success) {
 | Integration Method | Time to First Transaction | Lines of Code | Documentation Reading |
 |--------------------|---------------------------|---------------|----------------------|
 | **With Enhanced MCP** | **5-10 minutes** | **~50 lines** | **None** (self-documenting) |
-| Traditional RPC | 1-2 hours | ~200+ lines | Extensive (docs.nano.org) |
+| Traditional RPC | 1-2 hours | ~200+ lines | Extensive (docs.kakitu.org) |
 | Without helpers | 30-60 minutes | ~150 lines | Medium |
 
 ---
@@ -405,14 +405,14 @@ Before sending a transaction, verify:
 
 - Full Implementation Plan: `AUTONOMOUS_AGENT_ERROR_ENHANCEMENT.md`
 - Test Results: See test output above
-- NANO RPC Reference: https://docs.nano.org/commands/rpc-protocol/
+- KSHS RPC Reference: https://docs.kakitu.org/commands/rpc-protocol/
 
 ---
 
 ## 🎉 Success Metrics Achieved
 
 ✅ **Self-Documenting**: All errors explain themselves
-✅ **Zero External Docs**: Agent doesn't need to read docs.nano.org
+✅ **Zero External Docs**: Agent doesn't need to read docs.kakitu.org
 ✅ **Actionable Guidance**: Every error provides next steps
 ✅ **Helper Functions**: Convert, status check built-in
 ✅ **Machine-Readable**: Error codes for programmatic handling

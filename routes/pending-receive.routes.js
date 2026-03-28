@@ -25,7 +25,7 @@ router.use(limiter);
  *         required: true
  *         schema:
  *           type: string
- *         description: The nano account address
+ *         description: The kakitu account address
  *     responses:
  *       200:
  *         description: List of pending blocks

@@ -11,8 +11,8 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "@chainreactionom/nano-mcp-server": "^1.0.10",
-    "nano-mcp": "^1.2.4",
+    "@chainreactionom/kakitu-mcp-server": "^1.0.10",
+    "kakitu-mcp": "^1.2.4",
     "nanocurrency-web": "^1.4.3"
   }
 }

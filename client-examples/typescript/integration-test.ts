@@ -1,27 +1,27 @@
 #!/usr/bin/env ts-node
 /**
- * NANO MCP Client Integration Test
+ * Kakitu MCP Client Integration Test
  * 
  * Tests real functionality using existing test wallets from tests/test-wallets.json
  * This verifies actual blockchain operations, not just schema validation.
  */
 
-import { NanoMcpClient } from './nano-mcp-client';
+import { NanoMcpClient } from './kakitu-mcp-client';
 
 // ============================================
 // Test Configuration
 // ============================================
 
-const PRODUCTION_URL = 'https://nano-mcp.replit.app';
+const PRODUCTION_URL = 'https://kakitu-mcp.replit.app';
 
 // Existing test wallets from tests/test-wallets.json
 const WALLET1 = {
-  address: 'nano_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x',
+  address: 'kshs_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x',
   privateKey: 'ba54b58a59a42082c8592d7e6ad8746ebfc83207edcc694bc0ae637e3c67f746'
 };
 
 const WALLET2 = {
-  address: 'nano_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5',
+  address: 'kshs_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5',
   privateKey: '808519897e023d8931f13710277049c209fe059cb374672e194acfcee8c4ec4f'
 };
 
@@ -103,8 +103,8 @@ async function test2_CheckWallet1Balance(client: NanoMcpClient) {
     testPass('Balance retrieved successfully');
     
     if (balance.balanceNano !== undefined) {
-      testInfo(`Balance: ${balance.balanceNano} NANO (${balance.balance} raw)`);
-      testInfo(`Pending: ${balance.pendingNano} NANO (${balance.pending} raw)`);
+      testInfo(`Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
+      testInfo(`Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
     } else {
       testInfo(`Balance: ${balance.balance} raw`);
       testInfo(`Pending: ${balance.pending} raw`);
@@ -142,8 +142,8 @@ async function test3_CheckWallet2Balance(client: NanoMcpClient) {
     testPass('Balance retrieved successfully');
     
     if (balance.balanceNano !== undefined) {
-      testInfo(`Balance: ${balance.balanceNano} NANO (${balance.balance} raw)`);
-      testInfo(`Pending: ${balance.pendingNano} NANO (${balance.pending} raw)`);
+      testInfo(`Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
+      testInfo(`Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
     } else {
       testInfo(`Balance: ${balance.balance} raw`);
       testInfo(`Pending: ${balance.pending} raw`);
@@ -183,7 +183,7 @@ async function test4_CheckPendingBlocks(client: NanoMcpClient, address: string, 
     if (pending.count > 0) {
       testInfo(`Pending blocks: ${pending.count}`);
       if (pending.totalPendingNano !== undefined) {
-        testInfo(`Total pending: ${pending.totalPendingNano} NANO`);
+        testInfo(`Total pending: ${pending.totalPendingNano} KSHS`);
       }
       testWarn(`This wallet needs to receive ${pending.count} block(s)`);
       return { hasPending: true, count: pending.count, pending };
@@ -265,18 +265,18 @@ async function test7_SendTransaction(client: NanoMcpClient, wallet1Balance: any,
   
   // Check if wallet1 has sufficient balance
   const balance = BigInt(wallet1Balance.balance);
-  const sendAmount = '1000000000000000000000000'; // 0.001 NANO
+  const sendAmount = '1000000000000000000000000'; // 0.001 KSHS
   
   if (balance < BigInt(sendAmount)) {
     testWarn('Insufficient balance for test transaction');
     testInfo(`Current: ${balance.toString()} raw`);
-    testInfo(`Required: ${sendAmount} raw (0.001 NANO)`);
+    testInfo(`Required: ${sendAmount} raw (0.001 KSHS)`);
     testInfo('Please fund Wallet 1 to test sending');
     return { skipped: true, reason: 'insufficient_balance' };
   }
   
   try {
-    testInfo(`Sending 0.001 NANO from Wallet 1 to Wallet 2...`);
+    testInfo(`Sending 0.001 KSHS from Wallet 1 to Wallet 2...`);
     testWarn('This may take 10-15 seconds for Proof-of-Work generation...');
     
     const result = await client.sendTransaction(
@@ -320,7 +320,7 @@ async function test8_QRCode(client: NanoMcpClient) {
 }
 
 async function test9_BalanceConversion(client: NanoMcpClient) {
-  testHeader('Test 9: Balance Conversion (Nano ↔ Raw)');
+  testHeader('Test 9: Balance Conversion (Kakitu ↔ Raw)');
   
   try {
     // Test conversion helpers
@@ -331,12 +331,12 @@ async function test9_BalanceConversion(client: NanoMcpClient) {
     const toNano = client.rawToNano(testRaw);
     
     testPass('Client-side conversions work');
-    testInfo(`${testNano} NANO = ${toRaw} raw`);
-    testInfo(`${testRaw} raw = ${toNano} NANO`);
+    testInfo(`${testNano} KSHS = ${toRaw} raw`);
+    testInfo(`${testRaw} raw = ${toNano} KSHS`);
     
     // Test MCP convertBalance if available
     try {
-      const mcpResult = await client.convertBalance('1.5', 'nano', 'raw');
+      const mcpResult = await client.convertBalance('1.5', 'kakitu', 'raw');
       testPass('MCP convertBalance works');
       testInfo(`MCP result: ${mcpResult.converted}`);
     } catch (error: any) {
@@ -404,7 +404,7 @@ async function test10_ErrorHandling(client: NanoMcpClient) {
 
 async function runIntegrationTests() {
   log('\n╔════════════════════════════════════════════════════════════╗', COLORS.bright + COLORS.cyan);
-  log('║     NANO MCP CLIENT - INTEGRATION TEST SUITE              ║', COLORS.bright + COLORS.cyan);
+  log('║     Kakitu MCP CLIENT - INTEGRATION TEST SUITE              ║', COLORS.bright + COLORS.cyan);
   log('║     Testing with Existing Test Wallets                    ║', COLORS.bright + COLORS.cyan);
   log('╚════════════════════════════════════════════════════════════╝', COLORS.bright + COLORS.cyan);
   
@@ -468,7 +468,7 @@ async function runIntegrationTests() {
       testHeader('Re-checking Wallet 1 Balance After Receiving');
       const updatedBalance = await client.getBalance(WALLET1.address);
       if (updatedBalance.balanceNano !== undefined) {
-        testInfo(`Updated Balance: ${updatedBalance.balanceNano} NANO`);
+        testInfo(`Updated Balance: ${updatedBalance.balanceNano} KSHS`);
       } else {
         testInfo(`Updated Balance: ${updatedBalance.balance} raw`);
       }

@@ -2,7 +2,7 @@
 
 ## ✅ Update Complete - AI Agent Ready
 
-The NANO MCP Server now features **industry-leading, AI-agent-friendly error handling** with comprehensive input validation across all 16 MCP functions.
+The Kakitu MCP Server now features **industry-leading, AI-agent-friendly error handling** with comprehensive input validation across all 16 MCP functions.
 
 ---
 
@@ -13,7 +13,7 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 **Added New Validation Methods:**
 - `validateAddress()` - Comprehensive address validation
   - Type checking
-  - Prefix validation (nano_ or xrb_)
+  - Prefix validation (kshs_ or xrb_)
   - Length validation (64-65 characters)
   - Character validation (base32 alphabet)
   
@@ -26,7 +26,7 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 - `validateAmountRaw()` - Comprehensive amount validation
   - Type checking
   - Format validation (digits only)
-  - **Smart detection** of NANO vs raw format
+  - **Smart detection** of KSHS vs raw format
   - **Auto-conversion suggestion** when wrong unit detected
   - Zero/negative validation
   - Overflow protection
@@ -66,7 +66,7 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 - toAddress validation
 - amountRaw validation with smart unit detection
 - privateKey validation
-- **Automatic NANO→raw detection and correction**
+- **Automatic KSHS→raw detection and correction**
 
 #### ✅ receiveAllPending
 - Address validation
@@ -74,7 +74,7 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 
 #### ✅ generateQrCode
 - Address validation
-- Amount validation (NANO format for QR codes)
+- Amount validation (KSHS format for QR codes)
 - Decimal format validation
 
 #### ✅ convertBalance
@@ -142,7 +142,7 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 | initializeAccount | Address + Private Key | 7 codes |
 | sendTransaction | 2 Addresses + Amount + Private Key | 15 codes |
 | receiveAllPending | Address + Private Key | 7 codes |
-| generateQrCode | Address + Amount (NANO) | 6 codes |
+| generateQrCode | Address + Amount (KSHS) | 6 codes |
 | convertBalance | Amount + Units | 7 codes |
 | getAccountStatus | Address | 4 codes |
 | setupTestWallets | None needed | - |
@@ -159,12 +159,12 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 
 ### 1. Smart Unit Detection
 
-**Problem:** AI agents often confuse NANO (decimal) with raw (integer) units.
+**Problem:** AI agents often confuse KSHS (decimal) with raw (integer) units.
 
 **Solution:** Server automatically detects this and provides the corrected value.
 
 ```json
-// Agent sends: "amountRaw": "0.1"  (WRONG - this is NANO, not raw)
+// Agent sends: "amountRaw": "0.1"  (WRONG - this is KSHS, not raw)
 
 // Server responds:
 {
@@ -192,11 +192,11 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
     "errorCode": "INVALID_ADDRESS_PREFIX",
     "details": {
         "detectedPrefix": "nanou",
-        "issue": "Address must start with 'nano_' or 'xrb_'"
+        "issue": "Address must start with 'kshs_' or 'xrb_'"
     },
     "nextSteps": [
-        "Step 1: Ensure address starts with 'nano_' (modern format)",
-        "Step 2: Example: nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+        "Step 1: Ensure address starts with 'kshs_' (modern format)",
+        "Step 2: Example: kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
     ]
 }
 ```
@@ -245,8 +245,8 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
         "jsonrpc": "2.0",
         "method": "sendTransaction",
         "params": {
-            "fromAddress": "nano_3sender...",
-            "toAddress": "nano_3receiver...",
+            "fromAddress": "kshs_3sender...",
+            "toAddress": "kshs_3receiver...",
             "amountRaw": "100000000000000000000000000000",
             "privateKey": "your_private_key_here"
         },
@@ -368,14 +368,14 @@ The NANO MCP Server now features **industry-leading, AI-agent-friendly error han
 
 ```javascript
 // AI Agent sends transaction with wrong amount format
-POST https://nano-mcp.replit.app
+POST https://kakitu-mcp.replit.app
 {
     "jsonrpc": "2.0",
     "method": "sendTransaction",
     "params": {
-        "fromAddress": "nano_3sender...",
-        "toAddress": "nano_3receiver...",
-        "amountRaw": "0.1",  // WRONG: This is NANO, not raw
+        "fromAddress": "kshs_3sender...",
+        "toAddress": "kshs_3receiver...",
+        "amountRaw": "0.1",  // WRONG: This is KSHS, not raw
         "privateKey": "abc123..."
     },
     "id": 1
@@ -443,7 +443,7 @@ if (response.errorCode === "AMOUNT_WRONG_UNIT") {
 
 ## 🚀 Ready for Production
 
-**The NANO MCP Server is now:**
+**The Kakitu MCP Server is now:**
 - ✅ Fully validated across all inputs
 - ✅ AI-agent optimized error responses
 - ✅ Self-documenting (zero external docs needed)
@@ -488,7 +488,7 @@ if (response.errorCode === "AMOUNT_WRONG_UNIT") {
 
 ## 🎊 Result
 
-**The NANO MCP Server now has the most comprehensive, AI-agent-friendly error handling of any cryptocurrency MCP server.**
+**The Kakitu MCP Server now has the most comprehensive, AI-agent-friendly error handling of any cryptocurrency MCP server.**
 
 **Key Achievement:** An AI agent can integrate with zero trial-and-error, zero external documentation lookups, and automatic recovery from common mistakes.
 

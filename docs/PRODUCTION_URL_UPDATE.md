@@ -8,7 +8,7 @@ The README has been updated to direct all AI agents to use the **production serv
 
 ## 🌐 Production Server
 
-**Primary URL:** `https://nano-mcp.replit.app`
+**Primary URL:** `https://kakitu-mcp.replit.app`
 
 **Status:** Live and ready for AI agents
 
@@ -31,12 +31,12 @@ The README has been updated to direct all AI agents to use the **production serv
 ```markdown
 ## 🌐 Production Server URL
 
-**USE THIS URL:** `https://nano-mcp.replit.app`
+**USE THIS URL:** `https://kakitu-mcp.replit.app`
 
-**All requests go to:** `https://nano-mcp.replit.app` (POST requests with JSON-RPC 2.0 format)
+**All requests go to:** `https://kakitu-mcp.replit.app` (POST requests with JSON-RPC 2.0 format)
 
 **Quick Example:**
-curl -X POST https://nano-mcp.replit.app \
+curl -X POST https://kakitu-mcp.replit.app \
   -H "Content-Type: application/json" \
   -d '{"jsonrpc":"2.0","method":"initialize","params":{},"id":1}'
 ```
@@ -58,7 +58,7 @@ curl -X POST https://nano-mcp.replit.app \
 ## 🤖 Quick Start for AI Agents
 
 ### Step 1: Install and Run (2 minutes)
-cd NANO_MCP_SERVER
+cd KAKITU_MCP_SERVER
 npm install
 npm start
 Server runs on: http://localhost:8080
@@ -69,7 +69,7 @@ Server runs on: http://localhost:8080
 ## 🤖 Quick Start for AI Agents
 
 ### Production Server (RECOMMENDED)
-**Server URL:** `https://nano-mcp.replit.app`
+**Server URL:** `https://kakitu-mcp.replit.app`
 
 **No installation needed!** The server is already running. Just start making requests.
 
@@ -89,7 +89,7 @@ If you need to run locally for development:
 
 **All examples now use:**
 ```
-POST https://nano-mcp.replit.app
+POST https://kakitu-mcp.replit.app
 ```
 
 **Instead of:**
@@ -112,7 +112,7 @@ POST http://localhost:8080
 
 **Production Server (No Setup Required):**
 # Test the production server immediately:
-curl -X POST https://nano-mcp.replit.app ...
+curl -X POST https://kakitu-mcp.replit.app ...
 
 **Local Development (Optional):**
 # For local testing only
@@ -153,7 +153,7 @@ curl -X POST http://localhost:8080 ...
 5. ✅ Updated "Quick Test" section
 
 ### URL Changes
-- **Primary URL:** `https://nano-mcp.replit.app` (production)
+- **Primary URL:** `https://kakitu-mcp.replit.app` (production)
 - **Secondary URL:** `http://localhost:8080` (optional, for local dev only)
 
 ### Priority
@@ -179,20 +179,20 @@ curl -X POST http://localhost:8080 ...
 
 **AI agents will now:**
 1. See the production URL immediately at the top of README
-2. Use `https://nano-mcp.replit.app` for all requests
+2. Use `https://kakitu-mcp.replit.app` for all requests
 3. Skip local installation entirely
 4. Start making requests in seconds, not minutes
 5. Have zero friction getting started
 
 **Key Message to AI Agents:**
-> "USE THIS URL: `https://nano-mcp.replit.app`"  
+> "USE THIS URL: `https://kakitu-mcp.replit.app`"  
 > "No installation needed! The server is already running."
 
 ---
 
 ## 📝 Files Modified
 
-- ✅ `NANO_MCP_SERVER/README.md` - Production URL now primary throughout
+- ✅ `KAKITU_MCP_SERVER/README.md` - Production URL now primary throughout
 
 ---
 

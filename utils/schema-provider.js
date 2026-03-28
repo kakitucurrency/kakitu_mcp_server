@@ -1,5 +1,5 @@
 /**
- * Schema Provider for NANO MCP Server
+ * Schema Provider for Kakitu MCP Server
  * Provides JSON Schema access for AI agents to auto-discover capabilities
  */
 
@@ -230,17 +230,17 @@ class SchemaProvider {
         return {
             openapi: '3.0.0',
             info: {
-                title: 'NANO MCP Server API',
+                title: 'Kakitu MCP Server API',
                 version: metadata.schemaVersion || '1.0.0',
-                description: 'JSON-RPC 2.0 API for NANO cryptocurrency operations. AI agent optimized with comprehensive schemas and examples.',
+                description: 'JSON-RPC 2.0 API for Kakitu cryptocurrency operations. AI agent optimized with comprehensive schemas and examples.',
                 contact: {
-                    name: 'NANO MCP Server',
-                    url: metadata.documentation || 'https://github.com/dhyabi2/NANO_MCP_SERVER'
+                    name: 'Kakitu MCP Server',
+                    url: metadata.documentation || 'https://github.com/dhyabi2/KAKITU_MCP_SERVER'
                 }
             },
             servers: [
                 {
-                    url: metadata.productionEndpoint || 'https://nano-mcp.replit.app',
+                    url: metadata.productionEndpoint || 'https://kakitu-mcp.replit.app',
                     description: 'Production Server'
                 },
                 {

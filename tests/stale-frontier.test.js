@@ -3,16 +3,16 @@
  * Tests that frontier is properly refreshed after receiving pending blocks
  */
 
-const { NanoTransactions } = require('../utils/nano-transactions');
+const { KakituTransactions } = require('../utils/kakitu-transactions');
 
 describe('Stale Frontier Bug Fix', () => {
-    let nanoTransactions;
+    let kakituTransactions;
     let mockRpcCallCount;
     let mockFrontiers;
     
     beforeEach(() => {
-        nanoTransactions = new NanoTransactions({
-            apiUrl: 'https://uk1.public.xnopay.com/proxy',
+        kakituTransactions = new KakituTransactions({
+            apiUrl: 'https://kakitu.org',
             rpcKey: null
         });
         
@@ -35,12 +35,12 @@ describe('Stale Frontier Bug Fix', () => {
     describe('Frontier Tracking', () => {
         test('should wait for RPC node to confirm new frontier after receive', async () => {
             const testWallet = {
-                address: 'nano_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                address: 'kshs_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                 privateKey: '0000000000000000000000000000000000000000000000000000000000000001'
             };
             
             // Mock the RPC calls
-            jest.spyOn(nanoTransactions, 'makeRequest').mockImplementation(async (action, params) => {
+            jest.spyOn(kakituTransactions, 'makeRequest').mockImplementation(async (action, params) => {
                 mockRpcCallCount++;
                 
                 if (action === 'pending') {
@@ -48,7 +48,7 @@ describe('Stale Frontier Bug Fix', () => {
                     if (mockRpcCallCount === 1) {
                         return {
                             blocks: {
-                                'hash1': { amount: '1000000000000000000000000000', source: 'nano_1source1' }
+                                'hash1': { amount: '1000000000000000000000000000', source: 'kshs_1source1' }
                             }
                         };
                     }
@@ -62,14 +62,14 @@ describe('Stale Frontier Bug Fix', () => {
                         return {
                             frontier: mockFrontiers.initial,
                             balance: '1000000000000000000000000000',
-                            representative: 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
+                            representative: 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
                         };
                     } else {
                         // Return new frontier after "RPC updates"
                         return {
                             frontier: mockFrontiers.afterReceive,
                             balance: '2000000000000000000000000000',
-                            representative: 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
+                            representative: 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
                         };
                     }
                 }
@@ -78,19 +78,19 @@ describe('Stale Frontier Bug Fix', () => {
             });
             
             // Mock receiveAllPending to return new frontier
-            jest.spyOn(nanoTransactions, 'receiveAllPending').mockResolvedValue([
+            jest.spyOn(kakituTransactions, 'receiveAllPending').mockResolvedValue([
                 { hash: mockFrontiers.afterReceive }
             ]);
             
             // Mock work generation
-            jest.spyOn(nanoTransactions, 'generateWork').mockResolvedValue('mock_work_value');
+            jest.spyOn(kakituTransactions, 'generateWork').mockResolvedValue('mock_work_value');
             
             try {
-                await nanoTransactions.sendTransaction(
+                await kakituTransactions.sendTransaction(
                     testWallet.address,
                     testWallet.privateKey,
-                    'nano_1dest1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
-                    '500000000000000000000000000' // 0.0005 NANO
+                    'kshs_1dest1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                    '500000000000000000000000000' // 0.0005 KSHS
                 );
             } catch (error) {
                 // Transaction may fail due to mocking, but we're testing frontier tracking
@@ -105,18 +105,18 @@ describe('Stale Frontier Bug Fix', () => {
 
         test('should retry multiple times if frontier not confirmed', async () => {
             const testWallet = {
-                address: 'nano_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                address: 'kshs_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                 privateKey: '0000000000000000000000000000000000000000000000000000000000000001'
             };
             
             let accountInfoCallCount = 0;
             
             // Mock the RPC calls
-            jest.spyOn(nanoTransactions, 'makeRequest').mockImplementation(async (action, params) => {
+            jest.spyOn(kakituTransactions, 'makeRequest').mockImplementation(async (action, params) => {
                 if (action === 'pending') {
                     return {
                         blocks: {
-                            'hash1': { amount: '1000000000000000000000000000', source: 'nano_1source1' }
+                            'hash1': { amount: '1000000000000000000000000000', source: 'kshs_1source1' }
                         }
                     };
                 }
@@ -127,24 +127,24 @@ describe('Stale Frontier Bug Fix', () => {
                     return {
                         frontier: mockFrontiers.initial,
                         balance: '1000000000000000000000000000',
-                        representative: 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
+                        representative: 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
                     };
                 }
                 
                 return {};
             });
             
-            jest.spyOn(nanoTransactions, 'receiveAllPending').mockResolvedValue([
+            jest.spyOn(kakituTransactions, 'receiveAllPending').mockResolvedValue([
                 { hash: mockFrontiers.afterReceive }
             ]);
             
-            jest.spyOn(nanoTransactions, 'generateWork').mockResolvedValue('mock_work_value');
+            jest.spyOn(kakituTransactions, 'generateWork').mockResolvedValue('mock_work_value');
             
             try {
-                await nanoTransactions.sendTransaction(
+                await kakituTransactions.sendTransaction(
                     testWallet.address,
                     testWallet.privateKey,
-                    'nano_1dest1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                    'kshs_1dest1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                     '500000000000000000000000000'
                 );
             } catch (error) {
@@ -162,12 +162,12 @@ describe('Stale Frontier Bug Fix', () => {
     describe('No Pending Blocks', () => {
         test('should not do frontier tracking when no pending blocks', async () => {
             const testWallet = {
-                address: 'nano_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                address: 'kshs_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                 privateKey: '0000000000000000000000000000000000000000000000000000000000000001'
             };
             
             // Mock the RPC calls
-            jest.spyOn(nanoTransactions, 'makeRequest').mockImplementation(async (action, params) => {
+            jest.spyOn(kakituTransactions, 'makeRequest').mockImplementation(async (action, params) => {
                 if (action === 'pending') {
                     return { blocks: {} }; // No pending blocks
                 }
@@ -176,7 +176,7 @@ describe('Stale Frontier Bug Fix', () => {
                     return {
                         frontier: mockFrontiers.initial,
                         balance: '1000000000000000000000000000',
-                        representative: 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
+                        representative: 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
                     };
                 }
                 
@@ -187,12 +187,12 @@ describe('Stale Frontier Bug Fix', () => {
                 return {};
             });
             
-            jest.spyOn(nanoTransactions, 'generateWork').mockResolvedValue('mock_work_value');
+            jest.spyOn(kakituTransactions, 'generateWork').mockResolvedValue('mock_work_value');
             
-            const result = await nanoTransactions.sendTransaction(
+            const result = await kakituTransactions.sendTransaction(
                 testWallet.address,
                 testWallet.privateKey,
-                'nano_1dest1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                'kshs_1dest1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                 '500000000000000000000000000'
             );
             

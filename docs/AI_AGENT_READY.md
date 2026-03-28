@@ -1,8 +1,8 @@
-# 🤖 AI AGENT READY - NANO MCP SERVER
+# 🤖 AI AGENT READY - Kakitu MCP SERVER
 
 ## ✅ COMPLETE: All Requirements Met
 
-Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhancements.
+Your Kakitu MCP Server is now **100% AI agent-ready** with comprehensive enhancements.
 
 ---
 
@@ -19,9 +19,9 @@ Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhanceme
 - Every error includes `relatedFunctions` (what to call next)
 
 **Example:** Insufficient balance error shows:
-- Current balance: 0.00016 NANO
-- Attempted: 0.002 NANO
-- Shortfall: 0.00184 NANO
+- Current balance: 0.00016 KSHS
+- Attempted: 0.002 KSHS
+- Shortfall: 0.00184 KSHS
 - 5 steps to fix it
 - Functions to call
 - Example request
@@ -43,7 +43,7 @@ Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhanceme
 - Complete workflows included
 - Decision trees provided
 - Helper functions for common tasks
-- No need to visit docs.nano.org
+- No need to visit docs.kakitu.org
 
 ---
 
@@ -52,7 +52,7 @@ Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhanceme
 ### 1. Enhanced Error System (3 files)
 - `utils/error-handler.js` - Comprehensive error formatting
 - `utils/balance-converter.js` - Unit conversion helpers
-- Enhanced `utils/nano-transactions.js` - Integrated errors
+- Enhanced `utils/kakitu-transactions.js` - Integrated errors
 
 **Error Types:**
 - INSUFFICIENT_BALANCE
@@ -65,7 +65,7 @@ Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhanceme
 - VALIDATION_ERROR
 
 ### 2. Helper Functions (2 new MCP functions)
-- **convertBalance** - NANO ↔ raw conversion with formula
+- **convertBalance** - KSHS ↔ raw conversion with formula
 - **getAccountStatus** - One-call comprehensive check
   - Shows: initialized, balance, pending, capabilities
   - Shows: needsAction array with priorities
@@ -119,8 +119,8 @@ Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhanceme
     "shortfallNano": "0.00184",
     "nextSteps": [
         "Step 1: Check current balance...",
-        "Step 2: Reduce to 0.00016 NANO max",
-        "Step 3: Or fund with 0.00184 NANO",
+        "Step 2: Reduce to 0.00016 KSHS max",
+        "Step 3: Or fund with 0.00184 KSHS",
         "Step 4: Use receiveAllPending...",
         "Step 5: Retry transaction"
     ],
@@ -130,16 +130,16 @@ Your NANO MCP Server is now **100% AI agent-ready** with comprehensive enhanceme
 
 ### Test 2: convertBalance (WORKING ✅)
 ```json
-Request: {"method": "convertBalance", "params": {"amount": "0.1", "from": "nano", "to": "raw"}}
-Response: {"converted": "100000000000000000000000000", "formula": "raw = NANO × 10^30"}
+Request: {"method": "convertBalance", "params": {"amount": "0.1", "from": "kakitu", "to": "raw"}}
+Response: {"converted": "100000000000000000000000000", "formula": "raw = KSHS × 10^30"}
 ```
 
 ### Test 3: getAccountStatus (WORKING ✅)
 ```json
-Request: {"method": "getAccountStatus", "params": {"address": "nano_xxx"}}
+Request: {"method": "getAccountStatus", "params": {"address": "kshs_xxx"}}
 Response: {
     "initialized": true,
-    "balance": {"raw": "...", "nano": "0.00016"},
+    "balance": {"raw": "...", "kakitu": "0.00016"},
     "pending": {"count": 0, ...},
     "capabilities": {"canSend": true, "canReceive": true},
     "needsAction": [],
@@ -212,9 +212,9 @@ Send transaction → Success!
 
 ## 🎓 Integration Time Comparison
 
-### Traditional NANO Integration
+### Traditional KSHS Integration
 ```
-1. Read docs.nano.org (30 min)
+1. Read docs.kakitu.org (30 min)
 2. Understand RPC protocol (30 min)
 3. Figure out units (15 min)
 4. Handle errors manually (30 min)
@@ -222,7 +222,7 @@ Send transaction → Success!
 Total: 2-4 hours
 ```
 
-### NANO MCP Server (AI Agent-Ready)
+### Kakitu MCP Server (AI Agent-Ready)
 ```
 1. npm start (1 min)
 2. Call getAccountStatus (1 min)
@@ -239,7 +239,7 @@ Total: 5-10 minutes
 ## 📁 Complete File Structure
 
 ```
-NANO_MCP_SERVER/
+KAKITU_MCP_SERVER/
 ├── README.md                                    ← AI agent-focused
 ├── AI_AGENT_READY.md                           ← This file
 ├── AUTONOMOUS_AGENT_INTEGRATION_GUIDE.md       ← Complete guide
@@ -252,7 +252,7 @@ NANO_MCP_SERVER/
 │   ├── error-handler.js                        ← NEW: Enhanced errors
 │   ├── balance-converter.js                    ← NEW: Unit conversion
 │   ├── test-wallet-manager.js                  ← NEW: Test wallets
-│   ├── nano-transactions.js                    ← ENHANCED: Error integration
+│   ├── kakitu-transactions.js                    ← ENHANCED: Error integration
 │   └── schema-validator.js
 │
 ├── src/
@@ -286,8 +286,8 @@ NANO_MCP_SERVER/
 **Test Wallets:** Generated and funded
 
 **Test Wallets:**
-- Wallet 1: `nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn` ✅
-- Wallet 2: `nano_39isqp67xsse8cj5igtonuiwicqy8p6txa57mbjd8bcyip7ggrai4bby1x1w` ✅
+- Wallet 1: `kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn` ✅
+- Wallet 2: `kshs_39isqp67xsse8cj5igtonuiwicqy8p6txa57mbjd8bcyip7ggrai4bby1x1w` ✅
 
 ---
 
@@ -325,7 +325,7 @@ NANO_MCP_SERVER/
 
 ## 🤝 Ready for AI Agents
 
-Your NANO MCP Server is now:
+Your Kakitu MCP Server is now:
 - **Self-Documenting** - Every error explains itself
 - **AI-Friendly** - Helper functions for common tasks
 - **Fast** - 5-10 minute integration
@@ -333,15 +333,15 @@ Your NANO MCP Server is now:
 - **Tested** - 21/21 tests passing
 - **Documented** - 3000+ lines of guides
 
-**An AI agent can now integrate NANO cryptocurrency in under 10 minutes with zero external documentation!**
+**An AI agent can now integrate Kakitu cryptocurrency in under 10 minutes with zero external documentation!**
 
 ---
 
 ## 🎉 Thank You!
 
-The NANO MCP Server is production-ready for autonomous agent integration.
+The Kakitu MCP Server is production-ready for autonomous agent integration.
 
-**Start using it:** `cd NANO_MCP_SERVER && npm start`
+**Start using it:** `cd KAKITU_MCP_SERVER && npm start`
 
 **Good luck with your AI agent integrations!** 🚀
 

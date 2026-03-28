@@ -9,7 +9,7 @@
 
 ## Test Account Information
 
-- **Account Address:** `nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza`
+- **Account Address:** `kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza`
 - **Public Key:** `8e35aca4499bdd1e5900745d143b5bb8628702b6c55f59da63b135c2a3d4809c`
 - **Private Key:** `55496ae0f5aacb0......`
 
@@ -32,14 +32,14 @@ All pending transactions were successfully received!
 ### Account Balance Changes
 
 #### Before Receiving
-- **Balance:** 0.50209 XNO (502,090,000,000,000,000,000,000,000,000 raw)
-- **Pending/Receivable:** 9.959 XNO
+- **Balance:** 0.50209 KSHS (502,090,000,000,000,000,000,000,000,000 raw)
+- **Pending/Receivable:** 9.959 KSHS
 - **Block Count:** 138
 - **Frontier:** `2754FB29B06FD5A9F048BFC984482FCD691479119A99EBDDCA9E4BE0C5937983`
 
 #### After Receiving
-- **Balance:** 10.46109 XNO (10,461,090,000,000,000,000,000,000,000,000 raw)
-- **Pending/Receivable:** 0 XNO
+- **Balance:** 10.46109 KSHS (10,461,090,000,000,000,000,000,000,000,000 raw)
+- **Pending/Receivable:** 0 KSHS
 - **Block Count:** 139
 - **Frontier:** `AAF9BCCECAC845F0A961881985156EB80BD083021456BE6B8D219569D079D6B9`
 
@@ -54,10 +54,10 @@ All pending transactions were successfully received!
 
 **Amount Received:**  
 - **Raw:** 9,959,000,000,000,000,000,000,000,000,000
-- **XNO:** 9.959
+- **KSHS:** 9.959
 
 **Source Account:**  
-`nano_3kef5c3ahkwf3qcyw61qcnma668z8ez4ocnm55gkiaqeure3ghcfqunfynug`
+`kshs_3kef5c3ahkwf3qcyw61qcnma668z8ez4ocnm55gkiaqeure3ghcfqunfynug`
 
 **Processed Block Hash:**  
 `AAF9BCCECAC845F0A961881985156EB80BD083021456BE6B8D219569D079D6B9`
@@ -69,14 +69,14 @@ All pending transactions were successfully received!
 - **Work Generation Time:** 452ms
 - **Work Difficulty:** `fffffffe7961a8f5`
 - **Work Multiplier:** 5.24x
-- **Work Server:** Nano.to/GPU-3
+- **Work Server:** Kakitu.to/GPU-3
 - **Work Cached:** Yes
 
 **Block Signature:**  
 `8ba75eb17cdec7ce10673a726b5f8b449fc406587e69f0103281903820b99b3f950e7b5da9d961ead8471d1b30df1861b954b03074958af0b46c820faeb20007`
 
 **Representative:**  
-`nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf`
+`kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf`
 
 ---
 
@@ -100,11 +100,11 @@ All pending transactions were successfully received!
 ## Technical Details
 
 ### RPC Configuration
-- **RPC Node:** https://rpc.nano.to
-- **RPC Key:** RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23 (Nano.to public key)
+- **RPC Node:** https://rpc.kakitu.org
+- **RPC Key:** RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23 (Kakitu.to public key)
 
 ### Work Generation
-- **Method:** RPC-based (Nano.to GPU server)
+- **Method:** RPC-based (Kakitu.to GPU server)
 - **Difficulty:** `fffffff800000000` (receive/send difficulty)
 - **Result Difficulty:** `fffffffe7961a8f5`
 - **Multiplier:** 5.2429670326447315x
@@ -113,9 +113,9 @@ All pending transactions were successfully received!
 ```json
 {
   "type": "state",
-  "account": "nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza",
+  "account": "kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza",
   "previous": "2754FB29B06FD5A9F048BFC984482FCD691479119A99EBDDCA9E4BE0C5937983",
-  "representative": "nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf",
+  "representative": "kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf",
   "balance": "10461090000000000000000000000000",
   "link": "B9CD265F80EBA7A2CE372262733515CB81DFB7A57CBFE1A9AC9CA920C5987624",
   "signature": "8ba75eb17cdec7ce10673a726b5f8b449fc406587e69f0103281903820b99b3f950e7b5da9d961ead8471d1b30df1861b954b03074958af0b46c820faeb20007",
@@ -163,7 +163,7 @@ All implementations are:
 ### Real Functionality ✅
 
 No fake or simulated features:
-- Real network calls to Nano RPC
+- Real network calls to Kakitu RPC
 - Real cryptographic signing
 - Real transaction broadcasting
 - Real balance updates verified
@@ -182,7 +182,7 @@ No fake or simulated features:
    - Exit code 0 on success, 1 on failure
 
 3. **`utils/rpc-helper.js`**
-   - RPC helper utility for making calls to Nano nodes
+   - RPC helper utility for making calls to Kakitu nodes
    - Supports single calls, multiple parallel calls, and retry logic
    - Includes timeout handling and error logging
 
@@ -216,7 +216,7 @@ npm test tests/test-receive-specific-account.test.js
 
 ## Conclusion
 
-The test successfully demonstrated the ability to receive all pending transactions for the specified Nano account. The implementation follows Test-Driven Development (TDD) principles, includes comprehensive logging and debugging, and uses only real, working functionality without any abstractions or simulations.
+The test successfully demonstrated the ability to receive all pending transactions for the specified Kakitu account. The implementation follows Test-Driven Development (TDD) principles, includes comprehensive logging and debugging, and uses only real, working functionality without any abstractions or simulations.
 
 **Key Achievements:**
 - ✅ 100% success rate in receiving pending transactions
@@ -229,7 +229,7 @@ The test successfully demonstrated the ability to receive all pending transactio
 - ✅ Work generation successful
 - ✅ Block broadcasting successful
 
-**Final Account Balance:** 10.46109 XNO (increased from 0.50209 XNO)
+**Final Account Balance:** 10.46109 KSHS (increased from 0.50209 KSHS)
 
 ---
 
@@ -247,7 +247,7 @@ If you want to receive more pending transactions in the future:
    const PendingReceiveService = require('./services/pending-receive.service');
    
    const result = await PendingReceiveService.receiveAllPending(
-       'nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
+       'kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
        '55496ae0f5aacb0'
    );
    ```

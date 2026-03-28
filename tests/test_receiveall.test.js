@@ -7,12 +7,12 @@ const { describe, test, expect, beforeAll } = require('@jest/globals');
 
 describe('Receive All Pending Transactions - Specific Account Test', () => {
     const testAccount = {
-        address: 'nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
+        address: 'kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza',
         privateKey: '55496ae0f5aac',
         publicKey: '8e35aca4499bdd1e5900745d143b5bb8628702b6c55f59da63b135c2a3d4809c'
     };
 
-    let NanoTransactions;
+    let KakituTransactions;
 
     beforeAll(() => {
         console.log('='.repeat(60));
@@ -23,14 +23,14 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         console.log('='.repeat(60));
     });
 
-    test('should have NanoTransactions module available', () => {
+    test('should have KakituTransactions module available', () => {
         expect(() => {
-            NanoTransactions = require('../utils/nano-transactions').NanoTransactions;
+            KakituTransactions = require('../utils/kakitu-transactions').KakituTransactions;
         }).not.toThrow();
-        expect(NanoTransactions).toBeDefined();
+        expect(KakituTransactions).toBeDefined();
     });
 
-    test('should verify account address is valid Nano format', () => {
+    test('should verify account address is valid Kakitu format', () => {
         const { tools } = require('nanocurrency-web');
         
         const isValid = tools.validateAddress(testAccount.address);
@@ -49,19 +49,19 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
     });
 
     test('should check for pending blocks on the account', async () => {
-        const { NanoTransactions } = require('../utils/nano-transactions');
+        const { KakituTransactions } = require('../utils/kakitu-transactions');
         
-        const nanoTx = new NanoTransactions({
+        const kakituTx = new KakituTransactions({
             rpcNodes: [
-                'https://uk1.public.xnopay.com/proxy',
-                'https://node.somenano.com/proxy'
+                'https://kakitu.org',
+                'https://kakitu.org'
             ],
             rpcKey: null
         });
 
         console.log('\nChecking for pending blocks...');
         
-        const pendingResult = await nanoTx.getPendingBlocks(testAccount.address);
+        const pendingResult = await kakituTx.getPendingBlocks(testAccount.address);
 
         console.log('Pending blocks result:', JSON.stringify(pendingResult, null, 2));
         
@@ -87,12 +87,12 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
     }, 30000);
 
     test('should check account info', async () => {
-        const { NanoTransactions } = require('../utils/nano-transactions');
+        const { KakituTransactions } = require('../utils/kakitu-transactions');
         
-        const nanoTx = new NanoTransactions({
+        const kakituTx = new KakituTransactions({
             rpcNodes: [
-                'https://uk1.public.xnopay.com/proxy',
-                'https://node.somenano.com/proxy'
+                'https://kakitu.org',
+                'https://kakitu.org'
             ],
             rpcKey: null
         });
@@ -100,7 +100,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         console.log('\nChecking account info...');
         
         try {
-            const accountInfo = await nanoTx.getAccountInfo(testAccount.address);
+            const accountInfo = await kakituTx.getAccountInfo(testAccount.address);
             console.log('Account info:', JSON.stringify(accountInfo, null, 2));
             
             console.log('✓ Account is opened');
@@ -117,13 +117,13 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
     }, 30000);
 
     test('should receive all pending blocks using MCP built-in method', async () => {
-        const { NanoTransactions } = require('../utils/nano-transactions');
-        const { NanoConverter } = require('../utils/nano-converter');
+        const { KakituTransactions } = require('../utils/kakitu-transactions');
+        const { KakituConverter } = require('../utils/kakitu-converter');
         
-        const nanoTx = new NanoTransactions({
+        const kakituTx = new KakituTransactions({
             rpcNodes: [
-                'https://uk1.public.xnopay.com/proxy',
-                'https://node.somenano.com/proxy'
+                'https://kakitu.org',
+                'https://kakitu.org'
             ],
             rpcKey: null
         });
@@ -137,9 +137,9 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         console.log('\n--- Account Status Before Receiving ---');
         let accountInfoBefore;
         try {
-            accountInfoBefore = await nanoTx.getAccountInfo(testAccount.address);
+            accountInfoBefore = await kakituTx.getAccountInfo(testAccount.address);
             console.log(`Balance (raw): ${accountInfoBefore.balance}`);
-            console.log(`Balance (XNO): ${NanoConverter.rawToXNO(accountInfoBefore.balance)}`);
+            console.log(`Balance (KSHS): ${KakituConverter.rawToXNO(accountInfoBefore.balance)}`);
             console.log(`Frontier: ${accountInfoBefore.frontier}`);
             console.log(`Block count: ${accountInfoBefore.block_count}`);
         } catch (error) {
@@ -149,7 +149,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
 
         // Step 2: Check pending blocks
         console.log('\n--- Checking Pending Blocks ---');
-        const pendingResult = await nanoTx.getPendingBlocks(testAccount.address);
+        const pendingResult = await kakituTx.getPendingBlocks(testAccount.address);
 
         if (!pendingResult.blocks || Object.keys(pendingResult.blocks).length === 0) {
             console.log('⚠ No pending blocks to receive');
@@ -166,7 +166,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         for (const [hash, blockInfo] of Object.entries(pendingResult.blocks)) {
             console.log(`  - Hash: ${hash}`);
             console.log(`    Amount (raw): ${blockInfo.amount}`);
-            console.log(`    Amount (XNO): ${NanoConverter.rawToXNO(blockInfo.amount)}`);
+            console.log(`    Amount (KSHS): ${KakituConverter.rawToXNO(blockInfo.amount)}`);
             if (blockInfo.source) {
                 console.log(`    Source: ${blockInfo.source}`);
             }
@@ -177,7 +177,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         console.log('RECEIVING ALL PENDING BLOCKS');
         console.log('='.repeat(60));
 
-        const results = await nanoTx.receiveAllPending(
+        const results = await kakituTx.receiveAllPending(
             testAccount.address,
             testAccount.privateKey
         );
@@ -212,11 +212,11 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
 
         // Step 5: Check final balance
         console.log('\n--- Final Account Status ---');
-        const accountInfoAfter = await nanoTx.getAccountInfo(testAccount.address);
+        const accountInfoAfter = await kakituTx.getAccountInfo(testAccount.address);
 
         if (accountInfoAfter && !accountInfoAfter.error) {
             console.log(`Balance (raw): ${accountInfoAfter.balance}`);
-            console.log(`Balance (XNO): ${NanoConverter.rawToXNO(accountInfoAfter.balance)}`);
+            console.log(`Balance (KSHS): ${KakituConverter.rawToXNO(accountInfoAfter.balance)}`);
             console.log(`Frontier: ${accountInfoAfter.frontier}`);
             console.log(`Block count: ${accountInfoAfter.block_count}`);
 
@@ -226,7 +226,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
                 const balanceAfter = BigInt(accountInfoAfter.balance);
                 const difference = balanceAfter - balanceBefore;
                 console.log(`\nBalance increase: ${difference.toString()} raw`);
-                console.log(`Balance increase: ${NanoConverter.rawToXNO(difference.toString())} XNO`);
+                console.log(`Balance increase: ${KakituConverter.rawToXNO(difference.toString())} KSHS`);
             }
         }
 

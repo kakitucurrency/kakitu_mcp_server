@@ -1,5 +1,5 @@
 /**
- * Jest configuration for NANO MCP Server
+ * Jest configuration for Kakitu MCP Server
  */
 
 module.exports = {

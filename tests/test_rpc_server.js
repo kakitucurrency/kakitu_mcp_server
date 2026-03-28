@@ -9,8 +9,8 @@ const RPC_PORT = 45000;
 const RPC_URL_HTTP = `http://${RPC_IP}:${RPC_PORT}`;
 const RPC_URL_HTTPS = `https://${RPC_IP}:${RPC_PORT}`;
 
-// Test account for verification (using a known Nano address)
-const TEST_ADDRESS = 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf';
+// Test account for verification (using a known Kakitu address)
+const TEST_ADDRESS = 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf';
 
 /**
  * Test TCP port connectivity

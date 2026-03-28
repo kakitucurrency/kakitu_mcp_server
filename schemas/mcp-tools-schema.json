@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://nano-mcp.replit.app/schemas/mcp-tools",
-  "title": "NANO MCP Tools JSON Schema",
-  "description": "Complete JSON Schema definitions for all NANO MCP Server tools with validation, examples, and response schemas for AI agent auto-discovery",
+  "$id": "https://kakitu-mcp.replit.app/schemas/mcp-tools",
+  "title": "Kakitu MCP Tools JSON Schema",
+  "description": "Complete JSON Schema definitions for all Kakitu MCP Server tools with validation, examples, and response schemas for AI agent auto-discovery",
   "version": "1.0.0",
   "tools": [
     {
@@ -54,7 +54,7 @@
     },
     {
       "name": "generateWallet",
-      "description": "Generate a new NANO wallet with address, private key, public key, and seed",
+      "description": "Generate a new Kakitu wallet with address, private key, public key, and seed",
       "category": "wallet",
       "inputSchema": {
         "type": "object",
@@ -67,8 +67,8 @@
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "Generated NANO address"
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "Generated KSHS address"
           },
           "privateKey": {
             "type": "string",
@@ -99,7 +99,7 @@
           "response": {
             "jsonrpc": "2.0",
             "result": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "privateKey": "9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f",
               "publicKey": "c008b814ca5b37f7e7e1c0d94d1a36b7f4d1a2e8c5f1a7b9c3d4e5f6a7b8c9d0",
               "seed": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2"
@@ -120,18 +120,18 @@
     },
     {
       "name": "getBalance",
-      "description": "Get the balance and pending amounts for a NANO address in both raw and NANO units",
+      "description": "Get the balance and pending amounts for a KSHS address in both raw and KSHS units",
       "category": "query",
       "inputSchema": {
         "type": "object",
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "Valid NANO address (starts with 'nano_' or 'xrb_')",
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "Valid KSHS address (starts with 'kshs_' or 'xrb_')",
             "examples": [
-              "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
-              "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
+              "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
             ]
           }
         },
@@ -144,12 +144,12 @@
           "balance": {
             "type": "string",
             "pattern": "^[0-9]+$",
-            "description": "Current balance in raw units (1 NANO = 10^30 raw)"
+            "description": "Current balance in raw units (1 KSHS = 10^30 raw)"
           },
           "balanceNano": {
             "type": "string",
             "pattern": "^[0-9]+\\.[0-9]{6}$",
-            "description": "Current balance in NANO (decimal, 6 places)"
+            "description": "Current balance in KSHS (decimal, 6 places)"
           },
           "pending": {
             "type": "string",
@@ -159,7 +159,7 @@
           "pendingNano": {
             "type": "string",
             "pattern": "^[0-9]+\\.[0-9]{6}$",
-            "description": "Pending amount in NANO (decimal, 6 places)"
+            "description": "Pending amount in KSHS (decimal, 6 places)"
           }
         },
         "required": ["balance", "balanceNano", "pending", "pendingNano"]
@@ -170,7 +170,7 @@
             "jsonrpc": "2.0",
             "method": "getBalance",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           },
@@ -191,7 +191,7 @@
             "jsonrpc": "2.0",
             "method": "getBalance",
             "params": {
-              "address": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
+              "address": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
             },
             "id": 1
           },
@@ -219,7 +219,7 @@
               "details": {
                 "parameter": "address",
                 "received": null,
-                "expectedFormat": "nano_[60 characters]"
+                "expectedFormat": "kshs_[60 characters]"
               }
             },
             "id": 1
@@ -227,12 +227,12 @@
         },
         {
           "errorCode": "INVALID_ADDRESS_PREFIX",
-          "trigger": "Address doesn't start with 'nano_' or 'xrb_'",
+          "trigger": "Address doesn't start with 'kshs_' or 'xrb_'",
           "example": {
             "jsonrpc": "2.0",
             "error": {
               "errorCode": "INVALID_ADDRESS_PREFIX",
-              "error": "Address must start with 'nano_' or 'xrb_'"
+              "error": "Address must start with 'kshs_' or 'xrb_'"
             },
             "id": 1
           }
@@ -248,9 +248,9 @@
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "Valid NANO address",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "Valid KSHS address",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           }
         },
         "required": ["address"],
@@ -290,7 +290,7 @@
           },
           "representative": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
             "description": "Current representative address"
           }
         },
@@ -302,7 +302,7 @@
             "jsonrpc": "2.0",
             "method": "getAccountInfo",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           },
@@ -315,7 +315,7 @@
               "balance": "1500000000000000000000000000000",
               "modified_timestamp": "1699000000",
               "block_count": "42",
-              "representative": "nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf"
+              "representative": "kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf"
             },
             "id": 1
           }
@@ -331,9 +331,9 @@
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "NANO address to check for pending blocks",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "KSHS address to check for pending blocks",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           }
         },
         "required": ["address"],
@@ -355,8 +355,8 @@
                   },
                   "source": {
                     "type": "string",
-                    "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-                    "description": "Sender's NANO address"
+                    "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+                    "description": "Sender's KSHS address"
                   }
                 },
                 "required": ["amount", "source"]
@@ -373,7 +373,7 @@
             "jsonrpc": "2.0",
             "method": "getPendingBlocks",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           },
@@ -383,7 +383,7 @@
               "blocks": {
                 "FF84533A571D953A596EA401FD41743AC85D04F406E76FDE4408EAEE50B473E1": {
                   "amount": "500000000000000000000000000000",
-                  "source": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
+                  "source": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
                 }
               }
             },
@@ -396,7 +396,7 @@
             "jsonrpc": "2.0",
             "method": "getPendingBlocks",
             "params": {
-              "address": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
+              "address": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
             },
             "id": 1
           },
@@ -412,7 +412,7 @@
     },
     {
       "name": "initializeAccount",
-      "description": "Initialize (open) a NANO account by receiving the first pending block. Required before an account can send transactions.",
+      "description": "Initialize (open) a KSHS account by receiving the first pending block. Required before an account can send transactions.",
       "category": "transaction",
       "performanceNotes": {
         "avgDuration": "10-15 seconds",
@@ -424,9 +424,9 @@
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "NANO address to initialize",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "KSHS address to initialize",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           },
           "privateKey": {
             "type": "string",
@@ -457,7 +457,7 @@
           },
           "representative": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
             "description": "Representative address set during initialization"
           }
         },
@@ -469,7 +469,7 @@
             "jsonrpc": "2.0",
             "method": "initializeAccount",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "privateKey": "9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f"
             },
             "id": 1
@@ -480,7 +480,7 @@
               "initialized": true,
               "hash": "FF84533A571D953A596EA401FD41743AC85D04F406E76FDE4408EAEE50B473E1",
               "balance": "500000000000000000000000000000",
-              "representative": "nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf"
+              "representative": "kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf"
             },
             "id": 1
           }
@@ -488,12 +488,12 @@
       ],
       "prerequisites": [
         "Account must have at least one pending block",
-        "Send NANO to the address first if no pending blocks exist"
+        "Send KSHS to the address first if no pending blocks exist"
       ]
     },
     {
       "name": "sendTransaction",
-      "description": "Send NANO from one address to another. Requires account to be initialized (opened) first.",
+      "description": "Send KSHS from one address to another. Requires account to be initialized (opened) first.",
       "category": "transaction",
       "performanceNotes": {
         "avgDuration": "15-20 seconds",
@@ -505,20 +505,20 @@
         "properties": {
           "fromAddress": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "Sender's NANO address (must be initialized)",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "Sender's KSHS address (must be initialized)",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           },
           "toAddress": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "Recipient's NANO address (doesn't need to be initialized)",
-            "examples": ["nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "Recipient's KSHS address (doesn't need to be initialized)",
+            "examples": ["kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"]
           },
           "amountRaw": {
             "type": "string",
             "pattern": "^[0-9]+$",
-            "description": "Amount to send in raw units (1 NANO = 10^30 raw). Use convertBalance to get raw from NANO.",
+            "description": "Amount to send in raw units (1 KSHS = 10^30 raw). Use convertBalance to get raw from KSHS.",
             "examples": [
               "1000000000000000000000000000",
               "100000000000000000000000000000"
@@ -552,13 +552,13 @@
       },
       "examples": [
         {
-          "description": "Send 0.001 NANO",
+          "description": "Send 0.001 KSHS",
           "request": {
             "jsonrpc": "2.0",
             "method": "sendTransaction",
             "params": {
-              "fromAddress": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
-              "toAddress": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
+              "fromAddress": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "toAddress": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
               "amountRaw": "1000000000000000000000000000",
               "privateKey": "9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f"
             },
@@ -574,13 +574,13 @@
           }
         },
         {
-          "description": "Send 0.1 NANO (100 million raw)",
+          "description": "Send 0.1 KSHS (100 million raw)",
           "request": {
             "jsonrpc": "2.0",
             "method": "sendTransaction",
             "params": {
-              "fromAddress": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
-              "toAddress": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
+              "fromAddress": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "toAddress": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
               "amountRaw": "100000000000000000000000000000",
               "privateKey": "9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f"
             },
@@ -630,9 +630,9 @@
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "NANO address to receive pending transactions for",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "KSHS address to receive pending transactions for",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           },
           "privateKey": {
             "type": "string",
@@ -665,7 +665,7 @@
             "jsonrpc": "2.0",
             "method": "receiveAllPending",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "privateKey": "9f0e444c69f77a49bd0be89db92c38fe713e0963165cca12faf5712d7657120f"
             },
             "id": 1
@@ -689,7 +689,7 @@
             "jsonrpc": "2.0",
             "method": "receiveAllPending",
             "params": {
-              "address": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
+              "address": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
               "privateKey": "a1b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6c7d8e9f0a1b2"
             },
             "id": 1
@@ -704,21 +704,21 @@
     },
     {
       "name": "generateQrCode",
-      "description": "Generate a QR code image for a NANO payment request. Returns base64-encoded PNG image.",
+      "description": "Generate a QR code image for a KSHS payment request. Returns base64-encoded PNG image.",
       "category": "utility",
       "inputSchema": {
         "type": "object",
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "NANO address to receive payment",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "KSHS address to receive payment",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           },
           "amount": {
             "type": "string",
             "pattern": "^[0-9]+(\\.[0-9]+)?$",
-            "description": "Amount in decimal NANO (e.g., '0.1' for 0.1 NANO). Optional.",
+            "description": "Amount in decimal KSHS (e.g., '0.1' for 0.1 KSHS). Optional.",
             "examples": ["0.1", "1.5", "10"]
           }
         },
@@ -734,8 +734,8 @@
           },
           "nanoUri": {
             "type": "string",
-            "pattern": "^nano:(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}(\\?amount=[0-9]+)?$",
-            "description": "NANO URI (nano:address?amount=raw)"
+            "pattern": "^kakitu:(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}(\\?amount=[0-9]+)?$",
+            "description": "KSHS URI (kakitu:address?amount=raw)"
           }
         },
         "required": ["qrCode", "nanoUri"]
@@ -747,7 +747,7 @@
             "jsonrpc": "2.0",
             "method": "generateQrCode",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "amount": "0.1"
             },
             "id": 1
@@ -756,7 +756,7 @@
             "jsonrpc": "2.0",
             "result": {
               "qrCode": "iVBORw0KGgoAAAANSUhEUgAA...(base64 encoded image)...CYII=",
-              "nanoUri": "nano:nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn?amount=100000000000000000000000000000"
+              "nanoUri": "kshs:3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn?amount=100000000000000000000000000000"
             },
             "id": 1
           }
@@ -767,7 +767,7 @@
             "jsonrpc": "2.0",
             "method": "generateQrCode",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           },
@@ -775,7 +775,7 @@
             "jsonrpc": "2.0",
             "result": {
               "qrCode": "iVBORw0KGgoAAAANSUhEUgAA...(base64 encoded image)...CYII=",
-              "nanoUri": "nano:nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "nanoUri": "kshs:3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           }
@@ -784,7 +784,7 @@
     },
     {
       "name": "convertBalance",
-      "description": "Convert between NANO and raw units. Essential for AI agents to format amounts correctly for transactions.",
+      "description": "Convert between KSHS and raw units. Essential for AI agents to format amounts correctly for transactions.",
       "category": "utility",
       "inputSchema": {
         "type": "object",
@@ -797,15 +797,15 @@
           },
           "from": {
             "type": "string",
-            "enum": ["nano", "raw"],
+            "enum": ["kakitu", "raw"],
             "description": "Source unit",
-            "examples": ["nano", "raw"]
+            "examples": ["kakitu", "raw"]
           },
           "to": {
             "type": "string",
-            "enum": ["nano", "raw"],
+            "enum": ["kakitu", "raw"],
             "description": "Target unit",
-            "examples": ["raw", "nano"]
+            "examples": ["raw", "kakitu"]
           }
         },
         "required": ["amount", "from", "to"],
@@ -824,24 +824,24 @@
           },
           "from": {
             "type": "string",
-            "enum": ["nano", "raw"]
+            "enum": ["kakitu", "raw"]
           },
           "to": {
             "type": "string",
-            "enum": ["nano", "raw"]
+            "enum": ["kakitu", "raw"]
           }
         },
         "required": ["original", "converted", "from", "to"]
       },
       "examples": [
         {
-          "description": "Convert 0.1 NANO to raw",
+          "description": "Convert 0.1 KSHS to raw",
           "request": {
             "jsonrpc": "2.0",
             "method": "convertBalance",
             "params": {
               "amount": "0.1",
-              "from": "nano",
+              "from": "kakitu",
               "to": "raw"
             },
             "id": 1
@@ -851,21 +851,21 @@
             "result": {
               "original": "0.1",
               "converted": "100000000000000000000000000000",
-              "from": "nano",
+              "from": "kakitu",
               "to": "raw"
             },
             "id": 1
           }
         },
         {
-          "description": "Convert raw to NANO",
+          "description": "Convert raw to KSHS",
           "request": {
             "jsonrpc": "2.0",
             "method": "convertBalance",
             "params": {
               "amount": "1000000000000000000000000000",
               "from": "raw",
-              "to": "nano"
+              "to": "kakitu"
             },
             "id": 1
           },
@@ -875,17 +875,17 @@
               "original": "1000000000000000000000000000",
               "converted": "0.001000",
               "from": "raw",
-              "to": "nano"
+              "to": "kakitu"
             },
             "id": 1
           }
         }
       ],
       "conversionReference": {
-        "1 NANO": "1000000000000000000000000000 raw",
-        "0.1 NANO": "100000000000000000000000000 raw",
-        "0.001 NANO": "1000000000000000000000000 raw",
-        "formula": "1 NANO = 10^30 raw"
+        "1 KSHS": "1000000000000000000000000000 raw",
+        "0.1 KSHS": "100000000000000000000000000 raw",
+        "0.001 KSHS": "1000000000000000000000000 raw",
+        "formula": "1 KSHS = 10^30 raw"
       }
     },
     {
@@ -897,9 +897,9 @@
         "properties": {
           "address": {
             "type": "string",
-            "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "NANO address to check status for",
-            "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+            "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+            "description": "KSHS address to check status for",
+            "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
           }
         },
         "required": ["address"],
@@ -921,7 +921,7 @@
           },
           "balanceNano": {
             "type": "string",
-            "description": "Balance in NANO"
+            "description": "Balance in KSHS"
           },
           "pendingCount": {
             "type": "integer",
@@ -933,7 +933,7 @@
           },
           "totalPendingNano": {
             "type": "string",
-            "description": "Total pending amount in NANO"
+            "description": "Total pending amount in KSHS"
           },
           "canSend": {
             "type": "boolean",
@@ -960,14 +960,14 @@
             "jsonrpc": "2.0",
             "method": "getAccountStatus",
             "params": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           },
           "response": {
             "jsonrpc": "2.0",
             "result": {
-              "address": "nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
+              "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "initialized": false,
               "balance": "0",
               "balanceNano": "0.000000",
@@ -989,14 +989,14 @@
             "jsonrpc": "2.0",
             "method": "getAccountStatus",
             "params": {
-              "address": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
+              "address": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
             },
             "id": 1
           },
           "response": {
             "jsonrpc": "2.0",
             "result": {
-              "address": "nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
+              "address": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
               "initialized": true,
               "balance": "1500000000000000000000000000000",
               "balanceNano": "1.500000",
@@ -1007,7 +1007,7 @@
               "needsAction": [
                 "Account is ready - you can send transactions with sendTransaction"
               ],
-              "representative": "nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf"
+              "representative": "kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf"
             },
             "id": 1
           }
@@ -1062,21 +1062,21 @@
             "jsonrpc": "2.0",
             "result": {
               "wallet1": {
-                "address": "nano_3eadyjzpjfocpigqauajzhe1y41z939rhbjdmbed5zxs75hzqswpojus3b3f",
+                "address": "kshs_3eadyjzpjfocpigqauajzhe1y41z939rhbjdmbed5zxs75hzqswpojus3b3f",
                 "funded": false
               },
               "wallet2": {
-                "address": "nano_1ee6716of16rhrjdxu1ap561c1c5yuey97pewss5kpodytomrqhy9k8h46nz",
+                "address": "kshs_1ee6716of16rhrjdxu1ap561c1c5yuey97pewss5kpodytomrqhy9k8h46nz",
                 "funded": false
               },
               "created": "2025-11-12T00:00:00.000Z",
               "status": "awaiting_funding",
-              "message": "Test wallets generated successfully. Please fund both wallets with test NANO to proceed with testing.",
+              "message": "Test wallets generated successfully. Please fund both wallets with test KSHS to proceed with testing.",
               "fundingInstructions": [
-                "Send test NANO to Wallet 1: nano_3eadyjzpjfocpigqauajzhe1y41z939rhbjdmbed5zxs75hzqswpojus3b3f",
-                "Send test NANO to Wallet 2: nano_1ee6716of16rhrjdxu1ap561c1c5yuey97pewss5kpodytomrqhy9k8h46nz",
+                "Send test KSHS to Wallet 1: kshs_3eadyjzpjfocpigqauajzhe1y41z939rhbjdmbed5zxs75hzqswpojus3b3f",
+                "Send test KSHS to Wallet 2: kshs_1ee6716of16rhrjdxu1ap561c1c5yuey97pewss5kpodytomrqhy9k8h46nz",
                 "After funding, use checkFundingStatus to verify both wallets are funded",
-                "Recommended test amount: 0.1 NANO or more per wallet"
+                "Recommended test amount: 0.1 KSHS or more per wallet"
               ]
             },
             "id": 1
@@ -1137,13 +1137,13 @@
             "jsonrpc": "2.0",
             "result": {
               "wallet1": {
-                "address": "nano_3eadyjzpjfocpigqauajzhe1y41z939rhbjdmbed5zxs75hzqswpojus3b3f",
+                "address": "kshs_3eadyjzpjfocpigqauajzhe1y41z939rhbjdmbed5zxs75hzqswpojus3b3f",
                 "privateKey": "00b6dbc92e3f7a5a217645b9f257d2071838132fad786b3fddd5cb3a64cdd1f2",
                 "balance": "100000000000000000000000000000",
                 "funded": true
               },
               "wallet2": {
-                "address": "nano_1ee6716of16rhrjdxu1ap561c1c5yuey97pewss5kpodytomrqhy9k8h46nz",
+                "address": "kshs_1ee6716of16rhrjdxu1ap561c1c5yuey97pewss5kpodytomrqhy9k8h46nz",
                 "privateKey": "a4a3d0cd01cff28628e2bd187bdb6d39b42779cbc6ffe5ac5685ea58d4b16ae1",
                 "balance": "100000000000000000000000000000",
                 "funded": true
@@ -1300,15 +1300,15 @@
     "required": ["success", "error", "errorCode"]
   },
   "metadata": {
-    "generatedBy": "NANO MCP Server",
+    "generatedBy": "Kakitu MCP Server",
     "schemaVersion": "1.0.0",
     "lastUpdated": "2025-11-12",
     "totalTools": 16,
     "totalErrorCodes": 29,
     "aiAgentOptimized": true,
     "supportedProtocols": ["JSON-RPC 2.0"],
-    "productionEndpoint": "https://nano-mcp.replit.app",
-    "documentation": "https://github.com/dhyabi2/NANO_MCP_SERVER"
+    "productionEndpoint": "https://kakitu-mcp.replit.app",
+    "documentation": "https://github.com/dhyabi2/KAKITU_MCP_SERVER"
   }
 }
 

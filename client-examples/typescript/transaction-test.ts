@@ -1,6 +1,6 @@
 #!/usr/bin/env ts-node
 /**
- * NANO MCP Client - Transaction Flow Test
+ * Kakitu MCP Client - Transaction Flow Test
  * 
  * Tests complete send/receive cycle between two wallets:
  * 1. Send from Wallet 2 to Wallet 1
@@ -11,29 +11,29 @@
  * Uses existing test wallets from tests/test-wallets.json
  */
 
-import { NanoMcpClient } from './nano-mcp-client';
+import { NanoMcpClient } from './kakitu-mcp-client';
 
 // ============================================
 // Test Configuration
 // ============================================
 
-const PRODUCTION_URL = 'https://nano-mcp.replit.app';
+const PRODUCTION_URL = 'https://kakitu-mcp.replit.app';
 
 // Existing test wallets
 const WALLET1 = {
   name: 'Wallet 1',
-  address: 'nano_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x',
+  address: 'kshs_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x',
   privateKey: 'ba54b58a59a42082c8592d7e6ad8746ebfc83207edcc694bc0ae637e3c67f746'
 };
 
 const WALLET2 = {
   name: 'Wallet 2',
-  address: 'nano_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5',
+  address: 'kshs_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5',
   privateKey: '808519897e023d8931f13710277049c209fe059cb374672e194acfcee8c4ec4f'
 };
 
-// Test amount: 0.0001 NANO (100000000000000000000000000 raw)
-const TEST_AMOUNT_RAW = '100000000000000000000000000'; // 0.0001 NANO
+// Test amount: 0.0001 KSHS (100000000000000000000000000 raw)
+const TEST_AMOUNT_RAW = '100000000000000000000000000'; // 0.0001 KSHS
 
 // ============================================
 // Test Utilities
@@ -108,9 +108,9 @@ async function checkBalance(client: NanoMcpClient, wallet: typeof WALLET1) {
     ? balance.pendingNano 
     : client.rawToNano(balance.pending);
   
-  testInfo(`${wallet.name}: ${balanceNano} NANO (${balance.balance} raw)`);
+  testInfo(`${wallet.name}: ${balanceNano} KSHS (${balance.balance} raw)`);
   if (balance.pending !== '0') {
-    testWarn(`${wallet.name} has pending: ${pendingNano} NANO (${balance.pending} raw)`);
+    testWarn(`${wallet.name} has pending: ${pendingNano} KSHS (${balance.pending} raw)`);
   }
   
   return balance;
@@ -118,12 +118,12 @@ async function checkBalance(client: NanoMcpClient, wallet: typeof WALLET1) {
 
 async function runTransactionFlowTest() {
   log('\n╔════════════════════════════════════════════════════════════════════╗', COLORS.bright + COLORS.cyan);
-  log('║     NANO MCP CLIENT - TRANSACTION FLOW TEST                        ║', COLORS.bright + COLORS.cyan);
+  log('║     Kakitu MCP CLIENT - TRANSACTION FLOW TEST                        ║', COLORS.bright + COLORS.cyan);
   log('║     Complete Send/Receive Cycle Test                               ║', COLORS.bright + COLORS.cyan);
   log('╚════════════════════════════════════════════════════════════════════╝', COLORS.bright + COLORS.cyan);
   
   testInfo(`Server: ${PRODUCTION_URL}`);
-  testInfo(`Test Amount: 0.0001 NANO per transaction`);
+  testInfo(`Test Amount: 0.0001 KSHS per transaction`);
   testInfo(`${WALLET1.name}: ${WALLET1.address}`);
   testInfo(`${WALLET2.name}: ${WALLET2.address}`);
   
@@ -145,8 +145,8 @@ async function runTransactionFlowTest() {
     
     if (wallet2BalanceBigInt < testAmountBigInt) {
       testFail(`${WALLET2.name} has insufficient balance for test`);
-      testInfo(`Required: ${client.rawToNano(TEST_AMOUNT_RAW)} NANO`);
-      testInfo(`Available: ${client.rawToNano(initialBalance2.balance)} NANO`);
+      testInfo(`Required: ${client.rawToNano(TEST_AMOUNT_RAW)} KSHS`);
+      testInfo(`Available: ${client.rawToNano(initialBalance2.balance)} KSHS`);
       throw new Error('Insufficient balance for test');
     }
     
@@ -156,7 +156,7 @@ async function runTransactionFlowTest() {
     // ========================================
     // STEP 2: Send from Wallet 2 to Wallet 1
     // ========================================
-    stepHeader(2, 8, `Send 0.0001 NANO from ${WALLET2.name} to ${WALLET1.name}`);
+    stepHeader(2, 8, `Send 0.0001 KSHS from ${WALLET2.name} to ${WALLET1.name}`);
     testWarn('This will take 10-15 seconds for Proof-of-Work generation...');
     
     try {
@@ -192,7 +192,7 @@ async function runTransactionFlowTest() {
       if (pending1.count > 0) {
         testPass(`Found ${pending1.count} pending block(s)`);
         if (pending1.totalPendingNano !== undefined) {
-          testInfo(`Total pending: ${pending1.totalPendingNano} NANO`);
+          testInfo(`Total pending: ${pending1.totalPendingNano} KSHS`);
         }
         testsPassed++;
       } else {
@@ -258,7 +258,7 @@ async function runTransactionFlowTest() {
     const balance1Increase = BigInt(midBalance1.balance) - BigInt(initialBalance1.balance);
     
     if (balance1Increase > 0) {
-      testPass(`${WALLET1.name} balance increased by ${client.rawToNano(balance1Increase.toString())} NANO`);
+      testPass(`${WALLET1.name} balance increased by ${client.rawToNano(balance1Increase.toString())} KSHS`);
       testsPassed++;
     } else {
       testWarn(`${WALLET1.name} balance did not increase (may need more time)`);
@@ -274,7 +274,7 @@ async function runTransactionFlowTest() {
     // ========================================
     // STEP 6: Send from Wallet 1 back to Wallet 2
     // ========================================
-    stepHeader(6, 8, `Send 0.0001 NANO from ${WALLET1.name} back to ${WALLET2.name}`);
+    stepHeader(6, 8, `Send 0.0001 KSHS from ${WALLET1.name} back to ${WALLET2.name}`);
     testWarn('This will take 10-15 seconds for Proof-of-Work generation...');
     
     try {
@@ -310,7 +310,7 @@ async function runTransactionFlowTest() {
       if (pending2.count > 0) {
         testPass(`Found ${pending2.count} pending block(s)`);
         if (pending2.totalPendingNano !== undefined) {
-          testInfo(`Total pending: ${pending2.totalPendingNano} NANO`);
+          testInfo(`Total pending: ${pending2.totalPendingNano} KSHS`);
         }
         testsPassed++;
       } else {
@@ -374,8 +374,8 @@ async function runTransactionFlowTest() {
     
     log('');
     testInfo('Balance Changes:');
-    testInfo(`${WALLET1.name}: ${change1 >= 0 ? '+' : ''}${client.rawToNano(change1.toString())} NANO`);
-    testInfo(`${WALLET2.name}: ${change2 >= 0 ? '+' : ''}${client.rawToNano(change2.toString())} NANO`);
+    testInfo(`${WALLET1.name}: ${change1 >= 0 ? '+' : ''}${client.rawToNano(change1.toString())} KSHS`);
+    testInfo(`${WALLET2.name}: ${change2 >= 0 ? '+' : ''}${client.rawToNano(change2.toString())} KSHS`);
     
   } catch (error: any) {
     log('');

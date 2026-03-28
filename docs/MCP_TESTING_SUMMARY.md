@@ -11,7 +11,7 @@
 | 3 | getBalance (invalid address) | Error validation | ✅ PASS | < 1s | **Perfect error:** INVALID_ADDRESS_PREFIX with guidance |
 | 4 | getBalance (missing param) | Error validation | ✅ PASS | < 1s | **Perfect error:** MISSING_PARAMETER with example |
 | 5 | sendTransaction (wrong unit) | Smart detection | ✅ PASS | < 1s | **Auto-corrected:** AMOUNT_WRONG_UNIT with suggestedCorrection |
-| 6 | convertBalance | Helper function | ✅ PASS | < 1s | Successfully converted 0.1 NANO → raw |
+| 6 | convertBalance | Helper function | ✅ PASS | < 1s | Successfully converted 0.1 KSHS → raw |
 | 7 | getAccountStatus (wallet 1) | Status check | ✅ PASS | 2-3s | Detected pending blocks, gave needsAction |
 | 8 | getAccountStatus (wallet 2) | Status check | ✅ PASS | 2-3s | Detected pending blocks, gave needsAction |
 | 9 | initializeAccount (wallet 1) | Account initialization | ✅ PASS | 8-12s | Successfully received pending block |
@@ -89,7 +89,7 @@
 
 ### 1. Smart Auto-Correction ⭐⭐⭐⭐⭐
 
-**Test:** Sent "0.1" as amountRaw (NANO instead of raw)
+**Test:** Sent "0.1" as amountRaw (KSHS instead of raw)
 
 **Response:**
 ```json
@@ -109,7 +109,7 @@
 
 **One call returns:**
 - initialized status
-- balance (raw + NANO)
+- balance (raw + KSHS)
 - pending blocks (count + amount)
 - capabilities (canSend, canReceive)
 - needsAction array (what to do next)

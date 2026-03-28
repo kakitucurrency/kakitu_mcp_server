@@ -1,6 +1,6 @@
-# NANO MCP TypeScript Client - Production Ready
+# Kakitu MCP TypeScript Client - Production Ready
 
-**Production-level TypeScript client for the NANO MCP Server** with full type safety, auto-retry, validation, and comprehensive error handling.
+**Production-level TypeScript client for the Kakitu MCP Server** with full type safety, auto-retry, validation, and comprehensive error handling.
 
 ---
 
@@ -22,10 +22,10 @@
 ### Installation
 
 ```typescript
-// Copy nano-mcp-client.ts to your project
-import { NanoMcpClient, nanoToRaw, rawToNano } from './nano-mcp-client';
+// Copy kakitu-mcp-client.ts to your project
+import { NanoMcpClient, nanoToRaw, rawToNano } from './kakitu-mcp-client';
 
-const client = new NanoMcpClient('https://nano-mcp.replit.app');
+const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
 ```
 
 ### Basic Usage
@@ -37,7 +37,7 @@ console.log(wallet.address);
 
 // Check balance
 const balance = await client.getBalance(wallet.address);
-console.log(`Balance: ${balance.balanceNano} NANO`);
+console.log(`Balance: ${balance.balanceNano} KSHS`);
 
 // Send transaction (with auto-retry)
 const tx = await client.sendTransaction(
@@ -56,7 +56,7 @@ console.log(`Hash: ${tx.hash}`);
 ### Wallet Operations
 
 #### `generateWallet()`
-Generate a new NANO wallet with address, private key, public key, and seed.
+Generate a new Kakitu wallet with address, private key, public key, and seed.
 
 ```typescript
 const wallet = await client.generateWallet();
@@ -71,7 +71,7 @@ const wallet = await client.generateWallet();
 Get balance and pending amounts for an address.
 
 ```typescript
-const balance = await client.getBalance('nano_...');
+const balance = await client.getBalance('kshs_...');
 // Returns: { balance, balanceNano, pending, pendingNano }
 ```
 
@@ -79,7 +79,7 @@ const balance = await client.getBalance('nano_...');
 Get comprehensive account status with actionable recommendations.
 
 ```typescript
-const status = await client.getAccountStatus('nano_...');
+const status = await client.getAccountStatus('kshs_...');
 // Returns: {
 //   address, initialized, balance, balanceNano,
 //   pendingCount, totalPending, totalPendingNano,
@@ -118,13 +118,13 @@ const results = await client.receiveAllPending(address, privateKey);
 ```
 
 #### `sendTransaction(fromAddress, toAddress, amountRaw, privateKey)` ⭐
-Send NANO with **automatic retry** on transient errors.
+Send KSHS with **automatic retry** on transient errors.
 
 ```typescript
 const tx = await client.sendTransaction(
-  'nano_from...',
-  'nano_to...',
-  nanoToRaw('0.001'), // Convert NANO to raw
+  'kshs_from...',
+  'kshs_to...',
+  nanoToRaw('0.001'), // Convert KSHS to raw
   privateKey
 );
 // Returns: { success: true, hash }
@@ -143,15 +143,15 @@ const tx = await client.sendTransaction(
 ### Utilities
 
 #### `convertBalance(amount, from, to)`
-Convert between NANO and raw units (server-side).
+Convert between KSHS and raw units (server-side).
 
 ```typescript
-const result = await client.convertBalance('0.1', 'nano', 'raw');
+const result = await client.convertBalance('0.1', 'kakitu', 'raw');
 // Returns: { original, converted, from, to }
 ```
 
 #### `nanoToRaw(amount)` - Helper Function
-Convert NANO to raw (client-side, instant).
+Convert KSHS to raw (client-side, instant).
 
 ```typescript
 const raw = nanoToRaw('0.1');
@@ -159,7 +159,7 @@ const raw = nanoToRaw('0.1');
 ```
 
 #### `rawToNano(amount)` - Helper Function
-Convert raw to NANO (client-side, instant).
+Convert raw to KSHS (client-side, instant).
 
 ```typescript
 const nano = rawToNano('100000000000000000000000000000');
@@ -168,19 +168,19 @@ const nano = rawToNano('100000000000000000000000000000');
 
 #### Constants
 ```typescript
-import { XNO } from './nano-mcp-client';
+import { KSHS } from './kakitu-mcp-client';
 
-XNO.ONE_NANO          // "1000000000000000000000000000000"
-XNO.POINT_ONE_NANO    // "100000000000000000000000000000"
-XNO.POINT_ZERO_ONE_NANO  // "10000000000000000000000000000"
+KSHS.ONE_NANO          // "1000000000000000000000000000000"
+KSHS.POINT_ONE_NANO    // "100000000000000000000000000000"
+KSHS.POINT_ZERO_ONE_NANO  // "10000000000000000000000000000"
 ```
 
 #### `generateQrCode(address, amount?)`
 Generate QR code for payment request.
 
 ```typescript
-const qr = await client.generateQrCode('nano_...', '0.1');
-// Returns: { qrCode: "base64...", nanoUri: "nano:nano_...?amount=..." }
+const qr = await client.generateQrCode('kshs_...', '0.1');
+// Returns: { qrCode: "base64...", nanoUri: "kshs:...?amount=..." }
 ```
 
 ---
@@ -216,8 +216,8 @@ Validate parameters before sending (pre-flight check).
 
 ```typescript
 const validation = await client.validateParams('sendTransaction', {
-  fromAddress: 'nano_...',
-  toAddress: 'nano_...',
+  fromAddress: 'kshs_...',
+  toAddress: 'kshs_...',
   amountRaw: '1000000000000000000000000000',
   privateKey: '9f0e...'
 });
@@ -231,10 +231,10 @@ const validation = await client.validateParams('sendTransaction', {
 ### Example 1: Complete Workflow
 
 ```typescript
-import { NanoMcpClient, nanoToRaw } from './nano-mcp-client';
+import { NanoMcpClient, nanoToRaw } from './kakitu-mcp-client';
 
 async function completeWorkflow() {
-  const client = new NanoMcpClient('https://nano-mcp.replit.app');
+  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // 1. Generate wallet
@@ -259,7 +259,7 @@ async function completeWorkflow() {
     if (status.canSend) {
       const tx = await client.sendTransaction(
         wallet.address,
-        'nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
+        'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
         nanoToRaw('0.001'),
         wallet.privateKey
       );
@@ -277,7 +277,7 @@ async function completeWorkflow() {
 
 ```typescript
 async function smartStatusHandling() {
-  const client = new NanoMcpClient('https://nano-mcp.replit.app');
+  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
   const status = await client.getAccountStatus(address);
   
   // Automatically handle recommended actions
@@ -320,8 +320,8 @@ try {
 ```typescript
 // Validate before sending (saves time and prevents errors)
 const validation = await client.validateParams('sendTransaction', {
-  fromAddress: 'nano_...',
-  toAddress: 'nano_...',
+  fromAddress: 'kshs_...',
+  toAddress: 'kshs_...',
   amountRaw: '1000000000000000000000000000',
   privateKey: '9f0e...'
 });
@@ -364,7 +364,7 @@ The client uses production-tested timeouts:
 const privateKey = 'hardcoded_key_here';
 
 // ✅ Use environment variables
-const privateKey = process.env.NANO_PRIVATE_KEY!;
+const privateKey = process.env.KAKITU_PRIVATE_KEY!;
 
 // ✅ Or secure key management
 import { getSecureKey } from './key-manager';
@@ -378,12 +378,12 @@ const privateKey = await getSecureKey('wallet1');
 try {
   await client.sendTransaction(
     'invalid_address', // ❌ Caught before network call
-    'nano_...',
+    'kshs_...',
     '100',
     'short_key' // ❌ Caught before network call
   );
 } catch (error) {
-  // Error: fromAddress must be a valid NANO address
+  // Error: fromAddress must be a valid KSHS address
 }
 ```
 
@@ -429,7 +429,7 @@ await example1_BasicWallet();
 ## ❌ Common Errors & Solutions
 
 ### `INSUFFICIENT_BALANCE`
-**Error:** Not enough NANO to send
+**Error:** Not enough KSHS to send
 **Solution:** Check balance with `getAccountStatus()`, fund account, or reduce amount
 
 ### `INSUFFICIENT_WORK`
@@ -442,7 +442,7 @@ await example1_BasicWallet();
 
 ### `INVALID_ADDRESS_FORMAT`
 **Error:** Address format is wrong
-**Solution:** Ensure address starts with `nano_` or `xrb_` and is 60-65 characters
+**Solution:** Ensure address starts with `kshs_` or `xrb_` and is 60-65 characters
 
 ### `INVALID_PRIVATE_KEY_LENGTH`
 **Error:** Private key is not 64 characters
@@ -455,8 +455,8 @@ await example1_BasicWallet();
 - **Full API Documentation:** `../../README.md`
 - **Error Handling Guide:** `../../docs/AI_AGENT_ERROR_HANDLING.md`
 - **JSON Schema Guide:** `../../docs/JSON_SCHEMA_AI_AGENT_GUIDE.md`
-- **Production Server:** https://nano-mcp.replit.app
-- **GitHub Repository:** https://github.com/dhyabi2/NANO_MCP_SERVER
+- **Production Server:** https://kakitu-mcp.replit.app
+- **GitHub Repository:** https://github.com/dhyabi2/KAKITU_MCP_SERVER
 
 ---
 
@@ -489,5 +489,5 @@ If you encounter issues:
 
 ---
 
-**🚀 Start building with NANO in minutes, not hours!**
+**🚀 Start building with KSHS in minutes, not hours!**
 

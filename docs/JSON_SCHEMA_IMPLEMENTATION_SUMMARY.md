@@ -60,7 +60,7 @@ Adopted **strict JSON Schema for all MCP tool definitions and interfaces**, enab
 | `/schema/metadata` | GET | Schema metadata |
 | `/schema/validate/:toolName` | POST | Validate parameters |
 
-**All endpoints are LIVE** at `https://nano-mcp.replit.app/schema/*`
+**All endpoints are LIVE** at `https://kakitu-mcp.replit.app/schema/*`
 
 ### **5. Comprehensive Documentation** (`docs/JSON_SCHEMA_AI_AGENT_GUIDE.md`)
 - **Zero-shot integration** guide
@@ -82,9 +82,9 @@ Every parameter includes regex patterns for validation:
 {
   "address": {
     "type": "string",
-    "pattern": "^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-    "description": "Valid NANO address",
-    "examples": ["nano_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
+    "pattern": "^(kakitu|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
+    "description": "Valid KSHS address",
+    "examples": ["kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"]
   },
   "privateKey": {
     "type": "string",
@@ -94,7 +94,7 @@ Every parameter includes regex patterns for validation:
   "amountRaw": {
     "type": "string",
     "pattern": "^[0-9]+$",
-    "description": "Amount in raw units (1 NANO = 10^30 raw)"
+    "description": "Amount in raw units (1 KSHS = 10^30 raw)"
   }
 }
 ```
@@ -122,13 +122,13 @@ Multiple scenarios per tool:
 {
   "examples": [
     {
-      "description": "Send 0.001 NANO",
+      "description": "Send 0.001 KSHS",
       "request": {
         "jsonrpc": "2.0",
         "method": "sendTransaction",
         "params": {
-          "fromAddress": "nano_3h3m...",
-          "toAddress": "nano_1x7b...",
+          "fromAddress": "kshs_3h3m...",
+          "toAddress": "kshs_1x7b...",
           "amountRaw": "1000000000000000000000000000",
           "privateKey": "9f0e444c..."
         },
@@ -176,7 +176,7 @@ Agents can build dependency graphs:
 
 ### **Step 1: Fetch Schema (1 second)**
 ```bash
-GET https://nano-mcp.replit.app/schema
+GET https://kakitu-mcp.replit.app/schema
 ```
 
 ### **Step 2: Generate Code (10 seconds)**
@@ -184,12 +184,12 @@ AI agent auto-generates client methods from schema
 
 ### **Step 3: Validate Parameters (1 second)**
 ```bash
-POST https://nano-mcp.replit.app/schema/validate/sendTransaction
+POST https://kakitu-mcp.replit.app/schema/validate/sendTransaction
 ```
 
 ### **Step 4: Execute (immediate)**
 ```bash
-POST https://nano-mcp.replit.app
+POST https://kakitu-mcp.replit.app
 ```
 
 **Total Integration Time: < 5 minutes** (vs. hours of manual documentation reading)
@@ -224,7 +224,7 @@ POST https://nano-mcp.replit.app
 
 ## 🔧 **Standards Compliance**
 
-The NANO MCP Server schemas follow industry standards:
+The Kakitu MCP Server schemas follow industry standards:
 
 1. ✅ **JSON Schema Draft 07** - Full compliance
 2. ✅ **OpenAPI 3.0** - Swagger/OpenAPI Generator compatible
@@ -262,22 +262,22 @@ The NANO MCP Server schemas follow industry standards:
 # AI agent generates this automatically from schema
 class NanoMcpClient:
     def generateWallet(self):
-        """Generate a new NANO wallet with address and private key"""
+        """Generate a new Kakitu wallet with address and private key"""
         return self._call('generateWallet', {})
     
     def sendTransaction(self, fromAddress, toAddress, amountRaw, privateKey):
-        """Send NANO from one address to another"""
+        """Send KSHS from one address to another"""
         return self._call('sendTransaction', locals())
 ```
 
 ### **2. Type-Safe TypeScript**
 ```typescript
-import type { SendTransactionParams } from './nano-mcp';
+import type { SendTransactionParams } from './kakitu-mcp';
 
 // TypeScript ensures all parameters are correct
 const params: SendTransactionParams = {
-  fromAddress: "nano_...",  // Type-checked!
-  toAddress: "nano_...",    // Type-checked!
+  fromAddress: "kshs_...",  // Type-checked!
+  toAddress: "kshs_...",    // Type-checked!
   amountRaw: "100...",       // Type-checked!
   privateKey: "9f0e..."     // Type-checked!
 };
@@ -287,16 +287,16 @@ const params: SendTransactionParams = {
 ```bash
 # Generate client in any language
 openapi-generator-cli generate \
-  -i https://nano-mcp.replit.app/openapi.json \
+  -i https://kakitu-mcp.replit.app/openapi.json \
   -g python \
-  -o ./nano-mcp-client
+  -o ./kakitu-mcp-client
 ```
 
 ### **4. Schema-Based Validation**
 ```javascript
 // Validate before sending
 const validation = await fetch(
-  'https://nano-mcp.replit.app/schema/validate/sendTransaction',
+  'https://kakitu-mcp.replit.app/schema/validate/sendTransaction',
   { method: 'POST', body: JSON.stringify(params) }
 ).then(r => r.json());
 
@@ -312,30 +312,30 @@ if (!validation.validation.valid) {
 ### **Test Schema Endpoints**
 ```bash
 # 1. Test complete schema fetch
-curl https://nano-mcp.replit.app/schema | jq '.metadata'
+curl https://kakitu-mcp.replit.app/schema | jq '.metadata'
 
 # 2. Test tool-specific schema
-curl https://nano-mcp.replit.app/schema/tools/sendTransaction | jq '.inputSchema'
+curl https://kakitu-mcp.replit.app/schema/tools/sendTransaction | jq '.inputSchema'
 
 # 3. Test parameter validation
-curl -X POST https://nano-mcp.replit.app/schema/validate/generateWallet \
+curl -X POST https://kakitu-mcp.replit.app/schema/validate/generateWallet \
   -H "Content-Type: application/json" \
   -d '{}'
 
 # 4. Test TypeScript definitions
-curl https://nano-mcp.replit.app/schema/typescript | head -20
+curl https://kakitu-mcp.replit.app/schema/typescript | head -20
 
 # 5. Test OpenAPI spec
-curl https://nano-mcp.replit.app/openapi.json | jq '.info'
+curl https://kakitu-mcp.replit.app/openapi.json | jq '.info'
 
 # 6. Test error codes
-curl https://nano-mcp.replit.app/schema/errors | jq '.count'
+curl https://kakitu-mcp.replit.app/schema/errors | jq '.count'
 
 # 7. Test examples
-curl https://nano-mcp.replit.app/schema/examples/generateWallet | jq '.examples[0]'
+curl https://kakitu-mcp.replit.app/schema/examples/generateWallet | jq '.examples[0]'
 
 # 8. Test category filtering
-curl https://nano-mcp.replit.app/schema/category/transaction | jq '.count'
+curl https://kakitu-mcp.replit.app/schema/category/transaction | jq '.count'
 ```
 
 **Expected:** All 8 tests should return valid JSON with appropriate data
@@ -388,5 +388,5 @@ Perfect for:
 
 ---
 
-**🎉 The NANO MCP Server is now the most AI-agent-friendly cryptocurrency API available!**
+**🎉 The Kakitu MCP Server is now the most AI-agent-friendly cryptocurrency API available!**
 

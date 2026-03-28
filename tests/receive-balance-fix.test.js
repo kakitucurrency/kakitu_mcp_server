@@ -1,16 +1,16 @@
-const { NanoTransactions } = require('../utils/nano-transactions');
+const { KakituTransactions } = require('../utils/kakitu-transactions');
 
 describe('nanocurrency-web Block Balance Fix', () => {
     test('nanocurrency-web calculates balance internally - send blocks', () => {
         // CRITICAL: nanocurrency-web's block.send() does this internally:
         // finalBalance = walletBalanceRaw - amountRaw
         
-        const currentBalance = '5000000000000000000000000000'; // 0.005 NANO (BEFORE send)
-        const amountToSend = '1000000000000000000000000000'; // 0.001 NANO
+        const currentBalance = '5000000000000000000000000000'; // 0.005 KSHS (BEFORE send)
+        const amountToSend = '1000000000000000000000000000'; // 0.001 KSHS
         
         // What WE calculate for verification:
         const expectedNewBalance = (BigInt(currentBalance) - BigInt(amountToSend)).toString();
-        expect(expectedNewBalance).toBe('4000000000000000000000000000'); // 0.004 NANO remaining
+        expect(expectedNewBalance).toBe('4000000000000000000000000000'); // 0.004 KSHS remaining
         
         // What we PASS to nanocurrency-web (CORRECT):
         const blockData = {
@@ -31,12 +31,12 @@ describe('nanocurrency-web Block Balance Fix', () => {
         // CRITICAL: nanocurrency-web's block.receive() does this internally:
         // finalBalance = walletBalanceRaw + amountRaw
         
-        const currentBalance = '5000000000000000000000000000'; // 0.005 NANO (BEFORE receive)
-        const amountToReceive = '1000000000000000000000000000'; // 0.001 NANO
+        const currentBalance = '5000000000000000000000000000'; // 0.005 KSHS (BEFORE receive)
+        const amountToReceive = '1000000000000000000000000000'; // 0.001 KSHS
         
         // What WE calculate for verification:
         const expectedNewBalance = (BigInt(currentBalance) + BigInt(amountToReceive)).toString();
-        expect(expectedNewBalance).toBe('6000000000000000000000000000'); // 0.006 NANO total
+        expect(expectedNewBalance).toBe('6000000000000000000000000000'); // 0.006 KSHS total
         
         // What we PASS to nanocurrency-web (CORRECT):
         const blockData = {
@@ -56,7 +56,7 @@ describe('nanocurrency-web Block Balance Fix', () => {
     test('new accounts - receive first payment', () => {
         // For new accounts, current balance is 0
         const currentBalance = '0';
-        const amountToReceive = '2000000000000000000000000000'; // 0.002 NANO (first receive)
+        const amountToReceive = '2000000000000000000000000000'; // 0.002 KSHS (first receive)
         
         // nanocurrency-web will calculate: 0 + 2000... = 2000... ✓
         const blockData = {
@@ -69,8 +69,8 @@ describe('nanocurrency-web Block Balance Fix', () => {
     });
     
     test('demonstrates the double-deduction bug in send', () => {
-        const currentBalance = '10000000000000000000000000000'; // 0.01 NANO
-        const amountToSend = '1000000000000000000000000000'; // 0.001 NANO
+        const currentBalance = '10000000000000000000000000000'; // 0.01 KSHS
+        const amountToSend = '1000000000000000000000000000'; // 0.001 KSHS
         
         // CORRECT: Pass current balance to nanocurrency-web
         const correctBlockData = {
@@ -93,8 +93,8 @@ describe('nanocurrency-web Block Balance Fix', () => {
     });
     
     test('demonstrates the double-addition bug in receive', () => {
-        const currentBalance = '5000000000000000000000000000'; // 0.005 NANO
-        const amountToReceive = '1000000000000000000000000000'; // 0.001 NANO
+        const currentBalance = '5000000000000000000000000000'; // 0.005 KSHS
+        const amountToReceive = '1000000000000000000000000000'; // 0.001 KSHS
         
         // CORRECT: Pass current balance to nanocurrency-web
         const correctBlockData = {

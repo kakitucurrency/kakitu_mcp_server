@@ -79,8 +79,8 @@ describe('RPC Node Testing', () => {
         });
     };
 
-    describe('Primary Node: https://uk1.public.xnopay.com/proxy', () => {
-        const primaryNode = 'https://uk1.public.xnopay.com/proxy';
+    describe('Primary Node: https://kakitu.org', () => {
+        const primaryNode = 'https://kakitu.org';
 
         test('should respond to block_count request', async () => {
             const result = await testRpcCall(primaryNode, { action: 'block_count' });
@@ -100,7 +100,7 @@ describe('RPC Node Testing', () => {
 
         test('should handle account_info request for valid address', async () => {
             // Using a known active address (genesis account)
-            const testAddress = 'nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3';
+            const testAddress = 'kshs_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3';
             
             const result = await testRpcCall(primaryNode, {
                 action: 'account_info',
@@ -112,8 +112,8 @@ describe('RPC Node Testing', () => {
         }, 15000);
     });
 
-    describe('Backup Node: https://node.somenano.com/proxy', () => {
-        const backupNode = 'https://node.somenano.com/proxy';
+    describe('Backup Node: https://kakitu.org', () => {
+        const backupNode = 'https://kakitu.org';
 
         test('should respond to block_count request', async () => {
             const result = await testRpcCall(backupNode, { action: 'block_count' });
@@ -140,7 +140,7 @@ describe('RPC Node Testing', () => {
 
         test('should handle account_info request for valid address', async () => {
             // Using a known active address (genesis account)
-            const testAddress = 'nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3';
+            const testAddress = 'kshs_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3';
             
             const result = await testRpcCall(backupNode, {
                 action: 'account_info',
@@ -159,7 +159,7 @@ describe('RPC Node Testing', () => {
         }, 15000);
 
         test('should handle pending request for valid address', async () => {
-            const testAddress = 'nano_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3';
+            const testAddress = 'kshs_3t6k35gi95xu6tergt6p69ck76ogmitsa8mnijtpxm9fkcm736xtoncuohr3';
             
             const result = await testRpcCall(backupNode, {
                 action: 'pending',
@@ -199,8 +199,8 @@ describe('RPC Node Testing', () => {
     });
 
     describe('Node Comparison', () => {
-        const primaryNode = 'https://uk1.public.xnopay.com/proxy';
-        const backupNode = 'https://node.somenano.com/proxy';
+        const primaryNode = 'https://kakitu.org';
+        const backupNode = 'https://kakitu.org';
 
         test('both nodes should return similar block counts', async () => {
             const primaryResult = await testRpcCall(primaryNode, { action: 'block_count' });
@@ -245,13 +245,13 @@ describe('RPC Node Testing', () => {
     describe('Node Redundancy Configuration', () => {
         test('should have backup node ready for failover', () => {
             const rpcNodes = [
-                'https://uk1.public.xnopay.com/proxy',  // Primary
-                'https://node.somenano.com/proxy'       // Backup
+                'https://kakitu.org',  // Primary
+                'https://kakitu.org'       // Backup
             ];
 
             expect(rpcNodes).toHaveLength(2);
-            expect(rpcNodes[0]).toBe('https://uk1.public.xnopay.com/proxy');
-            expect(rpcNodes[1]).toBe('https://node.somenano.com/proxy');
+            expect(rpcNodes[0]).toBe('https://kakitu.org');
+            expect(rpcNodes[1]).toBe('https://kakitu.org');
             
             console.log('[Node Test] Redundancy configuration validated');
             console.log('[Node Test] Primary:', rpcNodes[0]);

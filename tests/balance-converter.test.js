@@ -1,38 +1,38 @@
 /**
  * Balance Converter Tests - TDD approach
- * Tests for conversion between NANO and raw units
+ * Tests for conversion between KSHS and raw units
  */
 
 const { BalanceConverter } = require('../utils/balance-converter');
 
 describe('BalanceConverter', () => {
     describe('rawToNano conversion', () => {
-        test('should convert 1 NANO (10^30 raw) correctly', () => {
-            const raw = '1000000000000000000000000000000'; // 1 NANO
+        test('should convert 1 KSHS (10^30 raw) correctly', () => {
+            const raw = '1000000000000000000000000000000'; // 1 KSHS
             const result = BalanceConverter.rawToNano(raw);
             expect(result).toBe('1');
         });
 
-        test('should convert 0.1 NANO correctly', () => {
-            const raw = '100000000000000000000000000000'; // 0.1 NANO
+        test('should convert 0.1 KSHS correctly', () => {
+            const raw = '100000000000000000000000000000'; // 0.1 KSHS
             const result = BalanceConverter.rawToNano(raw);
             expect(result).toBe('0.1');
         });
 
-        test('should convert 0.001 NANO correctly', () => {
-            const raw = '1000000000000000000000000000'; // 0.001 NANO
+        test('should convert 0.001 KSHS correctly', () => {
+            const raw = '1000000000000000000000000000'; // 0.001 KSHS
             const result = BalanceConverter.rawToNano(raw);
             expect(result).toBe('0.001');
         });
 
-        test('should convert 0.0011 NANO correctly (user reported bug)', () => {
-            const raw = '1100000000000000000000000000'; // 0.0011 NANO
+        test('should convert 0.0011 KSHS correctly (user reported bug)', () => {
+            const raw = '1100000000000000000000000000'; // 0.0011 KSHS
             const result = BalanceConverter.rawToNano(raw);
             expect(result).toBe('0.0011');
         });
 
-        test('should convert 0.000001 NANO correctly', () => {
-            const raw = '1000000000000000000000000'; // 0.000001 NANO
+        test('should convert 0.000001 KSHS correctly', () => {
+            const raw = '1000000000000000000000000'; // 0.000001 KSHS
             const result = BalanceConverter.rawToNano(raw);
             expect(result).toBe('0.000001');
         });
@@ -46,44 +46,44 @@ describe('BalanceConverter', () => {
         test('should convert large amounts correctly', () => {
             const raw = '133248297920938463463374607431768211455'; // Large amount
             const result = BalanceConverter.rawToNano(raw);
-            // This is actually 133248297.920938463463374607431768211455 NANO
+            // This is actually 133248297.920938463463374607431768211455 KSHS
             expect(parseFloat(result)).toBeCloseTo(133248297.920938, 6);
         });
 
         test('should handle maximum precision', () => {
-            const raw = '1234567890123456789012345678901'; // 1.234567890123... NANO
+            const raw = '1234567890123456789012345678901'; // 1.234567890123... KSHS
             const result = BalanceConverter.rawToNano(raw);
             expect(result).toMatch(/^1\.234567/);
         });
     });
 
     describe('nanoToRaw conversion', () => {
-        test('should convert 1 NANO to raw correctly', () => {
-            const nano = '1';
+        test('should convert 1 KSHS to raw correctly', () => {
+            const kakitu = '1';
             const result = BalanceConverter.nanoToRaw(nano);
             expect(result).toBe('1000000000000000000000000000000');
         });
 
-        test('should convert 0.1 NANO to raw correctly', () => {
-            const nano = '0.1';
+        test('should convert 0.1 KSHS to raw correctly', () => {
+            const kakitu = '0.1';
             const result = BalanceConverter.nanoToRaw(nano);
             expect(result).toBe('100000000000000000000000000000');
         });
 
-        test('should convert 0.001 NANO to raw correctly', () => {
-            const nano = '0.001';
+        test('should convert 0.001 KSHS to raw correctly', () => {
+            const kakitu = '0.001';
             const result = BalanceConverter.nanoToRaw(nano);
             expect(result).toBe('1000000000000000000000000000');
         });
 
-        test('should convert 0.0011 NANO to raw correctly', () => {
-            const nano = '0.0011';
+        test('should convert 0.0011 KSHS to raw correctly', () => {
+            const kakitu = '0.0011';
             const result = BalanceConverter.nanoToRaw(nano);
             expect(result).toBe('1100000000000000000000000000');
         });
 
         test('should handle numeric input', () => {
-            const nano = 0.5;
+            const kakitu = 0.5;
             const result = BalanceConverter.nanoToRaw(nano);
             expect(result).toBe('500000000000000000000000000000');
         });

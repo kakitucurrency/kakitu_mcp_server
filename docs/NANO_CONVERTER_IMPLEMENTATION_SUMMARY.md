@@ -1,29 +1,29 @@
-# Nano Converter Implementation Summary
+# Kakitu Converter Implementation Summary
 
 ## 📋 Overview
 
-Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP tool to help clients who are unfamiliar with Nano's unique 30 decimal place format.
+Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an MCP tool to help clients who are unfamiliar with Kakitu's unique 30 decimal place format.
 
 ---
 
 ## ✅ What Was Added
 
-### 1. Core Utility Module (`utils/nano-converter.js`)
-- **Purpose**: Centralized Nano conversion utilities using string-based BigInt arithmetic
+### 1. Core Utility Module (`utils/kakitu-converter.js`)
+- **Purpose**: Centralized Kakitu conversion utilities using string-based BigInt arithmetic
 - **Key Features**:
-  - `xnoToRaw()` - Convert XNO to raw units (for transactions)
-  - `rawToXNO()` - Convert raw units to XNO (for display)
-  - `isValidNanoAddress()` - Validate Nano address format
-  - `formatXNO()` - Format XNO amounts for display
+  - `xnoToRaw()` - Convert KSHS to raw units (for transactions)
+  - `rawToXNO()` - Convert raw units to KSHS (for display)
+  - `isValidNanoAddress()` - Validate Kakitu address format
+  - `formatXNO()` - Format KSHS amounts for display
   - `getConversionExamples()` - Reference conversion table
   - `getConversionHelp()` - Comprehensive help information
   - `isValidRaw()` - Validate raw amount format
   - `formatBalance()` - Format complete balance objects
 
-### 2. Comprehensive Test Suite (`tests/nano-converter.test.js`)
+### 2. Comprehensive Test Suite (`tests/kakitu-converter.test.js`)
 - **42 passing tests** covering:
-  - XNO to raw conversions (11 tests)
-  - Raw to XNO conversions (7 tests)
+  - KSHS to raw conversions (11 tests)
+  - Raw to KSHS conversions (7 tests)
   - Address validation (7 tests)
   - Display formatting (6 tests)
   - Round-trip conversions (3 tests)
@@ -33,7 +33,7 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
 
 ### 3. MCP Server Integration (`src/server.js`)
 - **New MCP Method**: `nanoConverterHelp`
-- **Description**: Get comprehensive help for Nano conversion utilities and number formats
+- **Description**: Get comprehensive help for Kakitu conversion utilities and number formats
 - **Parameters**: None (zero configuration required)
 - **Returns**: 
   - Conversion formulas and examples
@@ -44,7 +44,7 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
   - Integration guidance with other MCP methods
   - Warnings about 30 decimal places
 
-### 4. MCP Integration Tests (`tests/nano-converter-mcp.test.js`)
+### 4. MCP Integration Tests (`tests/kakitu-converter-mcp.test.js`)
 - **19 passing tests** covering:
   - Tool availability in initialize/tools list
   - Response structure validation
@@ -52,19 +52,19 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
   - Error handling
   - Logging verification
 
-### 5. Comprehensive Documentation (`docs/NANO_CONVERTER_GUIDE.md`)
+### 5. Comprehensive Documentation (`docs/KAKITU_CONVERTER_GUIDE.md`)
 - **Complete developer guide** including:
-  - Problem explanation (why Nano is different)
+  - Problem explanation (why Kakitu is different)
   - Function-by-function documentation
   - Complete transaction workflow example
   - Common mistakes and how to avoid them
   - Testing checklist
   - Integration options
 
-### 6. Usage Examples (`examples/nano-converter-usage.js`)
+### 6. Usage Examples (`examples/kakitu-converter-usage.js`)
 - **10 complete examples** demonstrating:
-  - XNO to raw conversion
-  - Raw to XNO conversion
+  - KSHS to raw conversion
+  - Raw to KSHS conversion
   - Address validation
   - Display formatting
   - Round-trip precision testing
@@ -88,7 +88,7 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
 - **Scientific notation support**: Properly handles numbers like 1e-9
 
 ### Comprehensive Validation
-- **Address format checking**: Validates nano_/xrb_ prefixes and checksums
+- **Address format checking**: Validates kshs_/xrb_ prefixes and checksums
 - **Amount validation**: Ensures valid raw amounts
 - **Error prevention**: Catches common mistakes before transactions
 
@@ -108,7 +108,7 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
 
 ## 📊 Test Results
 
-### Unit Tests (nano-converter.test.js)
+### Unit Tests (kakitu-converter.test.js)
 ```
 ✅ 42/42 tests passing
 - xnoToRaw conversion: 11/11 ✅
@@ -121,7 +121,7 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
 - Helper functions: 2/2 ✅
 ```
 
-### Integration Tests (nano-converter-mcp.test.js)
+### Integration Tests (kakitu-converter-mcp.test.js)
 ```
 ✅ 19/19 tests passing
 - nanoConverterHelp method: 12/12 ✅
@@ -144,7 +144,7 @@ Successfully implemented a comprehensive Nano (XNO) conversion utility as an MCP
 ### Via MCP Server (Recommended)
 
 ```bash
-POST https://nano-mcp.replit.app
+POST https://kakitu-mcp.replit.app
 {
     "jsonrpc": "2.0",
     "method": "nanoConverterHelp",
@@ -164,22 +164,22 @@ Returns comprehensive help information including:
 ### Direct Usage in Code
 
 ```javascript
-const { NanoConverter } = require('./utils/nano-converter');
+const { KakituConverter } = require('./utils/kakitu-converter');
 
 // Convert for transaction
-const raw = NanoConverter.xnoToRaw("0.1");
+const raw = KakituConverter.xnoToRaw("0.1");
 // => "100000000000000000000000000000"
 
 // Convert for display
-const xno = NanoConverter.rawToXNO("100000000000000000000000000000");
+const kshs = KakituConverter.rawToXNO("100000000000000000000000000000");
 // => "0.1"
 
 // Validate address
-const isValid = NanoConverter.isValidNanoAddress("nano_3xxx...");
+const isValid = KakituConverter.isValidNanoAddress("kshs_3xxx...");
 // => true or false
 
 // Format for display
-const formatted = NanoConverter.formatXNO("0.123456789", 6);
+const formatted = KakituConverter.formatXNO("0.123456789", 6);
 // => "0.123457"
 ```
 
@@ -188,12 +188,12 @@ const formatted = NanoConverter.formatXNO("0.123456789", 6);
 ## 📁 Files Created/Modified
 
 ### New Files
-- `utils/nano-converter.js` - Core conversion utility (222 lines)
-- `tests/nano-converter.test.js` - Unit tests (242 lines)
-- `tests/nano-converter-mcp.test.js` - Integration tests (234 lines)
-- `docs/NANO_CONVERTER_GUIDE.md` - Developer guide (600+ lines)
-- `examples/nano-converter-usage.js` - Usage examples (250+ lines)
-- `NANO_CONVERTER_IMPLEMENTATION_SUMMARY.md` - This file
+- `utils/kakitu-converter.js` - Core conversion utility (222 lines)
+- `tests/kakitu-converter.test.js` - Unit tests (242 lines)
+- `tests/kakitu-converter-mcp.test.js` - Integration tests (234 lines)
+- `docs/KAKITU_CONVERTER_GUIDE.md` - Developer guide (600+ lines)
+- `examples/kakitu-converter-usage.js` - Usage examples (250+ lines)
+- `KAKITU_CONVERTER_IMPLEMENTATION_SUMMARY.md` - This file
 
 ### Modified Files
 - `src/server.js` - Added nanoConverterHelp MCP method
@@ -204,15 +204,15 @@ const formatted = NanoConverter.formatXNO("0.123456789", 6);
 ## 🎓 Why This Matters
 
 ### The Problem
-Most cryptocurrency developers expect 6-8 decimal places (like Bitcoin or Ethereum). Nano uses **30 decimal places**, which creates unique challenges:
+Most cryptocurrency developers expect 6-8 decimal places (like Bitcoin or Ethereum). Kakitu uses **30 decimal places**, which creates unique challenges:
 
 1. **Precision Loss**: JavaScript's `Number` type can't handle 30 decimal places accurately
 2. **Floating-Point Errors**: Normal math operations cause rounding errors
-3. **Client Confusion**: Developers don't know to convert XNO to "raw" units
-4. **Transaction Failures**: Using XNO values instead of raw causes errors
+3. **Client Confusion**: Developers don't know to convert KSHS to "raw" units
+4. **Transaction Failures**: Using KSHS values instead of raw causes errors
 
 ### The Solution
-The NanoConverter provides:
+The KakituConverter provides:
 - ✅ String-based BigInt arithmetic (no precision loss)
 - ✅ Clear conversion functions (xnoToRaw, rawToXNO)
 - ✅ Address validation (prevents typos)
@@ -241,9 +241,9 @@ Before using in production:
 
 ### For Developers
 - **Quick Reference**: Call `nanoConverterHelp` MCP method
-- **Developer Guide**: `docs/NANO_CONVERTER_GUIDE.md`
-- **Code Examples**: `examples/nano-converter-usage.js`
-- **Unit Tests**: `tests/nano-converter.test.js`
+- **Developer Guide**: `docs/KAKITU_CONVERTER_GUIDE.md`
+- **Code Examples**: `examples/kakitu-converter-usage.js`
+- **Unit Tests**: `tests/kakitu-converter.test.js`
 
 ### For Users
 - **README**: Main README.md updated with new tool
@@ -287,5 +287,5 @@ Future improvements could include:
 
 **Total Time**: Following TDD methodology with comprehensive testing and documentation.
 
-**Result**: A production-ready, well-tested, fully-documented Nano conversion utility that helps developers avoid the common pitfalls of Nano's 30 decimal place format.
+**Result**: A production-ready, well-tested, fully-documented Kakitu conversion utility that helps developers avoid the common pitfalls of Kakitu's 30 decimal place format.
 

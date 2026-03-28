@@ -1,6 +1,6 @@
 /**
  * Test Wallet Manager
- * Manages generation, storage, and tracking of test wallets for NANO MCP integration testing
+ * Manages generation, storage, and tracking of test wallets for Kakitu MCP integration testing
  * Provides functionality to create two test wallets, track their funding status, and persist data
  */
 
@@ -80,12 +80,12 @@ class TestWalletManager {
                 wallet2,
                 created,
                 status: 'awaiting_funding',
-                message: 'Test wallets generated successfully. Please fund both wallets with test NANO to proceed with testing.',
+                message: 'Test wallets generated successfully. Please fund both wallets with test KSHS to proceed with testing.',
                 fundingInstructions: [
-                    `Send test NANO to Wallet 1: ${wallet1.address}`,
-                    `Send test NANO to Wallet 2: ${wallet2.address}`,
+                    `Send test KSHS to Wallet 1: ${wallet1.address}`,
+                    `Send test KSHS to Wallet 2: ${wallet2.address}`,
                     'After funding, use checkFundingStatus to verify both wallets are funded',
-                    'Recommended test amount: 0.1 NANO or more per wallet'
+                    'Recommended test amount: 0.1 KSHS or more per wallet'
                 ]
             };
         } catch (error) {

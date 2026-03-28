@@ -3,15 +3,15 @@
  * Tests for RPC work generation timeout, error handling, and retry logic
  */
 
-const { NanoTransactions } = require('../utils/nano-transactions');
+const { KakituTransactions } = require('../utils/kakitu-transactions');
 const { tools } = require('nanocurrency-web');
 
 describe('RPC Work Generation Error Handling', () => {
     let nanoTransactions;
     
     beforeEach(() => {
-        nanoTransactions = new NanoTransactions({
-            apiUrl: 'https://uk1.public.xnopay.com/proxy',
+        nanoTransactions = new KakituTransactions({
+            apiUrl: 'https://kakitu.org',
             rpcKey: null
         });
         
@@ -160,7 +160,7 @@ describe('RPC Work Generation Error Handling', () => {
         test('should handle work generation timeout in receiveAllPending without infinite loop', async () => {
             // Create a test wallet
             const testWallet = {
-                address: 'nano_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                address: 'kshs_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                 privateKey: '0000000000000000000000000000000000000000000000000000000000000001'
             };
             
@@ -184,7 +184,7 @@ describe('RPC Work Generation Error Handling', () => {
 
         test('should not create infinite recursion in receiveAllPending', async () => {
             const testWallet = {
-                address: 'nano_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
+                address: 'kshs_3test1234567890abcdefghijklmnopqrstuvwxyz1234567890abcdefg',
                 privateKey: '0000000000000000000000000000000000000000000000000000000000000001'
             };
             
@@ -203,8 +203,8 @@ describe('RPC Work Generation Error Handling', () => {
             // Mock getPendingBlocks to return 2 pending blocks
             jest.spyOn(nanoTransactions, 'getPendingBlocks').mockResolvedValue({
                 blocks: {
-                    'hash1': { amount: '1000000000000000000000000', source: 'nano_1source1' },
-                    'hash2': { amount: '2000000000000000000000000', source: 'nano_1source2' }
+                    'hash1': { amount: '1000000000000000000000000', source: 'kshs_1source1' },
+                    'hash2': { amount: '2000000000000000000000000', source: 'kshs_1source2' }
                 }
             });
             

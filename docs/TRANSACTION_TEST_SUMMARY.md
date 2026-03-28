@@ -1,15 +1,15 @@
-# 🔄 NANO MCP Client - Transaction Flow Testing Summary
+# 🔄 Kakitu MCP Client - Transaction Flow Testing Summary
 
 ## Overview
 
-Created and tested a comprehensive transaction flow test suite that validates complete send/receive cycles between two wallets using the production NANO MCP Server.
+Created and tested a comprehensive transaction flow test suite that validates complete send/receive cycles between two wallets using the production Kakitu MCP Server.
 
 ## 🎯 Test Objective
 
 Verify that the TypeScript client can successfully:
-1. Send NANO from Wallet 2 to Wallet 1
+1. Send KSHS from Wallet 2 to Wallet 1
 2. Detect and receive pending blocks on Wallet 1
-3. Send NANO back from Wallet 1 to Wallet 2
+3. Send KSHS back from Wallet 1 to Wallet 2
 4. Detect and receive pending blocks on Wallet 2
 5. Verify balance changes throughout the cycle
 
@@ -19,12 +19,12 @@ Verify that the TypeScript client can successfully:
 
 | Wallet | Address | Initial Balance |
 |--------|---------|----------------|
-| Wallet 1 | `nano_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x` | 0.000000 NANO |
-| Wallet 2 | `nano_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5` | 0.000200 NANO |
+| Wallet 1 | `kshs_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x` | 0.000000 KSHS |
+| Wallet 2 | `kshs_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5` | 0.000200 KSHS |
 
-**Test Amount:** 0.0001 NANO (100000000000000000000000000 raw)
+**Test Amount:** 0.0001 KSHS (100000000000000000000000000 raw)
 
-**Server:** `https://nano-mcp.replit.app` (production)
+**Server:** `https://kakitu-mcp.replit.app` (production)
 
 ## 🔬 Test Flow (8 Steps)
 
@@ -34,7 +34,7 @@ Verify that the TypeScript client can successfully:
 - **Status:** PASSED
 
 ### Step 2: Send from Wallet 2 to Wallet 1 ⏳
-- Send 0.0001 NANO transaction
+- Send 0.0001 KSHS transaction
 - Wait for Proof-of-Work generation (10-15s)
 - **Status:** PENDING (server update required)
 
@@ -54,7 +54,7 @@ Verify that the TypeScript client can successfully:
 - **Status:** PENDING
 
 ### Step 6: Send from Wallet 1 back to Wallet 2 ⏳
-- Return 0.0001 NANO to Wallet 2
+- Return 0.0001 KSHS to Wallet 2
 - Complete the round-trip transaction
 - **Status:** PENDING
 
@@ -78,11 +78,11 @@ Code: -32603 (Internal Error)
 ```
 
 **Root Cause:**
-In `utils/nano-transactions.js`, the `sendTransaction` function defined variables inside the try block:
+In `utils/kakitu-transactions.js`, the `sendTransaction` function defined variables inside the try block:
 ```javascript
 async sendTransaction(fromAddress, privateKey, toAddress, amountRaw) {
     try {
-        const formattedFromAddress = String(fromAddress).replace('xrb_', 'nano_');
+        const formattedFromAddress = String(fromAddress).replace('xrb_', 'kshs_');
         // ... more code ...
     } catch (error) {
         // ERROR: formattedFromAddress not in scope here!
@@ -106,7 +106,7 @@ async sendTransaction(fromAddress, privateKey, toAddress, amountRaw) {
     let amountRawString;
     
     try {
-        formattedFromAddress = String(fromAddress).replace('xrb_', 'nano_');
+        formattedFromAddress = String(fromAddress).replace('xrb_', 'kshs_');
         // ... rest of code ...
     } catch (error) {
         // Now these variables are in scope!
@@ -125,7 +125,7 @@ async sendTransaction(fromAddress, privateKey, toAddress, amountRaw) {
 
 ### Enhanced Error Logging
 
-Added comprehensive error logging to `nano-mcp-client.ts`:
+Added comprehensive error logging to `kakitu-mcp-client.ts`:
 
 ```typescript
 // Debug: Log full response for debugging
@@ -211,7 +211,7 @@ npm run test:transaction
 ### For User:
 
 1. **Update Production Server:**
-   - Go to https://replit.com/@your-username/NANO_MCP_SERVER
+   - Go to https://replit.com/@your-username/KAKITU_MCP_SERVER
    - Pull latest code from GitHub (commit aed3c15 or later)
    - Restart the server
 
@@ -271,8 +271,8 @@ npm run test:transaction
 ## 📚 Related Files
 
 - **Test Suite:** `client-examples/typescript/transaction-test.ts`
-- **Client Code:** `client-examples/typescript/nano-mcp-client.ts`
-- **Server Fix:** `utils/nano-transactions.js`
+- **Client Code:** `client-examples/typescript/kakitu-mcp-client.ts`
+- **Server Fix:** `utils/kakitu-transactions.js`
 - **Test Wallets:** `tests/test-wallets.json`
 
 ## 🔗 GitHub Commits
@@ -285,5 +285,5 @@ npm run test:transaction
 
 **Status:** ✅ Development Complete, ⏳ Awaiting Production Deployment
 
-**Next Action:** Update production server at https://nano-mcp.replit.app with latest code
+**Next Action:** Update production server at https://kakitu-mcp.replit.app with latest code
 

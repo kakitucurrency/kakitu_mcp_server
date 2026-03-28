@@ -1,5 +1,5 @@
 /**
- * Production-Level NANO MCP Client (TypeScript)
+ * Production-Level Kakitu MCP Client (TypeScript)
  * 
  * Features:
  * - Full TypeScript type safety
@@ -10,9 +10,9 @@
  * 
  * Usage:
  * ```typescript
- * import { NanoMcpClient } from './nano-mcp-client';
+ * import { NanoMcpClient } from './kakitu-mcp-client';
  * 
- * const client = new NanoMcpClient('https://nano-mcp.replit.app');
+ * const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
  * const wallet = await client.generateWallet();
  * ```
  */
@@ -21,7 +21,7 @@
 // TYPE DEFINITIONS (from JSON Schema)
 // ============================================================================
 
-export type NanoAddress = string; // Pattern: ^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$
+export type NanoAddress = string; // Pattern: ^(kakitu|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$
 export type PrivateKey = string;   // Pattern: ^[0-9A-Fa-f]{64}$
 export type BlockHash = string;    // Pattern: ^[0-9A-F]{64}$
 export type RawAmount = string;    // Pattern: ^[0-9]+$
@@ -98,8 +98,8 @@ export interface ReceiveAllPendingResult {
 export interface ConvertBalanceResult {
   original: string;
   converted: string;
-  from: "nano" | "raw";
-  to: "nano" | "raw";
+  from: "kakitu" | "raw";
+  to: "kakitu" | "raw";
 }
 
 export interface QrCodeResult {
@@ -116,19 +116,19 @@ const TRANSACTION_TIMEOUT = 60000; // 60 seconds (for PoW generation)
 const MAX_RETRIES = 3;
 const INITIAL_RETRY_DELAY = 2000; // 2 seconds
 
-// NANO address regex for validation
-const NANO_ADDRESS_REGEX = /^(nano|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$/;
+// KSHS address regex for validation
+const KAKITU_ADDRESS_REGEX = /^(kakitu|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$/;
 const PRIVATE_KEY_REGEX = /^[0-9A-Fa-f]{64}$/;
 
 // ============================================================================
-// NANO MCP CLIENT CLASS
+// Kakitu MCP CLIENT CLASS
 // ============================================================================
 
 export class NanoMcpClient {
   private baseUrl: string;
   private requestId: number = 1;
 
-  constructor(baseUrl: string = 'https://nano-mcp.replit.app') {
+  constructor(baseUrl: string = 'https://kakitu-mcp.replit.app') {
     this.baseUrl = baseUrl.replace(/\/$/, ''); // Remove trailing slash
   }
 
@@ -270,9 +270,9 @@ export class NanoMcpClient {
     if (!address || typeof address !== 'string') {
       throw new Error(`${paramName} is required and must be a string`);
     }
-    if (!NANO_ADDRESS_REGEX.test(address)) {
+    if (!KAKITU_ADDRESS_REGEX.test(address)) {
       throw new Error(
-        `${paramName} must be a valid NANO address (starts with 'nano_' or 'xrb_', 64-65 chars)`
+        `${paramName} must be a valid KSHS address (starts with 'kshs_' or 'xrb_', 64-65 chars)`
       );
     }
   }
@@ -326,7 +326,7 @@ export class NanoMcpClient {
   // ==========================================================================
 
   /**
-   * Generate a new NANO wallet
+   * Generate a new Kakitu wallet
    */
   async generateWallet(): Promise<GenerateWalletResult> {
     return this.callMCP<GenerateWalletResult>("generateWallet", {});
@@ -387,7 +387,7 @@ export class NanoMcpClient {
   }
 
   /**
-   * Send NANO transaction with automatic retries on transient errors
+   * Send KSHS transaction with automatic retries on transient errors
    * Validates all parameters before sending
    */
   async sendTransaction(
@@ -412,21 +412,21 @@ export class NanoMcpClient {
   }
 
   /**
-   * Convert between NANO and raw units
+   * Convert between KSHS and raw units
    */
   async convertBalance(
     amount: string,
-    from: "nano" | "raw",
-    to: "nano" | "raw"
+    from: "kakitu" | "raw",
+    to: "kakitu" | "raw"
   ): Promise<ConvertBalanceResult> {
     if (!amount || typeof amount !== 'string') {
       throw new Error('amount is required and must be a string');
     }
-    if (!['nano', 'raw'].includes(from)) {
-      throw new Error('from must be "nano" or "raw"');
+    if (!['kakitu', 'raw'].includes(from)) {
+      throw new Error('from must be "kakitu" or "raw"');
     }
-    if (!['nano', 'raw'].includes(to)) {
-      throw new Error('to must be "nano" or "raw"');
+    if (!['kakitu', 'raw'].includes(to)) {
+      throw new Error('to must be "kakitu" or "raw"');
     }
     if (from === to) {
       throw new Error('from and to must be different units');
@@ -464,21 +464,21 @@ export class NanoMcpClient {
   // ==========================================================================
 
   /**
-   * Convert NANO to raw (client-side conversion)
+   * Convert KSHS to raw (client-side conversion)
    */
   nanoToRaw(nanoAmount: string): string {
-    const nano = parseFloat(nanoAmount);
-    if (isNaN(nano) || nano < 0) {
-      throw new Error('Invalid NANO amount');
+    const kakitu = parseFloat(nanoAmount);
+    if (isNaN(kakitu) || kakitu < 0) {
+      throw new Error('Invalid KSHS amount');
     }
-    // 1 NANO = 10^30 raw
+    // 1 KSHS = 10^30 raw
     const multiplier = BigInt('1000000000000000000000000000000');
-    const nanoAsRaw = BigInt(Math.floor(nano * 1e6)) * multiplier / BigInt(1e6);
+    const nanoAsRaw = BigInt(Math.floor(kakitu * 1e6)) * multiplier / BigInt(1e6);
     return nanoAsRaw.toString();
   }
 
   /**
-   * Convert raw to NANO (client-side conversion)
+   * Convert raw to KSHS (client-side conversion)
    */
   rawToNano(rawAmount: string): string {
     try {
@@ -486,10 +486,10 @@ export class NanoMcpClient {
       if (raw < 0n) {
         throw new Error('Invalid raw amount');
       }
-      // 1 NANO = 10^30 raw
+      // 1 KSHS = 10^30 raw
       const divisor = BigInt('1000000000000000000000000000000');
-      const nano = Number(raw) / Number(divisor);
-      return nano.toFixed(6);
+      const kakitu = Number(raw) / Number(divisor);
+      return kakitu.toFixed(6);
     } catch (error) {
       throw new Error('Invalid raw amount');
     }
@@ -549,36 +549,36 @@ export class NanoMcpClient {
 // ============================================================================
 
 /**
- * Convert NANO to raw (for use in sendTransaction)
+ * Convert KSHS to raw (for use in sendTransaction)
  */
 export function nanoToRaw(nanoAmount: string | number): string {
-  const nano = typeof nanoAmount === 'string' ? parseFloat(nanoAmount) : nanoAmount;
-  if (isNaN(nano) || nano < 0) {
-    throw new Error('Invalid NANO amount');
+  const kakitu = typeof nanoAmount === 'string' ? parseFloat(nanoAmount) : nanoAmount;
+  if (isNaN(kakitu) || kakitu < 0) {
+    throw new Error('Invalid KSHS amount');
   }
   
-  // 1 NANO = 10^30 raw
-  const rawBigInt = BigInt(Math.floor(nano * 1e6)) * BigInt('1000000000000000000000000');
+  // 1 KSHS = 10^30 raw
+  const rawBigInt = BigInt(Math.floor(kakitu * 1e6)) * BigInt('1000000000000000000000000');
   return rawBigInt.toString();
 }
 
 /**
- * Convert raw to NANO (for display)
+ * Convert raw to KSHS (for display)
  */
 export function rawToNano(rawAmount: string): string {
   try {
     const raw = BigInt(rawAmount);
-    const nano = Number(raw) / 1e30;
-    return nano.toFixed(6);
+    const kakitu = Number(raw) / 1e30;
+    return kakitu.toFixed(6);
   } catch (error) {
     throw new Error('Invalid raw amount');
   }
 }
 
 /**
- * Constants for common XNO amounts
+ * Constants for common KSHS amounts
  */
-export const XNO = {
+export const KSHS = {
   ONE_RAW: '1',
   ONE_NANO: '1000000000000000000000000000000',
   POINT_ONE_NANO: '100000000000000000000000000000',
@@ -595,7 +595,7 @@ export const XNO = {
  * 
  * ```typescript
  * async function example() {
- *   const client = new NanoMcpClient('https://nano-mcp.replit.app');
+ *   const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
  *   
  *   try {
  *     // 1. Generate wallet
@@ -620,7 +620,7 @@ export const XNO = {
  *     if (status.canSend) {
  *       const tx = await client.sendTransaction(
  *         wallet.address,
- *         'nano_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
+ *         'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
  *         nanoToRaw('0.001'),
  *         wallet.privateKey
  *       );

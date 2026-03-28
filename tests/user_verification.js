@@ -1,8 +1,8 @@
-const { NanoMCPServer } = require('../src/server');
+const { KakituMCPServer } = require('../src/server');
 
 // User provided credentials
 const USER_WALLET = {
-    address: "nano_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza",
+    address: "kshs_35jookk6m8yx5sei1x4x4ixoqg54iw3dfjczd9f89eborcjxb16wisbbquza",
     privateKey: "55496ae.",
     publicKey: "8e35aca4499bdd1e5900745d143b5bb8628702b6c55f59da63b135c2a3d4809c"
 };
@@ -10,7 +10,7 @@ const USER_WALLET = {
 async function runVerification() {
     console.log("Starting verification with user wallet...");
     
-    const server = new NanoMCPServer({
+    const server = new KakituMCPServer({
         transport: 'stdio'
     });
 
@@ -58,7 +58,7 @@ async function runVerification() {
     // 6. Test conversion
     await sendRequest('convertBalance', {
         amount: "1",
-        from: "nano",
+        from: "kakitu",
         to: "raw"
     });
 

@@ -1,6 +1,6 @@
 /**
  * RPC Helper Utility
- * Provides a simple wrapper for making RPC calls to Nano nodes
+ * Provides a simple wrapper for making RPC calls to Kakitu nodes
  */
 
 const https = require('https');
@@ -8,7 +8,7 @@ const http = require('http');
 const { URL } = require('url');
 
 /**
- * Make an RPC call to a Nano node
+ * Make an RPC call to a Kakitu node
  * @param {string} rpcUrl - The RPC node URL
  * @param {Object} params - RPC call parameters (should include 'action')
  * @param {string|null} rpcKey - Optional RPC key for authenticated endpoints

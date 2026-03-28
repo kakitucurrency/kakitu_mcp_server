@@ -1,28 +1,28 @@
-# NANO MCP Server - Setup Complete ✅
+# Kakitu MCP Server - Setup Complete ✅
 
 ## Summary
 
-Your NANO MCP Server has been successfully configured and is now running!
+Your Kakitu MCP Server has been successfully configured and is now running!
 
 ## What Was Done
 
 ### 1. Repository Downloaded
-- Cloned from: https://github.com/dhyabi2/NANO_MCP_SERVER
-- Location: `C:\Users\Ahmed.aldhiyabi\Downloads\cursorApps\NANO_MCP_SERVER`
+- Cloned from: https://github.com/dhyabi2/KAKITU_MCP_SERVER
+- Location: `C:\Users\Ahmed.aldhiyabi\Downloads\cursorApps\KAKITU_MCP_SERVER`
 
 ### 2. Configuration Updated
 The following files were modified to use your specified RPC URL without an API key:
 
 #### **src/index.js**
-- Changed RPC URL to: `https://uk1.public.xnopay.com/proxy`
+- Changed RPC URL to: `https://kakitu.org`
 - Removed API key requirement (set to `null`)
 
-#### **utils/nano-transactions.js**
+#### **utils/kakitu-transactions.js**
 - Updated constructor to properly handle `null` API keys
 - Modified `rpcCall` method to only include API key parameter when not null
 
 #### **src/interfaces/pending-receive.interface.js**
-- Updated to use the same xnopay RPC URL
+- Updated to use the same kakitu.org RPC URL
 - Removed API key requirement
 
 ### 3. Dependencies Verified
@@ -42,7 +42,7 @@ All required npm packages are installed and up-to-date:
 🟢 **Server is RUNNING**
 
 - **URL**: http://localhost:8080
-- **RPC Node**: https://uk1.public.xnopay.com/proxy
+- **RPC Node**: https://kakitu.org
 - **API Key**: None required
 - **Port**: 8080
 - **Transport**: HTTP
@@ -90,7 +90,7 @@ $body = @{
     jsonrpc = "2.0"
     method = "getBalance"
     params = @{
-        address = "nano_your_address_here"
+        address = "kshs_your_address_here"
     }
     id = 1
 } | ConvertTo-Json
@@ -104,8 +104,8 @@ $body = @{
     jsonrpc = "2.0"
     method = "sendTransaction"
     params = @{
-        fromAddress = "nano_sender_address"
-        toAddress = "nano_receiver_address"
+        fromAddress = "kshs_sender_address"
+        toAddress = "kshs_receiver_address"
         amountRaw = "1000000000000000000000000"
         privateKey = "your_private_key"
     }
@@ -120,12 +120,12 @@ Invoke-RestMethod -Uri "http://localhost:8080/" -Method POST -Body $body -Conten
 | Method | Description |
 |--------|-------------|
 | `initialize` | Get server capabilities and version |
-| `generateWallet` | Create a new NANO wallet |
+| `generateWallet` | Create a new Kakitu wallet |
 | `getBalance` | Check account balance and pending amounts |
 | `getAccountInfo` | Get detailed account information |
 | `getPendingBlocks` | List pending transactions |
 | `initializeAccount` | Initialize a new account |
-| `sendTransaction` | Send NANO to another address |
+| `sendTransaction` | Send KSHS to another address |
 | `receiveAllPending` | Process all pending receive blocks |
 
 ## Managing the Server
@@ -162,7 +162,7 @@ Test-NetConnection -ComputerName localhost -Port 8080
 
 ### Modified Files:
 1. `src/index.js` - Updated RPC configuration
-2. `utils/nano-transactions.js` - Added null API key handling
+2. `utils/kakitu-transactions.js` - Added null API key handling
 3. `src/interfaces/pending-receive.interface.js` - Updated configuration
 
 ### New Files:
@@ -192,9 +192,9 @@ Test-NetConnection -ComputerName localhost -Port 8080
 - Check firewall settings
 
 ### RPC Errors
-- The xnopay public node should work without authentication
+- The kakitu.org public node should work without authentication
 - If you encounter issues, check the console logs
-- Verify the RPC URL is accessible: https://uk1.public.xnopay.com/proxy
+- Verify the RPC URL is accessible: https://kakitu.org
 
 ## Next Steps
 
@@ -204,13 +204,13 @@ Test-NetConnection -ComputerName localhost -Port 8080
 
 ## Support
 
-For issues with the NANO MCP Server:
-- GitHub: https://github.com/dhyabi2/NANO_MCP_SERVER
+For issues with the Kakitu MCP Server:
+- GitHub: https://github.com/dhyabi2/KAKITU_MCP_SERVER
 - Check logs in: `logs/mcp.log`
 
 ---
 
 **✅ Setup completed successfully!**
 
-The NANO MCP Server is ready to handle NANO cryptocurrency transactions using the xnopay public RPC node.
+The Kakitu MCP Server is ready to handle Kakitu cryptocurrency transactions using the kakitu.org public RPC node.
 

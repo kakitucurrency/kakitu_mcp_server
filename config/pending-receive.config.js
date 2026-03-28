@@ -4,7 +4,7 @@
  */
 const PENDING_RECEIVE_CONFIG = {
     // RPC node configuration
-    rpcNodes: process.env.PENDING_RPC_NODES ? JSON.parse(process.env.PENDING_RPC_NODES) : ['https://rpc.nano.to'],
+    rpcNodes: process.env.PENDING_RPC_NODES ? JSON.parse(process.env.PENDING_RPC_NODES) : ['https://rpc.kakitu.org'],
     rpcKey: process.env.PENDING_RPC_KEY || 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23',
     
     // Endpoint configuration

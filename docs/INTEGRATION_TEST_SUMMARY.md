@@ -1,8 +1,8 @@
-# 🚀 NANO MCP Client - Integration Test Summary
+# 🚀 Kakitu MCP Client - Integration Test Summary
 
 ## Overview
 
-Created a comprehensive integration test suite that uses **existing test wallets** to validate the TypeScript client against the production NANO MCP Server at `https://nano-mcp.replit.app`.
+Created a comprehensive integration test suite that uses **existing test wallets** to validate the TypeScript client against the production Kakitu MCP Server at `https://kakitu-mcp.replit.app`.
 
 ## Key Features
 
@@ -13,11 +13,11 @@ Created a comprehensive integration test suite that uses **existing test wallets
    - Returns pending block count and details
    
 2. **`nanoToRaw(nanoAmount)`**
-   - Client-side conversion from NANO to raw units
+   - Client-side conversion from KSHS to raw units
    - Eliminates need for server calls for simple conversions
    
 3. **`rawToNano(rawAmount)`**
-   - Client-side conversion from raw to NANO units
+   - Client-side conversion from raw to KSHS units
    - Provides immediate feedback without network latency
 
 ### 📋 Integration Test Suite (10 Comprehensive Tests)
@@ -30,7 +30,7 @@ Created a comprehensive integration test suite that uses **existing test wallets
 | 4 | Check Pending Blocks | Detect pending blocks for wallet 1 | ✅ PASS |
 | 5 | Initialize Account | Open account if pending blocks exist | ⏭️ SKIP |
 | 6 | Receive All Pending | Process pending blocks | ⏭️ SKIP |
-| 7 | Send Transaction | Test sending NANO between wallets | ⏭️ SKIP |
+| 7 | Send Transaction | Test sending KSHS between wallets | ⏭️ SKIP |
 | 8 | Generate QR Code | Create payment QR code | ❌ FAIL |
 | 9 | Balance Conversion | Test both client-side and MCP conversion | ✅ PASS |
 | 10 | Error Handling | Validate input validation works | ✅ PARTIAL |
@@ -55,7 +55,7 @@ Created a comprehensive integration test suite that uses **existing test wallets
 
 1. **Client Initialization** - Client successfully connects to production server
 2. **Wallet 1 Balance Check** - Retrieved balance (0 raw, initialized)
-3. **Wallet 2 Balance Check** - Retrieved balance (0.2 NANO, initialized)
+3. **Wallet 2 Balance Check** - Retrieved balance (0.2 KSHS, initialized)
 4. **Pending Blocks Check** - No pending blocks detected
 5. **Balance Conversion** - Both client-side and MCP conversion work perfectly
 
@@ -67,9 +67,9 @@ Created a comprehensive integration test suite that uses **existing test wallets
 
 **To enable these tests:**
 ```bash
-# Fund Wallet 1 with test NANO:
-# Address: nano_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x
-# Recommended: 0.1+ NANO
+# Fund Wallet 1 with test KSHS:
+# Address: kshs_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x
+# Recommended: 0.1+ KSHS
 ```
 
 ### ❌ Failed Tests (2/10)
@@ -89,11 +89,11 @@ The integration test automatically uses wallets from `tests/test-wallets.json`:
 ```json
 {
   "wallet1": {
-    "address": "nano_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x",
+    "address": "kshs_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x",
     "privateKey": "ba54b58a59a42082c8592d7e6ad8746ebfc83207edcc694bc0ae637e3c67f746"
   },
   "wallet2": {
-    "address": "nano_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5",
+    "address": "kshs_364ymk8c4a51dohj8peihgqarza4wppgjg7iyzoddub9chmkrakmse1975j5",
     "privateKey": "808519897e023d8931f13710277049c209fe059cb374672e194acfcee8c4ec4f"
   }
 }
@@ -128,7 +128,7 @@ npm run test:integration
 
 ### 1. **Balance State**
 - Wallet 1: `0 raw` (unfunded, initialized)
-- Wallet 2: `200000000000000000000000000 raw` (0.2 NANO, funded)
+- Wallet 2: `200000000000000000000000000 raw` (0.2 KSHS, funded)
 
 ### 2. **Account Status**
 - Both wallets are **initialized** (have blockchain presence)
@@ -150,8 +150,8 @@ npm run test:integration
 
 1. **Fund Wallet 1** to enable send transaction test:
    ```
-   Address: nano_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x
-   Amount: 0.1 NANO (recommended)
+   Address: kshs_1qhymu7bp6bcjm17474iz99wh7xgocio6m11tkdrthgqpfuj7etxgjznfi7x
+   Amount: 0.1 KSHS (recommended)
    ```
 
 2. **Update Production Server** to fix QR code generation
@@ -211,6 +211,6 @@ npm run test:integration
 
 **Test File:** `client-examples/typescript/integration-test.ts`  
 **Test Command:** `npm run test:integration`  
-**Production Server:** `https://nano-mcp.replit.app`  
+**Production Server:** `https://kakitu-mcp.replit.app`  
 **Test Duration:** ~5-10 seconds (depending on network)
 

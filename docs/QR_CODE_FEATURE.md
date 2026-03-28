@@ -2,7 +2,7 @@
 
 ## Overview
 
-The NANO MCP Server now includes a **QR Code Generation** feature that creates scannable QR codes for NANO payments. This feature generates a base64-encoded PNG image that can be directly embedded in web applications or displayed to users.
+The Kakitu MCP Server now includes a **QR Code Generation** feature that creates scannable QR codes for KSHS payments. This feature generates a base64-encoded PNG image that can be directly embedded in web applications or displayed to users.
 
 ## Usage
 
@@ -13,7 +13,7 @@ The NANO MCP Server now includes a **QR Code Generation** feature that creates s
     "jsonrpc": "2.0",
     "method": "generateQrCode",
     "params": {
-        "address": "nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf",
+        "address": "kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf",
         "amount": "0.1"
     },
     "id": 1
@@ -24,8 +24,8 @@ The NANO MCP Server now includes a **QR Code Generation** feature that creates s
 
 | Parameter | Type   | Required | Description                                           |
 |-----------|--------|----------|-------------------------------------------------------|
-| address   | string | Yes      | NANO address to receive payment (must start with "nano_") |
-| amount    | string | Yes      | Amount in decimal NANO (e.g., "0.1" for 0.1 NANO)    |
+| address   | string | Yes      | KSHS address to receive payment (must start with "kshs_") |
+| amount    | string | Yes      | Amount in decimal KSHS (e.g., "0.1" for 0.1 KSHS)    |
 
 ### Response
 
@@ -37,8 +37,8 @@ The NANO MCP Server now includes a **QR Code Generation** feature that creates s
     "result": {
         "success": true,
         "qrCode": "data:image/png;base64,iVBORw0KGgo...",
-        "paymentString": "nano:nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf?amount=0.1",
-        "address": "nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf",
+        "paymentString": "kshs:3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf?amount=0.1",
+        "address": "kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf",
         "amount": "0.1",
         "format": "base64 Data URL (PNG)"
     },
@@ -59,7 +59,7 @@ The NANO MCP Server now includes a **QR Code Generation** feature that creates s
                 "jsonrpc": "2.0",
                 "method": "generateQrCode",
                 "params": {
-                    "address": "nano_3xxxxx...",
+                    "address": "kshs_3xxxxx...",
                     "amount": "0.1"
                 },
                 "id": 1
@@ -84,7 +84,7 @@ The NANO MCP Server now includes a **QR Code Generation** feature that creates s
     "jsonrpc": "2.0",
     "error": {
         "code": -32603,
-        "message": "Failed to generate QR code: Invalid Nano address format. Address must start with \"nano_\""
+        "message": "Failed to generate QR code: Invalid Kakitu address format. Address must start with \"kshs_\""
     },
     "id": 1
 }
@@ -92,22 +92,22 @@ The NANO MCP Server now includes a **QR Code Generation** feature that creates s
 
 ## QR Code Format
 
-The generated QR code follows the NANO URI scheme:
+The generated QR code follows the KSHS URI scheme:
 
 ```
-nano:<address>?amount=<decimal_amount>
+kakitu:<address>?amount=<decimal_amount>
 ```
 
 **Example:**
 ```
-nano:nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf?amount=0.1
+kshs:3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf?amount=0.1
 ```
 
-This format is compatible with most NANO wallets, including:
+This format is compatible with most Kakitu wallets, including:
 - Natrium
 - Nault
-- Nano Wallet Company wallet
-- And other wallets supporting the NANO URI scheme
+- Kakitu Wallet Company wallet
+- And other wallets supporting the KSHS URI scheme
 
 ## QR Code Specifications
 
@@ -123,7 +123,7 @@ This format is compatible with most NANO wallets, including:
 You can directly embed the generated QR code in an HTML image tag:
 
 ```html
-<img src="data:image/png;base64,iVBORw0KGgo..." alt="NANO Payment QR Code" />
+<img src="data:image/png;base64,iVBORw0KGgo..." alt="KSHS Payment QR Code" />
 ```
 
 ## Example Use Cases
@@ -140,7 +140,7 @@ const response = await fetch('http://localhost:8080', {
         jsonrpc: "2.0",
         method: "generateQrCode",
         params: {
-            address: "nano_...",
+            address: "kshs_...",
             amount: "5.0"
         },
         id: 1
@@ -184,7 +184,7 @@ The `generateQrCode` method performs the following validations:
 
 1. **Address Validation:**
    - Checks if address is provided
-   - Validates that address starts with "nano_"
+   - Validates that address starts with "kshs_"
    - Returns error if invalid
 
 2. **Amount Validation:**
@@ -234,7 +234,7 @@ Added dependency:
 ## Version History
 
 - **v1.4.0** - Added `generateQrCode` method
-  - Generate QR codes for NANO payments
+  - Generate QR codes for KSHS payments
   - Base64 PNG image output
   - Full validation and error handling
   - Comprehensive error templates
@@ -256,6 +256,6 @@ Added dependency:
 ## Support
 
 For issues or questions about the QR code generation feature:
-- GitHub: https://github.com/dhyabi2/NANO_MCP_SERVER/issues
-- Documentation: https://github.com/dhyabi2/NANO_MCP_SERVER#readme
+- GitHub: https://github.com/dhyabi2/KAKITU_MCP_SERVER/issues
+- Documentation: https://github.com/dhyabi2/KAKITU_MCP_SERVER#readme
 

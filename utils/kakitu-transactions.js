@@ -1,9 +1,9 @@
 // WARNING: This file is locked and should not be modified in the future.
-// Any changes to this file may affect the compatibility of nano-mcp.
+// Any changes to this file may affect the compatibility of kakitu-mcp.
 // Please refer to the documentation for any updates or modifications.
 
 // ⚠️⚠️⚠️ CRITICAL: RPC NODE CONFIGURATION ⚠️⚠️⚠️
-// ⚠️ DO NOT CHANGE THE RPC NODE: https://uk1.public.xnopay.com/proxy
+// ⚠️ DO NOT CHANGE THE RPC NODE: https://kakitu.org
 // ⚠️ DO NOT add fallback nodes or alternative RPC endpoints
 // ⚠️ This node has been specifically configured by the user
 // ⚠️ Work generation is done LOCALLY - not on the RPC node
@@ -14,27 +14,27 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.NanoTransactions = void 0;
+exports.KakituTransactions = void 0;
 const node_fetch_1 = __importDefault(require("node-fetch"));
 const nanocurrency_web_1 = require("nanocurrency-web");
 const nanocurrency = require('nanocurrency');
 const { block } = require('nanocurrency-web');
 const { EnhancedErrorHandler } = require('./error-handler');
 const { BalanceConverter } = require('./balance-converter');
-class NanoTransactions {
+class KakituTransactions {
     /**
-     * Constructs a NanoTransactions instance with custom and global configuration.
+     * Constructs a KakituTransactions instance with custom and global configuration.
      * @param {Object} customConfig - Custom configuration for this instance.
      * @param {Object} config - Optional global configuration object.
      */
     constructor(customConfig, config) {
         const globalConfig = config?.getNanoConfig() || {};
-        this.rpcNodes = customConfig?.rpcNodes || [customConfig?.apiUrl] || [globalConfig.rpcUrl] || ['https://rpc.nano.to'];
+        this.rpcNodes = customConfig?.rpcNodes || [customConfig?.apiUrl] || [globalConfig.rpcUrl] || ['https://rpc.kakitu.org'];
         this.currentNodeIndex = 0;
         // Allow null rpcKey to be explicitly set
         this.rpcKey = customConfig?.hasOwnProperty('rpcKey') ? customConfig.rpcKey : (globalConfig.rpcKey || null);
         this.gpuKey = customConfig?.gpuKey || globalConfig.gpuKey;
-        this.defaultRepresentative = customConfig?.defaultRepresentative || globalConfig.defaultRepresentative || 'nano_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf';
+        this.defaultRepresentative = customConfig?.defaultRepresentative || globalConfig.defaultRepresentative || 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf';
         this.config = config;
         if (config) {
             const errors = config.validateConfig();
@@ -49,8 +49,8 @@ class NanoTransactions {
         this.recentBlockAttempts = new Map(); // key: blockHash, value: { timestamp, attempts }
         this.duplicateBlockTTL = 60000; // 60 seconds
         
-        console.log('[NanoTransactions] Initialized without work cache to prevent cache-related issues');
-        console.log('[NanoTransactions] Duplicate block detection enabled (60s TTL)');
+        console.log('[KakituTransactions] Initialized without work cache to prevent cache-related issues');
+        console.log('[KakituTransactions] Duplicate block detection enabled (60s TTL)');
     }
 
     async getCurrentRpcNode() {
@@ -63,10 +63,10 @@ class NanoTransactions {
     }
 
     /**
-     * Makes a generic RPC call to the configured Nano node.
+     * Makes a generic RPC call to the configured Kakitu node.
      * @param {string} action - The RPC action to perform.
      * @param {Object} params - Additional parameters for the RPC call.
-     * @returns {Promise<Object>} - The response from the Nano node.
+     * @returns {Promise<Object>} - The response from the Kakitu node.
      */
     async rpcCall(action, params = {}) {
         let lastError = null;
@@ -136,8 +136,8 @@ class NanoTransactions {
         return { isValid: true, errors: [], warnings: [] };
     }
     /**
-     * Retrieves account information for a given Nano account.
-     * @param {string} account - The Nano account address.
+     * Retrieves account information for a given Kakitu account.
+     * @param {string} account - The Kakitu account address.
      * @returns {Promise<Object>} - Account information from the node.
      */
     async getAccountInfo(account) {
@@ -145,8 +145,8 @@ class NanoTransactions {
         return info;
     }
     /**
-     * Retrieves pending (unreceived) blocks for a given Nano account.
-     * @param {string} account - The Nano account address.
+     * Retrieves pending (unreceived) blocks for a given Kakitu account.
+     * @param {string} account - The Kakitu account address.
      * @returns {Promise<Object>} - Pending blocks information.
      */
     async getPendingBlocks(account) {
@@ -172,7 +172,7 @@ class NanoTransactions {
         console.log('Generating work using RPC node for hash:', hash);
         
         try {
-            // NANO network difficulty thresholds
+            // Kakitu network difficulty thresholds
             // Receive/Open blocks: lower difficulty (fffffe0000000000)
             // Send/Change blocks: higher difficulty (fffffff800000000)
             const difficulty = isOpen ? 'fffffe0000000000' : 'fffffff800000000';
@@ -272,7 +272,7 @@ class NanoTransactions {
     /**
      * Creates and processes a receive (or open) block for a pending transaction.
      * Handles both new and existing accounts, calculates the correct new balance, and submits the block.
-     * @param {string} account - The Nano account address.
+     * @param {string} account - The Kakitu account address.
      * @param {string} privateKey - The private key for signing the block.
      * @param {string} pendingBlock - The hash of the pending block to receive.
      * @param {string|number|BigInt} pendingAmount - The amount to receive (in raw).
@@ -306,8 +306,8 @@ class NanoTransactions {
             
             const work = { work: workValue };
 
-            // Ensure account is in nano_ format
-            const nanoAccount = account.replace('xrb_', 'nano_');
+            // Ensure account is in kshs_ format
+            const nanoAccount = account.replace('xrb_', 'kshs_');
             
             // Get the representative
             let representative = this.defaultRepresentative;
@@ -391,7 +391,7 @@ class NanoTransactions {
     }
     /**
      * Receives all pending blocks for a given account, processing each one sequentially.
-     * @param {string} address - The Nano account address.
+     * @param {string} address - The Kakitu account address.
      * @param {string} privateKey - The private key for signing receive blocks.
      * @returns {Promise<Array<Object>>} - Results of processing each pending block.
      */
@@ -446,9 +446,9 @@ class NanoTransactions {
         return results;
     }
     /**
-     * Initializes a NANO account by receiving the first pending block.
+     * Initializes a KSHS account by receiving the first pending block.
      * This is used to open/activate a new account that has received funds.
-     * @param {string} address - The Nano account address to initialize.
+     * @param {string} address - The Kakitu account address to initialize.
      * @param {string} privateKey - The private key for signing the block.
      * @returns {Promise<Object>} - Initialization result with status and details.
      */
@@ -479,7 +479,7 @@ class NanoTransactions {
             if (!pending.blocks || Object.keys(pending.blocks).length === 0) {
                 return {
                     initialized: false,
-                    message: 'No pending blocks to initialize the account. Send some NANO to this address first.',
+                    message: 'No pending blocks to initialize the account. Send some KSHS to this address first.',
                     address: address
                 };
             }
@@ -519,7 +519,7 @@ class NanoTransactions {
         }
     }
     /**
-     * Generates a new Nano wallet (seed, account, private/public key).
+     * Generates a new Kakitu wallet (seed, account, private/public key).
      * @returns {Promise<Object>} - The generated wallet information.
      */
     async generateWallet() {
@@ -532,20 +532,20 @@ class NanoTransactions {
         };
     }
     /**
-     * Makes a generic RPC request to the Nano node.
+     * Makes a generic RPC request to the Kakitu node.
      * @param {string} method - The RPC method/action.
      * @param {Object} params - Parameters for the RPC call.
-     * @returns {Promise<Object>} - The response from the Nano node.
+     * @returns {Promise<Object>} - The response from the Kakitu node.
      */
     async makeRequest(method, params) {
         return this.rpcCall(method, params);
     }
     /**
-     * Sends a transaction from one Nano account to another.
+     * Sends a transaction from one Kakitu account to another.
      * Handles work generation, block signing, and submission.
-     * @param {string} fromAddress - The sender's Nano account address.
+     * @param {string} fromAddress - The sender's Kakitu account address.
      * @param {string} privateKey - The sender's private key.
-     * @param {string} toAddress - The recipient's Nano account address.
+     * @param {string} toAddress - The recipient's Kakitu account address.
      * @param {string|number|BigInt} amountRaw - The amount to send (in raw).
      * @returns {Promise<Object>} - Success status and block hash or error message.
      */
@@ -558,8 +558,8 @@ class NanoTransactions {
         
         try {
             // Ensure all parameters are properly typed
-            formattedFromAddress = String(fromAddress).replace('xrb_', 'nano_');
-            formattedToAddress = String(toAddress).replace('xrb_', 'nano_');
+            formattedFromAddress = String(fromAddress).replace('xrb_', 'kshs_');
+            formattedToAddress = String(toAddress).replace('xrb_', 'kshs_');
             privateKeyString = String(privateKey);
             amountRawString = String(amountRaw);
             
@@ -568,9 +568,9 @@ class NanoTransactions {
             console.log('[AmountTrack] Amount REQUESTED by user (raw):', amountRawString);
             try {
                 const requestedNano = BalanceConverter.rawToNano(amountRawString);
-                console.log('[AmountTrack] Amount REQUESTED by user (NANO):', requestedNano);
+                console.log('[AmountTrack] Amount REQUESTED by user (KSHS):', requestedNano);
             } catch (e) {
-                console.log('[AmountTrack] Could not convert to NANO (invalid raw value?)');
+                console.log('[AmountTrack] Could not convert to KSHS (invalid raw value?)');
             }
 
             // IMPORTANT: Check for pending blocks and receive them first
@@ -672,8 +672,8 @@ class NanoTransactions {
             try {
                 const remainingNano = BalanceConverter.rawToNano(newBalance);
                 const sendingNano = BalanceConverter.rawToNano(sendAmount.toString());
-                console.log('[AmountTrack] Amount SENDING (NANO):', sendingNano);
-                console.log('[AmountTrack] Remaining balance (NANO):', remainingNano);
+                console.log('[AmountTrack] Amount SENDING (KSHS):', sendingNano);
+                console.log('[AmountTrack] Remaining balance (KSHS):', remainingNano);
             } catch (e) {
                 console.log('[AmountTrack] Conversion error:', e.message);
             }
@@ -847,8 +847,8 @@ class NanoTransactions {
         }
     }
     /**
-     * Retrieves the balance for a given Nano account.
-     * @param {string} account - The Nano account address.
+     * Retrieves the balance for a given Kakitu account.
+     * @param {string} account - The Kakitu account address.
      * @returns {Promise<Object>} - Balance information from the node.
      */
     async getBalance(account) {
@@ -860,16 +860,16 @@ class NanoTransactions {
     }
 
     /**
-     * Generate QR code for Nano payment
-     * @param {string} address - Nano address to receive payment
-     * @param {string} amount - Amount in decimal XNO (e.g., "0.140366")
+     * Generate QR code for KSHS payment
+     * @param {string} address - Kakitu address to receive payment
+     * @param {string} amount - Amount in decimal KSHS (e.g., "0.140366")
      * @returns {Promise<Object>} - QR code data with base64 image and payment string
      */
     async generateQrCode(address, amount) {
         try {
             // Validate address format
-            if (!address || !address.startsWith('nano_')) {
-                throw new Error('Invalid Nano address format. Address must start with "nano_"');
+            if (!address || !address.startsWith('kshs_')) {
+                throw new Error('Invalid Kakitu address format. Address must start with "kshs_"');
             }
 
             // Validate amount
@@ -878,8 +878,8 @@ class NanoTransactions {
                 throw new Error('Invalid amount. Must be a positive number');
             }
 
-            // Use format: nano:nano_address?amount=0.140366 (decimal, not raw)
-            const paymentString = `nano:${address}?amount=${amount}`;
+            // Use format: kshs:address?amount=0.140366 (decimal, not raw)
+            const paymentString = `kakitu:${address}?amount=${amount}`;
             
             console.log('Generating QR code for payment:', paymentString);
 
@@ -911,4 +911,4 @@ class NanoTransactions {
         }
     }
 }
-exports.NanoTransactions = NanoTransactions;
+exports.KakituTransactions = KakituTransactions;

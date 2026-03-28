@@ -13,7 +13,7 @@ async function makeRPCCall(action, params) {
         console.log('Making RPC call:', JSON.parse(data));
 
         const options = {
-            hostname: 'rpc.nano.to',
+            hostname: 'rpc.kakitu.org',
             port: 443,
             path: '/',
             method: 'POST',
@@ -87,7 +87,7 @@ async function testReceiveScenario() {
 
         // Step 3: Wait for funds
         console.log('\n3. Waiting for funds...');
-        console.log(`Please send exactly 0.00001 NANO to this address:\n${account}`);
+        console.log(`Please send exactly 0.00001 KSHS to this address:\n${account}`);
         console.log('\nWaiting 4 minutes for funds to arrive...');
         
         // Wait for 4 minutes
@@ -133,11 +133,11 @@ async function testReceiveScenario() {
             // Step 6: Process pending blocks
             console.log('\n6. Processing pending blocks...');
             for (const [hash, blockInfo] of Object.entries(pendingResult.blocks)) {
-                // Convert raw amount to nano for display
+                // Convert raw amount to kakitu for display
                 const rawToNanoResult = await makeRPCCall('raw_to_nano', {
                     amount: blockInfo.amount
                 });
-                console.log(`Receiving ${rawToNanoResult.nano} NANO from block ${hash}`);
+                console.log(`Receiving ${rawToNanoResult.nano} KSHS from block ${hash}`);
 
                 // Create and sign the receive block using nanocurrency-web
                 const receiveBlockData = {
@@ -172,7 +172,7 @@ async function testReceiveScenario() {
                 const finalBalanceNano = await makeRPCCall('raw_to_nano', {
                     amount: balanceResult.balance
                 });
-                console.log('Final balance:', finalBalanceNano.nano, 'NANO');
+                console.log('Final balance:', finalBalanceNano.kakitu, 'KSHS');
             } else {
                 console.log('Final balance:', balanceResult);
             }
@@ -191,7 +191,7 @@ async function testReceiveScenario() {
 }
 
 // Run the test
-console.log('Starting NANO receive test scenario...\n');
+console.log('Starting KSHS receive test scenario...\n');
 testReceiveScenario()
     .then(() => {
         console.log('\nTest completed successfully');

@@ -52,7 +52,7 @@ tcp6       0      0 92.113.148.61:7075      104.130.246.207:28176   ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      vmi1457152.contab:34814 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      static.41.103.55.:45272 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      8.210.142.47:50586      ESTABLISHED
-tcp6       0      0 92.113.148.61:7075      nano.strnmn.me:35888    ESTABLISHED
+tcp6       0      0 92.113.148.61:7075      rpc.kakitu.org:35888    ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      static.219.165.11:36382 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      72.red-81-38-97.d:47810 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      static.224.130.20:59818 ESTABLISHED
@@ -92,7 +92,7 @@ tcp6       0      0 92.113.148.61:7075      ip-93-115-28-180.:47836 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      ns3006692.ip-149-:39784 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      ec2-3-112-16-241.:58018 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      138.68.165.210:36162    ESTABLISHED
-tcp6       0      0 92.113.148.61:7075      nano-node.madora.:60522 ESTABLISHED
+tcp6       0      0 92.113.148.61:7075      kakitu-node.madora.:60522 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      ip-188-214-129-10:53054 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      static.223.133.90:38860 ESTABLISHED
 tcp6       0      0 92.113.148.61:39222     ec2-13-213-221-153:7075 ESTABLISHED

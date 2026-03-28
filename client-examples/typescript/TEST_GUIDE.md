@@ -32,7 +32,7 @@ node test-client.js
 | 3 | **Get Balance** | Balance retrieval with format validation |
 | 4 | **Get Account Status** | Comprehensive status with actions |
 | 5 | **Client Validation** | Client-side parameter validation |
-| 6 | **Convert Balance** | Server-side unit conversion (nano ↔ raw) |
+| 6 | **Convert Balance** | Server-side unit conversion (kakitu ↔ raw) |
 | 7 | **Helper Functions** | Client-side conversion helpers |
 | 8 | **Schema Discovery** | JSON Schema retrieval and parsing |
 | 9 | **Parameter Validation** | Server-side validation endpoint |
@@ -48,10 +48,10 @@ node test-client.js
 ```
 ================================================================================
 
-🧪 NANO MCP CLIENT - COMPREHENSIVE TEST SUITE
+🧪 Kakitu MCP CLIENT - COMPREHENSIVE TEST SUITE
 ================================================================================
 
-Testing against: https://nano-mcp.replit.app
+Testing against: https://kakitu-mcp.replit.app
 Started at: 2025-11-12T12:00:00.000Z
 ================================================================================
 
@@ -60,14 +60,14 @@ Started at: 2025-11-12T12:00:00.000Z
 🧪 Test 1: Client Initialization
 ================================================================================
 ✅ PASS: Client instantiated successfully
-   Server URL: https://nano-mcp.replit.app
+   Server URL: https://kakitu-mcp.replit.app
 
 ================================================================================
 
 🧪 Test 2: Generate Wallet
 ================================================================================
 ✅ PASS: Wallet generated successfully
-   Address: nano_3h3m6kfckrxpc...
+   Address: kshs_3h3m6kfckrxpc...
    Private Key: 9f0e444c69...
    Public Key: c008b814ca...
    Seed: a1b2c3d4e5...
@@ -105,7 +105,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 ### Test 2: Generate Wallet
 **Purpose:** Test wallet generation  
 **Success Criteria:**
-- Address is valid NANO address (60+ chars, starts with nano_)
+- Address is valid KSHS address (60+ chars, starts with kshs_)
 - Private key is 64 hex characters
 - Public key is 64 hex characters
 - Seed is 64 hex characters
@@ -113,8 +113,8 @@ Completed at: 2025-11-12T12:00:15.000Z
 ### Test 3: Get Balance
 **Purpose:** Test balance retrieval  
 **Success Criteria:**
-- Returns balance in raw and NANO
-- Returns pending in raw and NANO
+- Returns balance in raw and KSHS
+- Returns pending in raw and KSHS
 - All values are strings (numeric strings)
 
 ### Test 4: Get Account Status
@@ -135,7 +135,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 ### Test 6: Convert Balance
 **Purpose:** Test server-side conversion  
 **Success Criteria:**
-- 0.1 NANO converts to correct raw amount
+- 0.1 KSHS converts to correct raw amount
 - Reverse conversion works
 - Response includes original, converted, from, to
 
@@ -144,7 +144,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 **Success Criteria:**
 - nanoToRaw('0.1') returns correct value
 - rawToNano(raw) returns correct value
-- XNO constants are defined correctly
+- KSHS constants are defined correctly
 
 ### Test 8: Schema Discovery
 **Purpose:** Test JSON Schema integration  
@@ -164,7 +164,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 **Purpose:** Test QR code generation  
 **Success Criteria:**
 - QR code returned as base64 string
-- NANO URI returned (starts with "nano:")
+- KSHS URI returned (starts with "kakitu:")
 
 ### Test 11: Error Handling
 **Purpose:** Test error detection and formatting  
@@ -188,7 +188,7 @@ Completed at: 2025-11-12T12:00:15.000Z
 **Solution:**
 ```bash
 # Check if server is online
-curl https://nano-mcp.replit.app/tools/list
+curl https://kakitu-mcp.replit.app/tools/list
 
 # If server is down, test against local:
 # 1. Start local server: npm start
@@ -338,13 +338,13 @@ Individual test times:
 
 1. ✅ **Copy client to your project**
    ```bash
-   cp nano-mcp-client.ts your-project/src/
+   cp kakitu-mcp-client.ts your-project/src/
    ```
 
 2. ✅ **Start using in production**
    ```typescript
-   import { NanoMcpClient } from './nano-mcp-client';
-   const client = new NanoMcpClient('https://nano-mcp.replit.app');
+   import { NanoMcpClient } from './kakitu-mcp-client';
+   const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
    ```
 
 3. ✅ **Run your own tests**

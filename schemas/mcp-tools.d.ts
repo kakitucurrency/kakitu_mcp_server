@@ -13,7 +13,7 @@ export type PublicKey = string;    // Pattern: ^[0-9A-Fa-f]{64}$
 export type Seed = string;         // Pattern: ^[0-9A-Fa-f]{64}$
 export type BlockHash = string;    // Pattern: ^[0-9A-F]{64}$
 export type RawAmount = string;    // Pattern: ^[0-9]+$
-export type NanoAmount = string;   // Pattern: ^[0-9]+\.[0-9]{6}$
+export type KshsAmount = string;   // Pattern: ^[0-9]+\.[0-9]{6}$
 
 // ============================================================================
 // JSON-RPC 2.0 BASE TYPES
@@ -122,9 +122,9 @@ export interface GetBalanceParams {
 
 export interface GetBalanceResult {
   balance: RawAmount;
-  balanceNano: NanoAmount;
+  balanceKshs: KshsAmount;
   pending: RawAmount;
-  pendingNano: NanoAmount;
+  pendingKshs: KshsAmount;
 }
 
 // ============================================================================
@@ -220,7 +220,7 @@ export interface GenerateQrCodeParams {
 
 export interface GenerateQrCodeResult {
   qrCode: string; // Base64-encoded PNG
-  nanoUri: string;
+  kakituUri: string;
 }
 
 // ============================================================================
@@ -252,10 +252,10 @@ export interface GetAccountStatusResult {
   address: KakituAddress;
   initialized: boolean;
   balance: RawAmount;
-  balanceNano: NanoAmount;
+  balanceKshs: KshsAmount;
   pendingCount: number;
   totalPending: RawAmount;
-  totalPendingNano: NanoAmount;
+  totalPendingKshs: KshsAmount;
   canSend: boolean;
   needsAction: string[];
   representative?: KakituAddress;
@@ -321,7 +321,7 @@ export interface ResetTestWalletsResult {
  * Type-safe MCP Client Interface
  * AI agents can use this for auto-completion and type checking
  */
-export interface NanoMcpClient {
+export interface KakituMcpClient {
   initialize(params: InitializeParams): Promise<InitializeResult>;
   generateWallet(params: GenerateWalletParams): Promise<GenerateWalletResult>;
   getBalance(params: GetBalanceParams): Promise<GetBalanceResult>;

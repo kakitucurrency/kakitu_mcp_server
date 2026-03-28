@@ -110,7 +110,7 @@
     "pending": {
         "count": 1,
         "totalAmount": "1000000000000000000000000000",
-        "totalAmountNano": "0.000002"
+        "totalAmountKshs": "0.000002"
     },
     "capabilities": {
         "canSend": true,

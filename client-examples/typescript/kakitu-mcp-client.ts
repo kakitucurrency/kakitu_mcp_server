@@ -10,9 +10,9 @@
  * 
  * Usage:
  * ```typescript
- * import { NanoMcpClient } from './kakitu-mcp-client';
+ * import { KakituMcpClient } from './kakitu-mcp-client';
  * 
- * const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+ * const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
  * const wallet = await client.generateWallet();
  * ```
  */
@@ -21,7 +21,7 @@
 // TYPE DEFINITIONS (from JSON Schema)
 // ============================================================================
 
-export type NanoAddress = string; // Pattern: ^(kakitu|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$
+export type KakituAddress = string; // Pattern: ^(kakitu|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$
 export type PrivateKey = string;   // Pattern: ^[0-9A-Fa-f]{64}$
 export type BlockHash = string;    // Pattern: ^[0-9A-F]{64}$
 export type RawAmount = string;    // Pattern: ^[0-9]+$
@@ -52,7 +52,7 @@ export interface ErrorResponse {
 
 // Response types
 export interface GenerateWalletResult {
-  address: NanoAddress;
+  address: KakituAddress;
   privateKey: PrivateKey;
   publicKey: string;
   seed: string;
@@ -60,29 +60,29 @@ export interface GenerateWalletResult {
 
 export interface GetBalanceResult {
   balance: RawAmount;
-  balanceNano: string;
+  balanceKshs: string;
   pending: RawAmount;
-  pendingNano: string;
+  pendingKshs: string;
 }
 
 export interface AccountStatusResult {
-  address: NanoAddress;
+  address: KakituAddress;
   initialized: boolean;
   balance: RawAmount;
-  balanceNano: string;
+  balanceKshs: string;
   pendingCount: number;
   totalPending: RawAmount;
-  totalPendingNano: string;
+  totalPendingKshs: string;
   canSend: boolean;
   needsAction: string[];
-  representative?: NanoAddress;
+  representative?: KakituAddress;
 }
 
 export interface InitializeAccountResult {
   initialized: boolean;
   hash?: BlockHash;
   balance?: RawAmount;
-  representative?: NanoAddress;
+  representative?: KakituAddress;
   message?: string;
 }
 
@@ -104,7 +104,7 @@ export interface ConvertBalanceResult {
 
 export interface QrCodeResult {
   qrCode: string; // Base64-encoded PNG
-  nanoUri: string;
+  kakituUri: string;
 }
 
 // ============================================================================
@@ -124,7 +124,7 @@ const PRIVATE_KEY_REGEX = /^[0-9A-Fa-f]{64}$/;
 // Kakitu MCP CLIENT CLASS
 // ============================================================================
 
-export class NanoMcpClient {
+export class KakituMcpClient {
   private baseUrl: string;
   private requestId: number = 1;
 
@@ -272,7 +272,7 @@ export class NanoMcpClient {
     }
     if (!KAKITU_ADDRESS_REGEX.test(address)) {
       throw new Error(
-        `${paramName} must be a valid KSHS address (starts with 'kshs_' or 'xrb_', 64-65 chars)`
+        `${paramName} must be a valid KSHS address (starts with 'kshs_', 64-65 chars)`
       );
     }
   }
@@ -466,21 +466,21 @@ export class NanoMcpClient {
   /**
    * Convert KSHS to raw (client-side conversion)
    */
-  nanoToRaw(nanoAmount: string): string {
-    const kakitu = parseFloat(nanoAmount);
+  kshsToRaw(kshsAmount: string): string {
+    const kshs = parseFloat(kshsAmount);
     if (isNaN(kakitu) || kakitu < 0) {
       throw new Error('Invalid KSHS amount');
     }
     // 1 KSHS = 10^30 raw
     const multiplier = BigInt('1000000000000000000000000000000');
-    const nanoAsRaw = BigInt(Math.floor(kakitu * 1e6)) * multiplier / BigInt(1e6);
-    return nanoAsRaw.toString();
+    const kshsAsRaw = BigInt(Math.floor(kshs * 1e6)) * multiplier / BigInt(1e6);
+    return kshsAsRaw.toString();
   }
 
   /**
    * Convert raw to KSHS (client-side conversion)
    */
-  rawToNano(rawAmount: string): string {
+  rawToKshs(rawAmount: string): string {
     try {
       const raw = BigInt(rawAmount);
       if (raw < 0n) {
@@ -551,21 +551,21 @@ export class NanoMcpClient {
 /**
  * Convert KSHS to raw (for use in sendTransaction)
  */
-export function nanoToRaw(nanoAmount: string | number): string {
-  const kakitu = typeof nanoAmount === 'string' ? parseFloat(nanoAmount) : nanoAmount;
+export function kshsToRaw(kshsAmount: string | number): string {
+  const kshs = typeof kshsAmount === 'string' ? parseFloat(kshsAmount) : kshsAmount;
   if (isNaN(kakitu) || kakitu < 0) {
     throw new Error('Invalid KSHS amount');
   }
   
   // 1 KSHS = 10^30 raw
-  const rawBigInt = BigInt(Math.floor(kakitu * 1e6)) * BigInt('1000000000000000000000000');
+  const rawBigInt = BigInt(Math.floor(kshs * 1e6)) * BigInt('1000000000000000000000000');
   return rawBigInt.toString();
 }
 
 /**
  * Convert raw to KSHS (for display)
  */
-export function rawToNano(rawAmount: string): string {
+export function rawToKshs(rawAmount: string): string {
   try {
     const raw = BigInt(rawAmount);
     const kakitu = Number(raw) / 1e30;
@@ -580,10 +580,10 @@ export function rawToNano(rawAmount: string): string {
  */
 export const KSHS = {
   ONE_RAW: '1',
-  ONE_NANO: '1000000000000000000000000000000',
-  POINT_ONE_NANO: '100000000000000000000000000000',
-  POINT_ZERO_ONE_NANO: '10000000000000000000000000000',
-  POINT_ZERO_ZERO_ONE_NANO: '1000000000000000000000000000'
+  ONE_KSHS: '1000000000000000000000000000000',
+  POINT_ONE_KSHS: '100000000000000000000000000000',
+  POINT_ZERO_ONE_KSHS: '10000000000000000000000000000',
+  POINT_ZERO_ZERO_ONE_KSHS: '1000000000000000000000000000'
 };
 
 // ============================================================================
@@ -595,7 +595,7 @@ export const KSHS = {
  * 
  * ```typescript
  * async function example() {
- *   const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+ *   const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
  *   
  *   try {
  *     // 1. Generate wallet
@@ -621,7 +621,7 @@ export const KSHS = {
  *       const tx = await client.sendTransaction(
  *         wallet.address,
  *         'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
- *         nanoToRaw('0.001'),
+ *         kshsToRaw('0.001'),
  *         wallet.privateKey
  *       );
  *       console.log('Transaction hash:', tx.hash);
@@ -635,5 +635,5 @@ export const KSHS = {
  * ```
  */
 
-export default NanoMcpClient;
+export default KakituMcpClient;
 

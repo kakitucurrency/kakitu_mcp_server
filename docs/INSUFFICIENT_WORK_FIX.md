@@ -5,7 +5,7 @@ Date: 2025-11-11
 Error: `Block work is insufficient` when attempting send transactions
 
 ## Root Cause
-The work generation function `generateWork()` was calling `nanocurrency.work(hash)` **without specifying the difficulty threshold**. This caused the generated work to not meet the Kakitu network's minimum difficulty requirements.
+The work generation function `generateWork()` was calling `kakitu.work(hash)` **without specifying the difficulty threshold**. This caused the generated work to not meet the Kakitu network's minimum difficulty requirements.
 
 ## KSHS Network Difficulty Thresholds
 - **Send/Change blocks**: `fffffff800000000` (higher difficulty, ~10-15 seconds)
@@ -16,11 +16,11 @@ The work generation function `generateWork()` was calling `nanocurrency.work(has
 ### 1. Updated `generateWork()` in `utils/kakitu-transactions.js`
 ```javascript
 // BEFORE (incorrect):
-const work = await nanocurrency.work(hash);
+const work = await kakitu.work(hash);
 
 // AFTER (correct):
 const threshold = isOpen ? 'fffffe0000000000' : 'fffffff800000000';
-const work = await nanocurrency.work(hash, threshold);
+const work = await kakitu.work(hash, threshold);
 ```
 
 ### 2. Added Enhanced Error Handler for Insufficient Work
@@ -69,7 +69,7 @@ Updated both `createReceiveBlock()` and `sendTransaction()` to pass:
     "   • Receive/Open blocks: fffffe0000000000 (takes 4-6 seconds)",
     "Step 3: If retrying fails repeatedly, possible causes:",
     "   • CPU too slow for reliable work generation",
-    "   • nanocurrency library not properly initialized",
+    "   • kakitu library not properly initialized",
     "Step 4: Solutions if issue persists:",
     "   • Wait a few moments and retry (work generation is probabilistic)",
     "   • Use a more powerful machine",
@@ -78,7 +78,7 @@ Updated both `createReceiveBlock()` and `sendTransaction()` to pass:
   ],
   "relatedFunctions": ["sendTransaction", "receiveAllPending", "initializeAccount"],
   "technicalDetails": {
-    "workGenerationMethod": "Local CPU (nanocurrency library)",
+    "workGenerationMethod": "Local CPU (kakitu library)",
     "timeEstimate": "10-15 seconds",
     "cpuIntensive": true,
     "probabilistic": true

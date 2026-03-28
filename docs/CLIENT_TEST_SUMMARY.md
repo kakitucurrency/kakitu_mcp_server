@@ -38,7 +38,7 @@
 | 4 | **Get Account Status** | Returns comprehensive status with actions |
 | 5 | **Client Validation** | Catches invalid params before network call |
 | 6 | **Convert Balance** | Server-side unit conversion works |
-| 7 | **Helper Functions** | nanoToRaw(), rawToNano() work correctly |
+| 7 | **Helper Functions** | kshsToRaw(), rawToKshs() work correctly |
 | 8 | **Schema Discovery** | JSON Schema integration works |
 | 9 | **Parameter Validation** | Server validation endpoint works |
 | 10 | **Generate QR Code** | QR code generation successful |
@@ -183,8 +183,8 @@ Completed at: 2025-11-12T12:00:15.000Z
 - ✅ Amount validation
 
 ### **Helper Functions**
-- ✅ `nanoToRaw()` conversion
-- ✅ `rawToNano()` conversion
+- ✅ `kshsToRaw()` conversion
+- ✅ `rawToKshs()` conversion
 - ✅ `KSHS` constants
 - ✅ Unit conversion accuracy
 
@@ -238,7 +238,7 @@ KAKITU_MCP_SERVER/
 ### **Test 3: Get Balance**
 **Validates:**
 - Balance retrieved successfully
-- Response has balance, balanceNano, pending, pendingNano
+- Response has balance, balanceKshs, pending, pendingKshs
 - All values are strings
 - KSHS and raw units are both present
 
@@ -266,9 +266,9 @@ KAKITU_MCP_SERVER/
 
 ### **Test 7: Helper Functions**
 **Validates:**
-- `nanoToRaw('0.1')` returns correct value
-- `rawToNano(raw)` returns correct value
-- `KSHS.ONE_NANO` constant correct
+- `kshsToRaw('0.1')` returns correct value
+- `rawToKshs(raw)` returns correct value
+- `KSHS.ONE_KSHS` constant correct
 - No network calls (instant)
 
 ### **Test 8: Schema Discovery**

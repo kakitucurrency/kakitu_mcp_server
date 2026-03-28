@@ -13,7 +13,7 @@ The Kakitu MCP Server now features **industry-leading, AI-agent-friendly error h
 **Added New Validation Methods:**
 - `validateAddress()` - Comprehensive address validation
   - Type checking
-  - Prefix validation (kshs_ or xrb_)
+  - Prefix validation (kshs_ or kshs_)
   - Length validation (64-65 characters)
   - Character validation (base32 alphabet)
   
@@ -185,14 +185,14 @@ The Kakitu MCP Server now features **industry-leading, AI-agent-friendly error h
 **Solution:** Server checks prefix, length, and character set with specific guidance.
 
 ```json
-// Agent sends: "address": "nanouser123"  (WRONG - missing underscore)
+// Agent sends: "address": "kakituuser123"  (WRONG - missing underscore)
 
 // Server responds:
 {
     "errorCode": "INVALID_ADDRESS_PREFIX",
     "details": {
-        "detectedPrefix": "nanou",
-        "issue": "Address must start with 'kshs_' or 'xrb_'"
+        "detectedPrefix": "kakitu",
+        "issue": "Address must start with 'kshs_'"
     },
     "nextSteps": [
         "Step 1: Ensure address starts with 'kshs_' (modern format)",
@@ -262,13 +262,13 @@ The Kakitu MCP Server now features **industry-leading, AI-agent-friendly error h
 **Solution:** Server lists all 16 available methods with example.
 
 ```json
-// Agent sends: { "method": "sendNano", ... }  (WRONG - method doesn't exist)
+// Agent sends: { "method": "sendKshs", ... }  (WRONG - method doesn't exist)
 
 // Server responds:
 {
     "errorCode": "METHOD_NOT_FOUND",
     "details": {
-        "requestedMethod": "sendNano"
+        "requestedMethod": "sendKshs"
     },
     "availableMethods": [
         "initialize", "generateWallet", "getBalance", "getAccountInfo",

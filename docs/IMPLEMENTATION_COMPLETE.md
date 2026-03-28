@@ -85,11 +85,11 @@ All with 21/21 passing tests!
     "errorCode": "INSUFFICIENT_BALANCE",
     "details": {
         "currentBalance": "80000000000000000000000000",
-        "currentBalanceNano": "0.00016",
+        "currentBalanceKshs": "0.00016",
         "attemptedAmount": "1000000000000000000000000000",
-        "attemptedAmountNano": "0.002",
+        "attemptedAmountKshs": "0.002",
         "shortfall": "920000000000000000000000000",
-        "shortfallNano": "0.00184"
+        "shortfallKshs": "0.00184"
     },
     "nextSteps": [
         "Step 1: Check current balance using getBalance or getAccountInfo",

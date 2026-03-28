@@ -12,11 +12,11 @@ Created a comprehensive integration test suite that uses **existing test wallets
    - Check pending blocks for any address
    - Returns pending block count and details
    
-2. **`nanoToRaw(nanoAmount)`**
+2. **`kshsToRaw(kshsAmount)`**
    - Client-side conversion from KSHS to raw units
    - Eliminates need for server calls for simple conversions
    
-3. **`rawToNano(rawAmount)`**
+3. **`rawToKshs(rawAmount)`**
    - Client-side conversion from raw to KSHS units
    - Provides immediate feedback without network latency
 
@@ -178,7 +178,7 @@ npm run test:integration
 - **Client-side and server-side validation**
 
 ### Client Improvements
-- Added 3 new methods (getPendingBlocks, nanoToRaw, rawToNano)
+- Added 3 new methods (getPendingBlocks, kshsToRaw, rawToKshs)
 - Fixed type definitions for better TypeScript support
 - Improved error messages
 

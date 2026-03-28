@@ -285,7 +285,7 @@ await Promise.all([
 ### Helper Functions (3) - For Autonomous Agents
 10. **`convertBalance`** - Convert KSHS ↔ raw units
 11. **`getAccountStatus`** - One call shows: balance, pending, capabilities, what actions needed
-12. **`nanoConverterHelp`** - **NEW!** Comprehensive guide for Kakitu (KSHS) conversions, formats, and number handling (essential for clients unfamiliar with Kakitu)
+12. **`kakituConverterHelp`** - **NEW!** Comprehensive guide for Kakitu (KSHS) conversions, formats, and number handling (essential for clients unfamiliar with Kakitu)
 
 ### Test Wallet Functions (5) - For Development
 13. `setupTestWallets` - Generate two test wallets (requires human funding)
@@ -432,7 +432,7 @@ Returns: Complete status + what to do next
 - `MISSING_PARAMETER` - Required parameter not provided
 - `METHOD_NOT_FOUND` - Invalid MCP method name
 - `INVALID_ADDRESS_FORMAT` - Address missing or wrong type
-- `INVALID_ADDRESS_PREFIX` - Address doesn't start with 'kshs_' or 'xrb_'
+- `INVALID_ADDRESS_PREFIX` - Address doesn't start with 'kshs_'
 - `INVALID_ADDRESS_LENGTH` - Address wrong length
 - `INVALID_ADDRESS_CHARACTERS` - Address has invalid characters
 - `INVALID_PRIVATE_KEY_FORMAT` - Private key missing or wrong type
@@ -486,11 +486,11 @@ Returns: Complete status + what to do next
         "details": {
             "address": "kshs_xxx",
             "currentBalance": "80000000000000000000000000",
-            "currentBalanceNano": "0.00016",
+            "currentBalanceKshs": "0.00016",
             "attemptedAmount": "1000000000000000000000000000",
-            "attemptedAmountNano": "0.002",
+            "attemptedAmountKshs": "0.002",
             "shortfall": "920000000000000000000000000",
-            "shortfallNano": "0.00184"
+            "shortfallKshs": "0.00184"
         },
         "nextSteps": [
             "Step 1: Check current balance using getBalance or getAccountInfo",
@@ -936,7 +936,7 @@ npm test
 {"jsonrpc": "2.0", "method": "getAccountStatus", "params": {"address": "kshs_xxx"}, "id": 1}
 ```
 
-### nanoConverterHelp (Helper) - **NEW!**
+### kakituConverterHelp (Helper) - **NEW!**
 **Purpose:** Get comprehensive help for Kakitu (KSHS) conversion utilities and number formats
 **Parameters:** None
 **Returns:** Conversion formulas, examples, common mistakes, best practices, and utility function documentation
@@ -948,7 +948,7 @@ Most cryptocurrency clients expect simple decimal numbers like Bitcoin or Ethere
 
 **Example Request:**
 ```json
-{"jsonrpc": "2.0", "method": "nanoConverterHelp", "params": {}, "id": 1}
+{"jsonrpc": "2.0", "method": "kakituConverterHelp", "params": {}, "id": 1}
 ```
 
 **Example Response (truncated):**
@@ -961,23 +961,23 @@ Most cryptocurrency clients expect simple decimal numbers like Bitcoin or Ethere
     "reverseFormula": "KSHS = raw ÷ 10^30",
     "decimalPlaces": 30,
     "examples": {
-      "0.1_XNO": "100000000000000000000000000000",
-      "1_XNO": "1000000000000000000000000000000"
+      "0.1_KSHS": "100000000000000000000000000000",
+      "1_KSHS": "1000000000000000000000000000000"
     },
     "commonMistakes": [
       "Using KSHS value instead of raw in amountRaw parameter",
       "Using floating-point arithmetic which causes rounding errors"
     ],
     "utilityFunctions": {
-      "xnoToRaw": {
+      "kshsToRaw": {
         "description": "Convert KSHS amount to raw units (use this for all transaction amounts)",
-        "example": "xnoToRaw(1) => '1000000000000000000000000000000'",
+        "example": "kshsToRaw(1) => '1000000000000000000000000000000'",
         "usage": "Always use this before sending transactions"
       }
     },
     "exampleWorkflow": [
       "Step 1: Get user input in KSHS (e.g., '0.1')",
-      "Step 2: Convert to raw using KakituConverter.xnoToRaw('0.1')",
+      "Step 2: Convert to raw using KakituConverter.kshsToRaw('0.1')",
       "Step 3: Validate address using KakituConverter.isValidKakituAddress(address)",
       "Step 4: Use raw amount in sendTransaction"
     ],

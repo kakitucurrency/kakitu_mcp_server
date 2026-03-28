@@ -142,8 +142,8 @@ Completed at: 2025-11-12T12:00:15.000Z
 ### Test 7: Helper Functions
 **Purpose:** Test client-side helpers  
 **Success Criteria:**
-- nanoToRaw('0.1') returns correct value
-- rawToNano(raw) returns correct value
+- kshsToRaw('0.1') returns correct value
+- rawToKshs(raw) returns correct value
 - KSHS constants are defined correctly
 
 ### Test 8: Schema Discovery
@@ -255,7 +255,7 @@ async function runAllTests() {
 Example: Add a new test
 
 ```typescript
-async function test13_MyCustomTest(client: NanoMcpClient) {
+async function test13_MyCustomTest(client: KakituMcpClient) {
   testHeader('Test 13: My Custom Test');
   
   try {
@@ -343,8 +343,8 @@ Individual test times:
 
 2. ✅ **Start using in production**
    ```typescript
-   import { NanoMcpClient } from './kakitu-mcp-client';
-   const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+   import { KakituMcpClient } from './kakitu-mcp-client';
+   const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
    ```
 
 3. ✅ **Run your own tests**

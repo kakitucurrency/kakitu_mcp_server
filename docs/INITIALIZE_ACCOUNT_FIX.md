@@ -3,7 +3,7 @@
 ## Problem
 The `initializeAccount` method was missing from the `KakituTransactions` class, causing the error:
 ```
-"this.nanoTransactions.initializeAccount is not a function"
+"this.kakituTransactions.initializeAccount is not a function"
 ```
 
 ## Solution

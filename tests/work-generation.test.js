@@ -7,10 +7,10 @@ const { KakituTransactions } = require('../utils/kakitu-transactions');
 const { tools } = require('nanocurrency-web');
 
 describe('RPC Work Generation Error Handling', () => {
-    let nanoTransactions;
+    let kakituTransactions;
     
     beforeEach(() => {
-        nanoTransactions = new KakituTransactions({
+        kakituTransactions = new KakituTransactions({
             apiUrl: 'https://kakitu.org',
             rpcKey: null
         });
@@ -30,7 +30,7 @@ describe('RPC Work Generation Error Handling', () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             // Mock RPC call to simulate timeout
-            jest.spyOn(nanoTransactions, 'rpcCall').mockImplementation(() => {
+            jest.spyOn(kakituTransactions, 'rpcCall').mockImplementation(() => {
                 return new Promise((resolve) => {
                     setTimeout(() => resolve({ work: 'mock_work_value' }), 15000);
                 });
@@ -39,7 +39,7 @@ describe('RPC Work Generation Error Handling', () => {
             const startTime = Date.now();
             
             try {
-                await nanoTransactions.generateWork(testHash, false); // send block
+                await kakituTransactions.generateWork(testHash, false); // send block
                 fail('Should have timed out');
             } catch (error) {
                 const elapsed = Date.now() - startTime;
@@ -55,7 +55,7 @@ describe('RPC Work Generation Error Handling', () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             // Mock RPC call to simulate timeout
-            jest.spyOn(nanoTransactions, 'rpcCall').mockImplementation(() => {
+            jest.spyOn(kakituTransactions, 'rpcCall').mockImplementation(() => {
                 return new Promise((resolve) => {
                     setTimeout(() => resolve({ work: 'mock_work_value' }), 10000);
                 });
@@ -64,7 +64,7 @@ describe('RPC Work Generation Error Handling', () => {
             const startTime = Date.now();
             
             try {
-                await nanoTransactions.generateWork(testHash, true); // receive block
+                await kakituTransactions.generateWork(testHash, true); // receive block
                 fail('Should have timed out');
             } catch (error) {
                 const elapsed = Date.now() - startTime;
@@ -79,23 +79,23 @@ describe('RPC Work Generation Error Handling', () => {
 
     describe('Error Handling', () => {
         test('should throw error if hash is missing', async () => {
-            await expect(nanoTransactions.generateWork(null)).rejects.toThrow('Hash is required');
+            await expect(kakituTransactions.generateWork(null)).rejects.toThrow('Hash is required');
         });
 
         test('should throw error if hash is empty string', async () => {
-            await expect(nanoTransactions.generateWork('')).rejects.toThrow('Hash is required');
+            await expect(kakituTransactions.generateWork('')).rejects.toThrow('Hash is required');
         });
 
         test('should handle RPC errors gracefully', async () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             // Mock RPC call to return error
-            jest.spyOn(nanoTransactions, 'rpcCall').mockResolvedValue({
+            jest.spyOn(kakituTransactions, 'rpcCall').mockResolvedValue({
                 error: 'RPC node error'
             });
             
             try {
-                await nanoTransactions.generateWork(testHash, true);
+                await kakituTransactions.generateWork(testHash, true);
                 fail('Should have thrown an error');
             } catch (error) {
                 expect(error.message).toContain('RPC work_generate error');
@@ -107,10 +107,10 @@ describe('RPC Work Generation Error Handling', () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             // Mock RPC call to return no work
-            jest.spyOn(nanoTransactions, 'rpcCall').mockResolvedValue({});
+            jest.spyOn(kakituTransactions, 'rpcCall').mockResolvedValue({});
             
             try {
-                await nanoTransactions.generateWork(testHash, true);
+                await kakituTransactions.generateWork(testHash, true);
                 fail('Should have thrown an error');
             } catch (error) {
                 expect(error.message).toContain('RPC returned no work value');
@@ -123,7 +123,7 @@ describe('RPC Work Generation Error Handling', () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             let callCount = 0;
-            jest.spyOn(nanoTransactions, 'rpcCall').mockImplementation(() => {
+            jest.spyOn(kakituTransactions, 'rpcCall').mockImplementation(() => {
                 callCount++;
                 if (callCount < 2) {
                     return Promise.reject(new Error('RPC temporarily unavailable'));
@@ -131,7 +131,7 @@ describe('RPC Work Generation Error Handling', () => {
                 return Promise.resolve({ work: 'mock_work_after_retry' });
             });
             
-            const result = await nanoTransactions.generateWorkWithRetry(testHash, true, 3);
+            const result = await kakituTransactions.generateWorkWithRetry(testHash, true, 3);
             
             // Should succeed on second attempt
             expect(result).toBe('mock_work_after_retry');
@@ -142,12 +142,12 @@ describe('RPC Work Generation Error Handling', () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             // Mock RPC to always fail
-            jest.spyOn(nanoTransactions, 'rpcCall').mockRejectedValue(
+            jest.spyOn(kakituTransactions, 'rpcCall').mockRejectedValue(
                 new Error('RPC node permanently unavailable')
             );
             
             try {
-                await nanoTransactions.generateWorkWithRetry(testHash, true, 2);
+                await kakituTransactions.generateWorkWithRetry(testHash, true, 2);
                 fail('Should have thrown an error');
             } catch (error) {
                 expect(error.message).toContain('RPC work generation failed after');
@@ -165,12 +165,12 @@ describe('RPC Work Generation Error Handling', () => {
             };
             
             // Mock getPendingBlocks to return empty (no pending blocks)
-            jest.spyOn(nanoTransactions, 'getPendingBlocks').mockResolvedValue({
+            jest.spyOn(kakituTransactions, 'getPendingBlocks').mockResolvedValue({
                 blocks: {}
             });
             
             const startTime = Date.now();
-            const results = await nanoTransactions.receiveAllPending(
+            const results = await kakituTransactions.receiveAllPending(
                 testWallet.address,
                 testWallet.privateKey
             );
@@ -190,8 +190,8 @@ describe('RPC Work Generation Error Handling', () => {
             
             // Track how many times createReceiveBlock is called
             let callCount = 0;
-            const originalCreateReceiveBlock = nanoTransactions.createReceiveBlock.bind(nanoTransactions);
-            jest.spyOn(nanoTransactions, 'createReceiveBlock').mockImplementation(async (...args) => {
+            const originalCreateReceiveBlock = kakituTransactions.createReceiveBlock.bind(kakituTransactions);
+            jest.spyOn(kakituTransactions, 'createReceiveBlock').mockImplementation(async (...args) => {
                 callCount++;
                 if (callCount > 10) {
                     throw new Error('Infinite recursion detected: createReceiveBlock called more than 10 times');
@@ -201,7 +201,7 @@ describe('RPC Work Generation Error Handling', () => {
             });
             
             // Mock getPendingBlocks to return 2 pending blocks
-            jest.spyOn(nanoTransactions, 'getPendingBlocks').mockResolvedValue({
+            jest.spyOn(kakituTransactions, 'getPendingBlocks').mockResolvedValue({
                 blocks: {
                     'hash1': { amount: '1000000000000000000000000', source: 'kshs_1source1' },
                     'hash2': { amount: '2000000000000000000000000', source: 'kshs_1source2' }
@@ -209,12 +209,12 @@ describe('RPC Work Generation Error Handling', () => {
             });
             
             // Mock getAccountInfo to avoid real RPC calls
-            jest.spyOn(nanoTransactions, 'getAccountInfo').mockResolvedValue({
+            jest.spyOn(kakituTransactions, 'getAccountInfo').mockResolvedValue({
                 balance: '0',
                 frontier: '0000000000000000000000000000000000000000000000000000000000000000'
             });
             
-            await nanoTransactions.receiveAllPending(
+            await kakituTransactions.receiveAllPending(
                 testWallet.address,
                 testWallet.privateKey
             );
@@ -234,14 +234,14 @@ describe('RPC Work Generation Error Handling', () => {
             ];
             
             // Mock RPC to return different work for each hash
-            jest.spyOn(nanoTransactions, 'rpcCall').mockImplementation(async (action, params) => {
+            jest.spyOn(kakituTransactions, 'rpcCall').mockImplementation(async (action, params) => {
                 return { work: `work_for_${params.hash.slice(-4)}` };
             });
             
             const startTime = Date.now();
             
             const promises = hashes.map(hash => 
-                nanoTransactions.generateWork(hash, true)
+                kakituTransactions.generateWork(hash, true)
             );
             const results = await Promise.all(promises);
             
@@ -266,12 +266,12 @@ describe('RPC Work Generation Error Handling', () => {
             const testHash = '0000000000000000000000000000000000000000000000000000000000000001';
             
             // Mock successful RPC call
-            jest.spyOn(nanoTransactions, 'rpcCall').mockResolvedValue({
+            jest.spyOn(kakituTransactions, 'rpcCall').mockResolvedValue({
                 work: 'mock_work_value_123'
             });
             
             try {
-                await nanoTransactions.generateWork(testHash, true);
+                await kakituTransactions.generateWork(testHash, true);
             } catch (error) {
                 // Error is acceptable for this test
             }
@@ -289,7 +289,7 @@ describe('RPC Work Generation Error Handling', () => {
             
             // Use invalid hash to force error
             try {
-                await nanoTransactions.generateWork('invalid', true);
+                await kakituTransactions.generateWork('invalid', true);
             } catch (error) {
                 // Expected to fail
             }

@@ -1,6 +1,6 @@
 /**
  * Kakitu Converter MCP Integration Tests
- * Tests the nanoConverterHelp MCP tool integration
+ * Tests the kakituConverterHelp MCP tool integration
  */
 
 const { KakituMCPServer } = require('../src/server');
@@ -12,7 +12,7 @@ describe('KakituConverter MCP Integration', () => {
         server = new KakituMCPServer();
     });
 
-    describe('nanoConverterHelp method', () => {
+    describe('kakituConverterHelp method', () => {
         test('should be available in tools list', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
@@ -21,13 +21,13 @@ describe('KakituConverter MCP Integration', () => {
                 id: 1
             });
 
-            expect(response.result.capabilities.methods).toContain('nanoConverterHelp');
+            expect(response.result.capabilities.methods).toContain('kakituConverterHelp');
         });
 
         test('should return comprehensive conversion help', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -40,7 +40,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should include description and formulas', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -55,22 +55,22 @@ describe('KakituConverter MCP Integration', () => {
         test('should include conversion examples', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
 
             const result = response.result;
             expect(result.examples).toBeDefined();
-            expect(result.examples['1_XNO']).toBe('1000000000000000000000000000000');
-            expect(result.examples['0.1_XNO']).toBe('100000000000000000000000000000');
+            expect(result.examples['1_KSHS']).toBe('1000000000000000000000000000000');
+            expect(result.examples['0.1_KSHS']).toBe('100000000000000000000000000000');
             expect(Object.keys(result.examples).length).toBeGreaterThan(5);
         });
 
         test('should include common mistakes list', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -85,23 +85,23 @@ describe('KakituConverter MCP Integration', () => {
         test('should include utility functions documentation', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
 
             const result = response.result;
             expect(result.utilityFunctions).toBeDefined();
-            expect(result.utilityFunctions.xnoToRaw).toBeDefined();
-            expect(result.utilityFunctions.rawToXNO).toBeDefined();
-            expect(result.utilityFunctions.isValidNanoAddress).toBeDefined();
-            expect(result.utilityFunctions.formatXNO).toBeDefined();
+            expect(result.utilityFunctions.kshsToRaw).toBeDefined();
+            expect(result.utilityFunctions.rawToKshs).toBeDefined();
+            expect(result.utilityFunctions.isValidKakituAddress).toBeDefined();
+            expect(result.utilityFunctions.formatKshs).toBeDefined();
         });
 
         test('should include example workflow', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -116,7 +116,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should include integration guidance', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -131,7 +131,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should include warning about decimal places', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -145,7 +145,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should include best practices', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -159,7 +159,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should not require any parameters', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -171,7 +171,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should work even without params object', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 id: 1
             });
 
@@ -190,18 +190,18 @@ describe('KakituConverter MCP Integration', () => {
             });
 
             const tools = response.result.tools;
-            const nanoConverterTool = tools.find(t => t.name === 'nanoConverterHelp');
+            const kakituConverterTool = tools.find(t => t.name === 'kakituConverterHelp');
             
-            expect(nanoConverterTool).toBeDefined();
-            expect(nanoConverterTool.description).toContain('conversion');
-            expect(nanoConverterTool.description).toContain('clients');
+            expect(kakituConverterTool).toBeDefined();
+            expect(kakituConverterTool.description).toContain('conversion');
+            expect(kakituConverterTool.description).toContain('clients');
         });
 
         test('should complement convertBalance method', async () => {
             // First get help
             const helpResponse = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -219,7 +219,7 @@ describe('KakituConverter MCP Integration', () => {
             });
 
             // Verify the example in help matches the actual conversion
-            const exampleRaw = helpResponse.result.examples['0.1_XNO'];
+            const exampleRaw = helpResponse.result.examples['0.1_KSHS'];
             const actualRaw = convertResponse.result.converted;
             expect(actualRaw).toBe(exampleRaw);
         });
@@ -227,7 +227,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should provide guidance that works with sendTransaction', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -245,7 +245,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should handle method call with extra parameters gracefully', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {
                     unexpectedParam: "should be ignored"
                 },
@@ -262,7 +262,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should return valid JSON-RPC 2.0 response', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -276,7 +276,7 @@ describe('KakituConverter MCP Integration', () => {
         test('should return comprehensive help object', async () => {
             const response = await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });
@@ -305,7 +305,7 @@ describe('KakituConverter MCP Integration', () => {
             
             await server.handleRequest({
                 jsonrpc: "2.0",
-                method: "nanoConverterHelp",
+                method: "kakituConverterHelp",
                 params: {},
                 id: 1
             });

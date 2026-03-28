@@ -11,10 +11,10 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
 ### 1. Core Utility Module (`utils/kakitu-converter.js`)
 - **Purpose**: Centralized Kakitu conversion utilities using string-based BigInt arithmetic
 - **Key Features**:
-  - `xnoToRaw()` - Convert KSHS to raw units (for transactions)
-  - `rawToXNO()` - Convert raw units to KSHS (for display)
-  - `isValidNanoAddress()` - Validate Kakitu address format
-  - `formatXNO()` - Format KSHS amounts for display
+  - `kshsToRaw()` - Convert KSHS to raw units (for transactions)
+  - `rawToKshs()` - Convert raw units to KSHS (for display)
+  - `isValidKakituAddress()` - Validate Kakitu address format
+  - `formatKshs()` - Format KSHS amounts for display
   - `getConversionExamples()` - Reference conversion table
   - `getConversionHelp()` - Comprehensive help information
   - `isValidRaw()` - Validate raw amount format
@@ -32,7 +32,7 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
   - Helper functions (2 tests)
 
 ### 3. MCP Server Integration (`src/server.js`)
-- **New MCP Method**: `nanoConverterHelp`
+- **New MCP Method**: `kakituConverterHelp`
 - **Description**: Get comprehensive help for Kakitu conversion utilities and number formats
 - **Parameters**: None (zero configuration required)
 - **Returns**: 
@@ -74,7 +74,7 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
 
 ### 7. Updated README.md
 - Updated function count (16 → 17 tools)
-- Added `nanoConverterHelp` to Helper Functions section
+- Added `kakituConverterHelp` to Helper Functions section
 - Comprehensive documentation of the new tool
 - Usage examples and use cases
 
@@ -88,12 +88,12 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
 - **Scientific notation support**: Properly handles numbers like 1e-9
 
 ### Comprehensive Validation
-- **Address format checking**: Validates kshs_/xrb_ prefixes and checksums
+- **Address format checking**: Validates kshs_/kshs_ prefixes and checksums
 - **Amount validation**: Ensures valid raw amounts
 - **Error prevention**: Catches common mistakes before transactions
 
 ### Educational & Self-Documenting
-- **Built-in help**: `nanoConverterHelp` MCP method provides instant reference
+- **Built-in help**: `kakituConverterHelp` MCP method provides instant reference
 - **Common mistakes**: Highlights typical errors developers make
 - **Best practices**: Guides developers to safe implementation
 - **Example workflows**: Shows correct transaction patterns
@@ -111,10 +111,10 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
 ### Unit Tests (kakitu-converter.test.js)
 ```
 ✅ 42/42 tests passing
-- xnoToRaw conversion: 11/11 ✅
-- rawToXNO conversion: 7/7 ✅
-- isValidNanoAddress: 7/7 ✅
-- formatXNO: 6/6 ✅
+- kshsToRaw conversion: 11/11 ✅
+- rawToKshs conversion: 7/7 ✅
+- isValidKakituAddress: 7/7 ✅
+- formatKshs: 6/6 ✅
 - Round-trip conversions: 3/3 ✅
 - Edge cases: 4/4 ✅
 - Logging and Debugging: 2/2 ✅
@@ -124,7 +124,7 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
 ### Integration Tests (kakitu-converter-mcp.test.js)
 ```
 ✅ 19/19 tests passing
-- nanoConverterHelp method: 12/12 ✅
+- kakituConverterHelp method: 12/12 ✅
 - Integration with other MCP methods: 3/3 ✅
 - Error handling: 1/1 ✅
 - Response structure validation: 2/2 ✅
@@ -147,7 +147,7 @@ Successfully implemented a comprehensive Kakitu (KSHS) conversion utility as an 
 POST https://kakitu-mcp.replit.app
 {
     "jsonrpc": "2.0",
-    "method": "nanoConverterHelp",
+    "method": "kakituConverterHelp",
     "params": {},
     "id": 1
 }
@@ -167,19 +167,19 @@ Returns comprehensive help information including:
 const { KakituConverter } = require('./utils/kakitu-converter');
 
 // Convert for transaction
-const raw = KakituConverter.xnoToRaw("0.1");
+const raw = KakituConverter.kshsToRaw("0.1");
 // => "100000000000000000000000000000"
 
 // Convert for display
-const kshs = KakituConverter.rawToXNO("100000000000000000000000000000");
+const kshs = KakituConverter.rawToKshs("100000000000000000000000000000");
 // => "0.1"
 
 // Validate address
-const isValid = KakituConverter.isValidNanoAddress("kshs_3xxx...");
+const isValid = KakituConverter.isValidKakituAddress("kshs_3xxx...");
 // => true or false
 
 // Format for display
-const formatted = KakituConverter.formatXNO("0.123456789", 6);
+const formatted = KakituConverter.formatKshs("0.123456789", 6);
 // => "0.123457"
 ```
 
@@ -196,7 +196,7 @@ const formatted = KakituConverter.formatXNO("0.123456789", 6);
 - `KAKITU_CONVERTER_IMPLEMENTATION_SUMMARY.md` - This file
 
 ### Modified Files
-- `src/server.js` - Added nanoConverterHelp MCP method
+- `src/server.js` - Added kakituConverterHelp MCP method
 - `README.md` - Updated function count and documentation
 
 ---
@@ -214,7 +214,7 @@ Most cryptocurrency developers expect 6-8 decimal places (like Bitcoin or Ethere
 ### The Solution
 The KakituConverter provides:
 - ✅ String-based BigInt arithmetic (no precision loss)
-- ✅ Clear conversion functions (xnoToRaw, rawToXNO)
+- ✅ Clear conversion functions (kshsToRaw, rawToKshs)
 - ✅ Address validation (prevents typos)
 - ✅ Self-documenting errors and help
 - ✅ Complete examples and workflows
@@ -240,7 +240,7 @@ Before using in production:
 ## 📚 Additional Resources
 
 ### For Developers
-- **Quick Reference**: Call `nanoConverterHelp` MCP method
+- **Quick Reference**: Call `kakituConverterHelp` MCP method
 - **Developer Guide**: `docs/KAKITU_CONVERTER_GUIDE.md`
 - **Code Examples**: `examples/kakitu-converter-usage.js`
 - **Unit Tests**: `tests/kakitu-converter.test.js`
@@ -248,7 +248,7 @@ Before using in production:
 ### For Users
 - **README**: Main README.md updated with new tool
 - **MCP Documentation**: Available via `initialize` method
-- **Live Help**: `nanoConverterHelp` provides instant guidance
+- **Live Help**: `kakituConverterHelp` provides instant guidance
 
 ---
 

@@ -11,7 +11,7 @@
  * Uses existing test wallets from tests/test-wallets.json
  */
 
-import { NanoMcpClient } from './kakitu-mcp-client';
+import { KakituMcpClient } from './kakitu-mcp-client';
 
 // ============================================
 // Test Configuration
@@ -99,18 +99,18 @@ function sleep(ms: number): Promise<void> {
 // Transaction Flow Tests
 // ============================================
 
-async function checkBalance(client: NanoMcpClient, wallet: typeof WALLET1) {
+async function checkBalance(client: KakituMcpClient, wallet: typeof WALLET1) {
   const balance = await client.getBalance(wallet.address);
-  const balanceNano = balance.balanceNano !== undefined 
-    ? balance.balanceNano 
-    : client.rawToNano(balance.balance);
-  const pendingNano = balance.pendingNano !== undefined 
-    ? balance.pendingNano 
-    : client.rawToNano(balance.pending);
-  
-  testInfo(`${wallet.name}: ${balanceNano} KSHS (${balance.balance} raw)`);
+  const balanceKshs = balance.balanceKshs !== undefined
+    ? balance.balanceKshs
+    : client.rawToKshs(balance.balance);
+  const pendingKshs = balance.pendingKshs !== undefined
+    ? balance.pendingKshs
+    : client.rawToKshs(balance.pending);
+
+  testInfo(`${wallet.name}: ${balanceKshs} KSHS (${balance.balance} raw)`);
   if (balance.pending !== '0') {
-    testWarn(`${wallet.name} has pending: ${pendingNano} KSHS (${balance.pending} raw)`);
+    testWarn(`${wallet.name} has pending: ${pendingKshs} KSHS (${balance.pending} raw)`);
   }
   
   return balance;
@@ -127,7 +127,7 @@ async function runTransactionFlowTest() {
   testInfo(`${WALLET1.name}: ${WALLET1.address}`);
   testInfo(`${WALLET2.name}: ${WALLET2.address}`);
   
-  const client = new NanoMcpClient(PRODUCTION_URL);
+  const client = new KakituMcpClient(PRODUCTION_URL);
   let testsPassed = 0;
   let testsFailed = 0;
   
@@ -145,8 +145,8 @@ async function runTransactionFlowTest() {
     
     if (wallet2BalanceBigInt < testAmountBigInt) {
       testFail(`${WALLET2.name} has insufficient balance for test`);
-      testInfo(`Required: ${client.rawToNano(TEST_AMOUNT_RAW)} KSHS`);
-      testInfo(`Available: ${client.rawToNano(initialBalance2.balance)} KSHS`);
+      testInfo(`Required: ${client.rawToKshs(TEST_AMOUNT_RAW)} KSHS`);
+      testInfo(`Available: ${client.rawToKshs(initialBalance2.balance)} KSHS`);
       throw new Error('Insufficient balance for test');
     }
     
@@ -191,8 +191,8 @@ async function runTransactionFlowTest() {
       
       if (pending1.count > 0) {
         testPass(`Found ${pending1.count} pending block(s)`);
-        if (pending1.totalPendingNano !== undefined) {
-          testInfo(`Total pending: ${pending1.totalPendingNano} KSHS`);
+        if (pending1.totalPendingKshs !== undefined) {
+          testInfo(`Total pending: ${pending1.totalPendingKshs} KSHS`);
         }
         testsPassed++;
       } else {
@@ -258,7 +258,7 @@ async function runTransactionFlowTest() {
     const balance1Increase = BigInt(midBalance1.balance) - BigInt(initialBalance1.balance);
     
     if (balance1Increase > 0) {
-      testPass(`${WALLET1.name} balance increased by ${client.rawToNano(balance1Increase.toString())} KSHS`);
+      testPass(`${WALLET1.name} balance increased by ${client.rawToKshs(balance1Increase.toString())} KSHS`);
       testsPassed++;
     } else {
       testWarn(`${WALLET1.name} balance did not increase (may need more time)`);
@@ -309,8 +309,8 @@ async function runTransactionFlowTest() {
       
       if (pending2.count > 0) {
         testPass(`Found ${pending2.count} pending block(s)`);
-        if (pending2.totalPendingNano !== undefined) {
-          testInfo(`Total pending: ${pending2.totalPendingNano} KSHS`);
+        if (pending2.totalPendingKshs !== undefined) {
+          testInfo(`Total pending: ${pending2.totalPendingKshs} KSHS`);
         }
         testsPassed++;
       } else {
@@ -374,8 +374,8 @@ async function runTransactionFlowTest() {
     
     log('');
     testInfo('Balance Changes:');
-    testInfo(`${WALLET1.name}: ${change1 >= 0 ? '+' : ''}${client.rawToNano(change1.toString())} KSHS`);
-    testInfo(`${WALLET2.name}: ${change2 >= 0 ? '+' : ''}${client.rawToNano(change2.toString())} KSHS`);
+    testInfo(`${WALLET1.name}: ${change1 >= 0 ? '+' : ''}${client.rawToKshs(change1.toString())} KSHS`);
+    testInfo(`${WALLET2.name}: ${change2 >= 0 ? '+' : ''}${client.rawToKshs(change2.toString())} KSHS`);
     
   } catch (error: any) {
     log('');

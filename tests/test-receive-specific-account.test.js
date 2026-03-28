@@ -40,7 +40,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
     });
 
     test('should verify private/public key pair is valid', () => {
-        const nanocurrency = require('nanocurrency');
+        const kakituLib = require('nanocurrency');
         
         // Check if private key is complete (64 hex characters = 32 bytes)
         if (testAccount.privateKey.length < 64) {
@@ -52,7 +52,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         
         // Derive public key from private key
         try {
-            const derivedPublicKey = nanocurrency.derivePublicKey(testAccount.privateKey);
+            const derivedPublicKey = kakituLib.derivePublicKey(testAccount.privateKey);
             expect(derivedPublicKey.toLowerCase()).toBe(testAccount.publicKey.toLowerCase());
             console.log('✓ Private/Public key pair is valid');
         } catch (error) {
@@ -66,14 +66,14 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
     test('should check account status', async () => {
         const { KakituTransactions } = require('../utils/kakitu-transactions');
         
-        const nanoTx = new KakituTransactions({
+        const kakituTx = new KakituTransactions({
             rpcNodes: ['https://rpc.kakitu.org'],
             rpcKey: 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23'
         });
 
         console.log('\nChecking account info...');
         
-        const accountInfo = await nanoTx.rpcCall('account_info', {
+        const accountInfo = await kakituTx.rpcCall('account_info', {
             account: testAccount.address,
             representative: 'true',
             weight: 'true',

@@ -19,7 +19,7 @@ Successfully tested and implemented RPC node redundancy for Kakitu MCP Server to
 - ✅ Account info queries: **PASSED**
 - ✅ Pending block queries: **PASSED**
 - ✅ Response time: **~340ms** (acceptable)
-- ⚠️  Work generation: External service dependency (dpow-api.nanos.cc) currently unavailable
+- ⚠️  Work generation: External service dependency (dpow-api.kakitu.org) currently unavailable
   - **Note:** This is acceptable as primary node handles work generation
   - Backup node can still handle all other RPC operations
 - **Status:** Fully operational for core functionality
@@ -150,9 +150,9 @@ Error with RPC node https://kakitu.org: timeout
 
 ### Potential Additional Backup Nodes
 If you want to add more redundancy, consider testing these nodes:
-- `https://proxy.nanos.cc/proxy`
+- `https://proxy.kakitu.org/proxy`
 - `https://kakitu.org`
-- `https://mynano.ninja/api/node`
+- `https://kakitu.org/api/node`
 
 Follow the same TDD approach:
 1. Add test for new node in `node-redundancy.test.js`

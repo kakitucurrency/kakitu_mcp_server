@@ -7,7 +7,7 @@ const { KakituTransactions } = require('../../utils/kakitu-transactions');
 class PendingReceiveInterface {
     constructor() {
         // Use the same KakituTransactions class but with isolated configuration
-        this.nanoTransactions = new KakituTransactions({
+        this.kakituTransactions = new KakituTransactions({
             rpcNodes: [process.env.PENDING_RPC_URL || 'https://kakitu.org'],
             rpcKey: null, // No API key required for kakitu.org public node
             defaultRepresentative: process.env.PENDING_REPRESENTATIVE || 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf'
@@ -32,7 +32,7 @@ class PendingReceiveInterface {
             }
 
             // Use the existing receiveAllPending method from KakituTransactions
-            const result = await this.nanoTransactions.receiveAllPending(
+            const result = await this.kakituTransactions.receiveAllPending(
                 params.account,
                 params.privateKey
             );

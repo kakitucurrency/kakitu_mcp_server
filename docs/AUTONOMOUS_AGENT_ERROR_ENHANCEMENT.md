@@ -27,11 +27,11 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
     "errorCode": "INSUFFICIENT_BALANCE",
     "details": {
         "currentBalance": "90000000000000000000000000",
-        "currentBalanceNano": "0.09",
+        "currentBalanceKshs": "0.09",
         "attemptedAmount": "1000000000000000000000000000",
-        "attemptedAmountNano": "1.0",
+        "attemptedAmountKshs": "1.0",
         "shortfall": "910000000000000000000000000",
-        "shortfallNano": "0.91"
+        "shortfallKshs": "0.91"
     },
     "nextSteps": [
         "Check current balance: Use getBalance or getAccountInfo",
@@ -89,7 +89,7 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
         "address": "kshs_xxx",
         "pendingCount": 2,
         "totalPendingAmount": "500000000000000000000000000",
-        "totalPendingAmountNano": "0.5"
+        "totalPendingAmountKshs": "0.5"
     },
     "recommendation": "Receive pending blocks first to ensure accurate balance",
     "nextSteps": [
@@ -118,10 +118,10 @@ Make MCP functions self-documenting with descriptive errors that guide autonomou
         "toConvert_0.1_KSHS_to_raw": "100000000000000000000000000",
         "formula": "raw = KSHS × 10^30",
         "examples": {
-            "0.001_NANO": "1000000000000000000000000000",
-            "0.01_NANO": "10000000000000000000000000",
-            "0.1_NANO": "100000000000000000000000000",
-            "1_NANO": "1000000000000000000000000000000"
+            "0.001_KSHS": "1000000000000000000000000000",
+            "0.01_KSHS": "10000000000000000000000000",
+            "0.1_KSHS": "100000000000000000000000000",
+            "1_KSHS": "1000000000000000000000000000000"
         }
     },
     "nextSteps": [

@@ -4,7 +4,7 @@
  * This file demonstrates real-world usage patterns for the Kakitu MCP Client
  */
 
-import { NanoMcpClient, nanoToRaw, rawToNano, KSHS } from './kakitu-mcp-client';
+import { KakituMcpClient, kshsToRaw, rawToKshs, KSHS } from './kakitu-mcp-client';
 
 // ============================================================================
 // EXAMPLE 1: Basic Wallet Generation and Balance Check
@@ -13,7 +13,7 @@ import { NanoMcpClient, nanoToRaw, rawToNano, KSHS } from './kakitu-mcp-client';
 async function example1_BasicWallet() {
   console.log('\n=== Example 1: Basic Wallet Generation ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // Generate new wallet
@@ -27,8 +27,8 @@ async function example1_BasicWallet() {
     // Check balance
     const balance = await client.getBalance(wallet.address);
     console.log('\n✅ Balance:');
-    console.log(`   Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
-    console.log(`   Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
+    console.log(`   Balance: ${balance.balanceKshs} KSHS (${balance.balance} raw)`);
+    console.log(`   Pending: ${balance.pendingKshs} KSHS (${balance.pending} raw)`);
     
   } catch (error: any) {
     console.error('❌ Error:', error.message);
@@ -42,7 +42,7 @@ async function example1_BasicWallet() {
 async function example2_SmartAccountStatus() {
   console.log('\n=== Example 2: Smart Account Status ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   const address = 'kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn';
   const privateKey = 'your_private_key_here';
@@ -54,9 +54,9 @@ async function example2_SmartAccountStatus() {
     console.log('✅ Account Status:');
     console.log(`   Address: ${status.address}`);
     console.log(`   Initialized: ${status.initialized}`);
-    console.log(`   Balance: ${status.balanceNano} KSHS`);
+    console.log(`   Balance: ${status.balanceKshs} KSHS`);
     console.log(`   Pending Blocks: ${status.pendingCount}`);
-    console.log(`   Pending Amount: ${status.totalPendingNano} KSHS`);
+    console.log(`   Pending Amount: ${status.totalPendingKshs} KSHS`);
     console.log(`   Can Send: ${status.canSend}`);
     
     // Smart action handler based on status
@@ -88,7 +88,7 @@ async function example2_SmartAccountStatus() {
 async function example3_SendWithRetry() {
   console.log('\n=== Example 3: Send Transaction (with auto-retry) ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   const fromAddress = 'kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn';
   const toAddress = 'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd';
@@ -96,9 +96,9 @@ async function example3_SendWithRetry() {
   
   try {
     // Convert KSHS to raw
-    const amountNano = '0.001';
-    const amountRaw = nanoToRaw(amountNano);
-    console.log(`📤 Sending ${amountNano} KSHS (${amountRaw} raw)`);
+    const amountKshs = '0.001';
+    const amountRaw = kshsToRaw(amountKshs);
+    console.log(`📤 Sending ${amountKshs} KSHS (${amountRaw} raw)`);
     console.log(`   From: ${fromAddress.substring(0, 15)}...`);
     console.log(`   To: ${toAddress.substring(0, 15)}...`);
     
@@ -113,7 +113,7 @@ async function example3_SendWithRetry() {
     
     console.log('\n✅ Transaction sent successfully!');
     console.log(`   Hash: ${result.hash}`);
-    console.log(`   Explorer: https://nanolooker.com/block/${result.hash}`);
+    console.log(`   Explorer: https://kakitu.org/block/${result.hash}`);
     
   } catch (error: any) {
     console.error('\n❌ Transaction failed:', error.message);
@@ -128,7 +128,7 @@ async function example3_SendWithRetry() {
 async function example4_ReceivePending() {
   console.log('\n=== Example 4: Receive Pending Blocks ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   const address = 'kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn';
   const privateKey = 'your_private_key_here';
@@ -137,7 +137,7 @@ async function example4_ReceivePending() {
     // Check for pending blocks first
     const status = await client.getAccountStatus(address);
     console.log(`📦 Pending blocks: ${status.pendingCount}`);
-    console.log(`💰 Pending amount: ${status.totalPendingNano} KSHS`);
+    console.log(`💰 Pending amount: ${status.totalPendingKshs} KSHS`);
     
     if (status.pendingCount === 0) {
       console.log('\n✅ No pending blocks to receive');
@@ -165,7 +165,7 @@ async function example4_ReceivePending() {
 async function example5_CompleteWorkflow() {
   console.log('\n=== Example 5: Complete Workflow ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // Step 1: Generate two wallets
@@ -180,7 +180,7 @@ async function example5_CompleteWorkflow() {
     console.log('\n2️⃣ Checking wallet 1 status...');
     const status = await client.getAccountStatus(wallet1.address);
     console.log(`   Initialized: ${status.initialized}`);
-    console.log(`   Pending: ${status.pendingCount} blocks (${status.totalPendingNano} KSHS)`);
+    console.log(`   Pending: ${status.pendingCount} blocks (${status.totalPendingKshs} KSHS)`);
     console.log(`   Can Send: ${status.canSend}`);
     
     // Step 3: Initialize if needed
@@ -191,12 +191,12 @@ async function example5_CompleteWorkflow() {
     }
     
     // Step 4: Send transaction (only if funded)
-    if (status.canSend && parseFloat(status.balanceNano) > 0) {
+    if (status.canSend && parseFloat(status.balanceKshs) > 0) {
       console.log('\n4️⃣ Sending 0.001 KSHS to wallet 2...');
       const tx = await client.sendTransaction(
         wallet1.address,
         wallet2.address,
-        nanoToRaw('0.001'),
+        kshsToRaw('0.001'),
         wallet1.privateKey
       );
       console.log(`   ✅ Sent! Hash: ${tx.hash}`);
@@ -217,15 +217,15 @@ async function example5_CompleteWorkflow() {
 async function example6_UnitConversion() {
   console.log('\n=== Example 6: Unit Conversion ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // Client-side conversion (instant, no API call)
     console.log('🔄 Client-side conversion:');
-    const nanoAmount = '0.1';
-    const rawAmount = nanoToRaw(nanoAmount);
-    console.log(`   ${nanoAmount} KSHS = ${rawAmount} raw`);
-    console.log(`   ${rawAmount} raw = ${rawToNano(rawAmount)} KSHS`);
+    const kshsAmount = '0.1';
+    const rawAmount = kshsToRaw(kshsAmount);
+    console.log(`   ${kshsAmount} KSHS = ${rawAmount} raw`);
+    console.log(`   ${rawAmount} raw = ${rawToKshs(rawAmount)} KSHS`);
     
     // Server-side conversion (uses MCP)
     console.log('\n🔄 Server-side conversion:');
@@ -235,10 +235,10 @@ async function example6_UnitConversion() {
     
     // Using constants
     console.log('\n📊 Common amounts:');
-    console.log(`   1 KSHS = ${KSHS.ONE_NANO} raw`);
-    console.log(`   0.1 KSHS = ${KSHS.POINT_ONE_NANO} raw`);
-    console.log(`   0.01 KSHS = ${KSHS.POINT_ZERO_ONE_NANO} raw`);
-    console.log(`   0.001 KSHS = ${KSHS.POINT_ZERO_ZERO_ONE_NANO} raw`);
+    console.log(`   1 KSHS = ${KSHS.ONE_KSHS} raw`);
+    console.log(`   0.1 KSHS = ${KSHS.POINT_ONE_KSHS} raw`);
+    console.log(`   0.01 KSHS = ${KSHS.POINT_ZERO_ONE_KSHS} raw`);
+    console.log(`   0.001 KSHS = ${KSHS.POINT_ZERO_ZERO_ONE_KSHS} raw`);
     
   } catch (error: any) {
     console.error('❌ Error:', error.message);
@@ -252,7 +252,7 @@ async function example6_UnitConversion() {
 async function example7_QrCode() {
   console.log('\n=== Example 7: QR Code Generation ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   const address = 'kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn';
   
@@ -261,7 +261,7 @@ async function example7_QrCode() {
     const qr = await client.generateQrCode(address, '0.1');
     
     console.log('✅ QR Code generated:');
-    console.log(`   URI: ${qr.nanoUri}`);
+    console.log(`   URI: ${qr.kakituUri}`);
     console.log(`   Image: Base64 PNG (${qr.qrCode.length} chars)`);
     console.log('\n   Save to file:');
     console.log(`   echo "${qr.qrCode}" | base64 -d > payment-qr.png`);
@@ -278,7 +278,7 @@ async function example7_QrCode() {
 async function example8_SchemaDiscovery() {
   console.log('\n=== Example 8: Schema Discovery ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // Get complete schema
@@ -327,7 +327,7 @@ async function example8_SchemaDiscovery() {
 async function example9_ErrorHandling() {
   console.log('\n=== Example 9: Error Handling ===\n');
   
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // Intentionally trigger validation error

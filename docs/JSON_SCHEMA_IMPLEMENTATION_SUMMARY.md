@@ -260,7 +260,7 @@ The Kakitu MCP Server schemas follow industry standards:
 ### **1. Auto-Generated Clients**
 ```python
 # AI agent generates this automatically from schema
-class NanoMcpClient:
+class KakituMcpClient:
     def generateWallet(self):
         """Generate a new Kakitu wallet with address and private key"""
         return self._call('generateWallet', {})

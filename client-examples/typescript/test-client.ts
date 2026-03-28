@@ -6,7 +6,7 @@
  * Or: node test-client.js (if compiled)
  */
 
-import { NanoMcpClient, nanoToRaw, rawToNano, KSHS } from './kakitu-mcp-client';
+import { KakituMcpClient, kshsToRaw, rawToKshs, KSHS } from './kakitu-mcp-client';
 
 // Test configuration
 const TEST_SERVER = 'https://kakitu-mcp.replit.app';
@@ -61,7 +61,7 @@ async function test1_ClientInitialization() {
   testHeader('Test 1: Client Initialization');
   
   try {
-    const client = new NanoMcpClient(TEST_SERVER);
+    const client = new KakituMcpClient(TEST_SERVER);
     testPass('Client instantiated successfully');
     testInfo(`Server URL: ${TEST_SERVER}`);
     return client;
@@ -75,7 +75,7 @@ async function test1_ClientInitialization() {
 // TEST 2: Generate Wallet
 // ============================================================================
 
-async function test2_GenerateWallet(client: NanoMcpClient) {
+async function test2_GenerateWallet(client: KakituMcpClient) {
   testHeader('Test 2: Generate Wallet');
   
   try {
@@ -112,7 +112,7 @@ async function test2_GenerateWallet(client: NanoMcpClient) {
 // TEST 3: Get Balance
 // ============================================================================
 
-async function test3_GetBalance(client: NanoMcpClient, address: string) {
+async function test3_GetBalance(client: KakituMcpClient, address: string) {
   testHeader('Test 3: Get Balance');
   
   try {
@@ -131,15 +131,15 @@ async function test3_GetBalance(client: NanoMcpClient, address: string) {
     testPass('Balance retrieved successfully');
     
     // Display based on available fields
-    if (balance.balanceNano !== undefined) {
-      testInfo(`Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
+    if (balance.balanceKshs !== undefined) {
+      testInfo(`Balance: ${balance.balanceKshs} KSHS (${balance.balance} raw)`);
     } else {
       testInfo(`Balance: ${balance.balance} raw`);
     }
     
     if (balance.pending !== undefined) {
-      if (balance.pendingNano !== undefined) {
-        testInfo(`Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
+      if (balance.pendingKshs !== undefined) {
+        testInfo(`Pending: ${balance.pendingKshs} KSHS (${balance.pending} raw)`);
       } else {
         testInfo(`Pending: ${balance.pending} raw`);
       }
@@ -156,7 +156,7 @@ async function test3_GetBalance(client: NanoMcpClient, address: string) {
 // TEST 4: Get Account Status
 // ============================================================================
 
-async function test4_GetAccountStatus(client: NanoMcpClient, address: string) {
+async function test4_GetAccountStatus(client: KakituMcpClient, address: string) {
   testHeader('Test 4: Get Account Status');
   
   try {
@@ -173,14 +173,14 @@ async function test4_GetAccountStatus(client: NanoMcpClient, address: string) {
     if (status.initialized !== undefined) {
       testInfo(`Initialized: ${status.initialized}`);
     }
-    if (status.balanceNano !== undefined) {
-      testInfo(`Balance: ${status.balanceNano} KSHS`);
+    if (status.balanceKshs !== undefined) {
+      testInfo(`Balance: ${status.balanceKshs} KSHS`);
     } else if (status.balance !== undefined) {
       testInfo(`Balance: ${status.balance} raw`);
     }
     if (status.pendingCount !== undefined) {
-      if (status.totalPendingNano !== undefined) {
-        testInfo(`Pending: ${status.pendingCount} blocks (${status.totalPendingNano} KSHS)`);
+      if (status.totalPendingKshs !== undefined) {
+        testInfo(`Pending: ${status.pendingCount} blocks (${status.totalPendingKshs} KSHS)`);
       } else {
         testInfo(`Pending: ${status.pendingCount} blocks`);
       }
@@ -213,7 +213,7 @@ async function test4_GetAccountStatus(client: NanoMcpClient, address: string) {
 // TEST 5: Client-Side Validation (Invalid Address)
 // ============================================================================
 
-async function test5_ClientValidation(client: NanoMcpClient) {
+async function test5_ClientValidation(client: KakituMcpClient) {
   testHeader('Test 5: Client-Side Validation (Invalid Address)');
   
   try {
@@ -234,7 +234,7 @@ async function test5_ClientValidation(client: NanoMcpClient) {
 // TEST 6: Convert Balance (Server-Side)
 // ============================================================================
 
-async function test6_ConvertBalance(client: NanoMcpClient) {
+async function test6_ConvertBalance(client: KakituMcpClient) {
   testHeader('Test 6: Convert Balance (Server-Side)');
   
   try {
@@ -272,29 +272,29 @@ async function test7_HelperFunctions() {
   testHeader('Test 7: Helper Functions (Client-Side)');
   
   try {
-    // Test nanoToRaw
-    const raw = nanoToRaw('0.1');
+    // Test kshsToRaw
+    const raw = kshsToRaw('0.1');
     if (raw !== '100000000000000000000000000000') {
-      throw new Error('nanoToRaw conversion incorrect');
+      throw new Error('kshsToRaw conversion incorrect');
     }
-    testPass('nanoToRaw() conversion correct');
+    testPass('kshsToRaw() conversion correct');
     testInfo(`0.1 KSHS = ${raw} raw`);
     
-    // Test rawToNano
-    const nano = rawToNano('100000000000000000000000000000');
+    // Test rawToKshs
+    const kshs = rawToKshs('100000000000000000000000000000');
     if (kakitu !== '0.100000') {
-      throw new Error('rawToNano conversion incorrect');
+      throw new Error('rawToKshs conversion incorrect');
     }
-    testPass('rawToNano() conversion correct');
+    testPass('rawToKshs() conversion correct');
     testInfo(`100000000000000000000000000000 raw = ${kakitu} KSHS`);
     
     // Test constants
-    if (KSHS.ONE_NANO !== '1000000000000000000000000000000') {
-      throw new Error('KSHS.ONE_NANO constant incorrect');
+    if (KSHS.ONE_KSHS !== '1000000000000000000000000000000') {
+      throw new Error('KSHS.ONE_KSHS constant incorrect');
     }
     testPass('KSHS constants defined correctly');
-    testInfo(`KSHS.ONE_NANO = ${KSHS.ONE_NANO}`);
-    testInfo(`KSHS.POINT_ONE_NANO = ${KSHS.POINT_ONE_NANO}`);
+    testInfo(`KSHS.ONE_KSHS = ${KSHS.ONE_KSHS}`);
+    testInfo(`KSHS.POINT_ONE_KSHS = ${KSHS.POINT_ONE_KSHS}`);
     
   } catch (error: any) {
     testFail('Helper functions test failed', error);
@@ -305,7 +305,7 @@ async function test7_HelperFunctions() {
 // TEST 8: Schema Discovery
 // ============================================================================
 
-async function test8_SchemaDiscovery(client: NanoMcpClient) {
+async function test8_SchemaDiscovery(client: KakituMcpClient) {
   testHeader('Test 8: Schema Discovery');
   
   try {
@@ -353,7 +353,7 @@ async function test8_SchemaDiscovery(client: NanoMcpClient) {
 // TEST 9: Parameter Validation (Server-Side)
 // ============================================================================
 
-async function test9_ParameterValidation(client: NanoMcpClient) {
+async function test9_ParameterValidation(client: KakituMcpClient) {
   testHeader('Test 9: Parameter Validation (Server-Side)');
   
   try {
@@ -404,7 +404,7 @@ async function test9_ParameterValidation(client: NanoMcpClient) {
 // TEST 10: Generate QR Code
 // ============================================================================
 
-async function test10_GenerateQrCode(client: NanoMcpClient, address: string) {
+async function test10_GenerateQrCode(client: KakituMcpClient, address: string) {
   testHeader('Test 10: Generate QR Code');
   
   try {
@@ -413,12 +413,12 @@ async function test10_GenerateQrCode(client: NanoMcpClient, address: string) {
     if (!qr.qrCode || typeof qr.qrCode !== 'string') {
       throw new Error('Invalid QR code data');
     }
-    if (!qr.nanoUri || !qr.nanoUri.startsWith('kakitu:')) {
+    if (!qr.kakituUri || !qr.kakituUri.startsWith('kakitu:')) {
       throw new Error('Invalid KSHS URI');
     }
     
     testPass('QR code generated successfully');
-    testInfo(`KSHS URI: ${qr.nanoUri}`);
+    testInfo(`KSHS URI: ${qr.kakituUri}`);
     testInfo(`QR Code size: ${qr.qrCode.length} characters (base64)`);
     
   } catch (error: any) {
@@ -430,7 +430,7 @@ async function test10_GenerateQrCode(client: NanoMcpClient, address: string) {
 // TEST 11: Error Handling with Invalid Method
 // ============================================================================
 
-async function test11_ErrorHandling(client: NanoMcpClient) {
+async function test11_ErrorHandling(client: KakituMcpClient) {
   testHeader('Test 11: Error Handling (Invalid Method)');
   
   try {
@@ -458,13 +458,13 @@ async function test12_TypeSafety() {
     // These tests validate at compile-time, not runtime
     // If this code compiles, type safety is working
     
-    const client = new NanoMcpClient(TEST_SERVER);
+    const client = new KakituMcpClient(TEST_SERVER);
     
     // Type checks (these would fail to compile if types were wrong)
     const wallet: { address: string; privateKey: string; publicKey: string; seed: string } = 
       await client.generateWallet();
     
-    const balance: { balance: string; balanceNano: string; pending: string; pendingNano: string } = 
+    const balance: { balance: string; balanceKshs: string; pending: string; pendingKshs: string } = 
       await client.getBalance(wallet.address);
     
     const status: { initialized: boolean; canSend: boolean; needsAction: string[] } = 
@@ -491,7 +491,7 @@ async function runAllTests() {
   log('Started at: ' + new Date().toISOString(), COLORS.yellow);
   console.log('='.repeat(80));
   
-  let client: NanoMcpClient;
+  let client: KakituMcpClient;
   let wallet: any;
   
   try {

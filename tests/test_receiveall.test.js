@@ -139,7 +139,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         try {
             accountInfoBefore = await kakituTx.getAccountInfo(testAccount.address);
             console.log(`Balance (raw): ${accountInfoBefore.balance}`);
-            console.log(`Balance (KSHS): ${KakituConverter.rawToXNO(accountInfoBefore.balance)}`);
+            console.log(`Balance (KSHS): ${KakituConverter.rawToKshs(accountInfoBefore.balance)}`);
             console.log(`Frontier: ${accountInfoBefore.frontier}`);
             console.log(`Block count: ${accountInfoBefore.block_count}`);
         } catch (error) {
@@ -166,7 +166,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
         for (const [hash, blockInfo] of Object.entries(pendingResult.blocks)) {
             console.log(`  - Hash: ${hash}`);
             console.log(`    Amount (raw): ${blockInfo.amount}`);
-            console.log(`    Amount (KSHS): ${KakituConverter.rawToXNO(blockInfo.amount)}`);
+            console.log(`    Amount (KSHS): ${KakituConverter.rawToKshs(blockInfo.amount)}`);
             if (blockInfo.source) {
                 console.log(`    Source: ${blockInfo.source}`);
             }
@@ -216,7 +216,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
 
         if (accountInfoAfter && !accountInfoAfter.error) {
             console.log(`Balance (raw): ${accountInfoAfter.balance}`);
-            console.log(`Balance (KSHS): ${KakituConverter.rawToXNO(accountInfoAfter.balance)}`);
+            console.log(`Balance (KSHS): ${KakituConverter.rawToKshs(accountInfoAfter.balance)}`);
             console.log(`Frontier: ${accountInfoAfter.frontier}`);
             console.log(`Block count: ${accountInfoAfter.block_count}`);
 
@@ -226,7 +226,7 @@ describe('Receive All Pending Transactions - Specific Account Test', () => {
                 const balanceAfter = BigInt(accountInfoAfter.balance);
                 const difference = balanceAfter - balanceBefore;
                 console.log(`\nBalance increase: ${difference.toString()} raw`);
-                console.log(`Balance increase: ${KakituConverter.rawToXNO(difference.toString())} KSHS`);
+                console.log(`Balance increase: ${KakituConverter.rawToKshs(difference.toString())} KSHS`);
             }
         }
 

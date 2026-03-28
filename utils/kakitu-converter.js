@@ -13,7 +13,7 @@
 
 "use strict";
 
-const ONE_XNO_RAW = BigInt("1000000000000000000000000000000"); // 10^30
+const ONE_KSHS_RAW = BigInt("1000000000000000000000000000000"); // 10^30
 
 class KakituConverter {
     /**
@@ -22,35 +22,35 @@ class KakituConverter {
      * @returns {string} Raw amount as string
      * 
      * @example
-     * xnoToRaw(1)        // "1000000000000000000000000000000"
-     * xnoToRaw(0.000001) // "1000000000000000000000000"
-     * xnoToRaw("0.1")    // "100000000000000000000000000000"
+     * kshsToRaw(1)        // "1000000000000000000000000000000"
+     * kshsToRaw(0.000001) // "1000000000000000000000000"
+     * kshsToRaw("0.1")    // "100000000000000000000000000000"
      */
-    static xnoToRaw(kshs) {
+    static kshsToRaw(kshs) {
         try {
             console.log(`[KakituConverter] Converting ${kshs} KSHS to raw`);
             
             // Convert to string - use toString() to avoid floating-point precision errors
             // DO NOT use toFixed() as it exposes floating-point representation errors
-            let xnoStr;
+            let kshsStr;
             if (typeof kshs === 'number') {
                 // Convert to string using toString() which gives clean representation
-                xnoStr = kshs.toString();
+                kshsStr = kshs.toString();
                 // Handle scientific notation (e.g., 1e-9 becomes 0.000000001)
-                if (xnoStr.includes('e')) {
-                    xnoStr = kshs.toFixed(30).replace(/0+$/, '');
+                if (kshsStr.includes('e')) {
+                    kshsStr = kshs.toFixed(30).replace(/0+$/, '');
                 }
             } else {
-                xnoStr = kshs;
+                kshsStr = kshs;
             }
             
             // Validate input
-            if (!xnoStr || xnoStr.trim() === '') {
+            if (!kshsStr || kshsStr.trim() === '') {
                 throw new Error('KSHS amount cannot be empty');
             }
             
             // Split into whole and decimal parts
-            const [whole, decimal = ''] = xnoStr.split('.');
+            const [whole, decimal = ''] = kshsStr.split('.');
             
             // Pad decimal to exactly 30 digits, truncate if longer
             const paddedDecimal = decimal.padEnd(30, '0').slice(0, 30);
@@ -73,11 +73,11 @@ class KakituConverter {
      * @returns {string} KSHS amount as string
      * 
      * @example
-     * rawToXNO("1000000000000000000000000000000") // "1"
-     * rawToXNO("1000000000000000000000000")       // "0.000001"
-     * rawToXNO("100000000000000000000000000000")  // "0.1"
+     * rawToKshs("1000000000000000000000000000000") // "1"
+     * rawToKshs("1000000000000000000000000")       // "0.000001"
+     * rawToKshs("100000000000000000000000000000")  // "0.1"
      */
-    static rawToXNO(raw) {
+    static rawToKshs(raw) {
         try {
             console.log(`[KakituConverter] Converting ${raw} raw to KSHS`);
             
@@ -116,7 +116,7 @@ class KakituConverter {
      * 
      * @example
      * isValidKakituAddress("kshs_3xxx...") // true
-     * isValidKakituAddress("xrb_1xxx...")  // true
+     * isValidKakituAddress("kshs_1xxx...")  // true
      * isValidKakituAddress("invalid")      // false
      */
     static isValidKakituAddress(address) {
@@ -137,14 +137,14 @@ class KakituConverter {
      * @returns {string} Formatted KSHS string
      * 
      * @example
-     * formatXNO("0.123456789", 6) // "0.123457"
-     * formatXNO("1.5", 2)         // "1.50"
+     * formatKshs("0.123456789", 6) // "0.123457"
+     * formatKshs("1.5", 2)         // "1.50"
      */
-    static formatXNO(kshs, decimals = 6) {
+    static formatKshs(kshs, decimals = 6) {
         try {
             console.log(`[KakituConverter] Formatting ${kshs} KSHS to ${decimals} decimals`);
-            const xnoNum = typeof kshs === 'string' ? parseFloat(kshs) : kshs;
-            const result = xnoNum.toFixed(decimals);
+            const kshsNum = typeof kshs === 'string' ? parseFloat(kshs) : kshs;
+            const result = kshsNum.toFixed(decimals);
             console.log(`[KakituConverter] Formatted result: ${result}`);
             return result;
         } catch (error) {
@@ -159,14 +159,14 @@ class KakituConverter {
      */
     static getConversionExamples() {
         return {
-            "0.000001_XNO": "1000000000000000000000000",
-            "0.00001_XNO": "10000000000000000000000000",
-            "0.0001_XNO": "100000000000000000000000000",
-            "0.001_XNO": "1000000000000000000000000000",
-            "0.01_XNO": "10000000000000000000000000000",
-            "0.1_XNO": "100000000000000000000000000000",
-            "1_XNO": "1000000000000000000000000000000",
-            "10_XNO": "10000000000000000000000000000000"
+            "0.000001_KSHS": "1000000000000000000000000",
+            "0.00001_KSHS": "10000000000000000000000000",
+            "0.0001_KSHS": "100000000000000000000000000",
+            "0.001_KSHS": "1000000000000000000000000000",
+            "0.01_KSHS": "10000000000000000000000000000",
+            "0.1_KSHS": "100000000000000000000000000000",
+            "1_KSHS": "1000000000000000000000000000000",
+            "10_KSHS": "10000000000000000000000000000000"
         };
     }
 
@@ -189,16 +189,16 @@ class KakituConverter {
                 "Confusing KSHS with KSHS (they are the same currency)"
             ],
             tools: {
-                xnoToRaw: "KakituConverter.xnoToRaw('0.1') => '100000000000000000000000000000'",
-                rawToXNO: "KakituConverter.rawToXNO('100000000000000000000000000000') => '0.1'",
+                kshsToRaw: "KakituConverter.kshsToRaw('0.1') => '100000000000000000000000000000'",
+                rawToKshs: "KakituConverter.rawToKshs('100000000000000000000000000000') => '0.1'",
                 isValidKakituAddress: "KakituConverter.isValidKakituAddress('kshs_3xxx...') => true",
-                formatXNO: "KakituConverter.formatXNO('0.123456789', 6) => '0.123457'"
+                formatKshs: "KakituConverter.formatKshs('0.123456789', 6) => '0.123457'"
             },
             bestPractices: [
                 "Always use string-based BigInt arithmetic for conversions",
                 "Never use floating-point math for currency calculations",
                 "Validate addresses before transactions",
-                "Use formatXNO for display purposes only, not for calculations",
+                "Use formatKshs for display purposes only, not for calculations",
                 "Store amounts in raw format for precision"
             ]
         };
@@ -226,12 +226,12 @@ class KakituConverter {
      */
     static formatBalance(rawAmount) {
         try {
-            const kshs = this.rawToXNO(rawAmount);
+            const kshs = this.rawToKshs(rawAmount);
             return {
                 raw: rawAmount,
                 kshs: kshs,
-                formatted: this.formatXNO(kshs, 6),
-                display: `${this.formatXNO(kshs, 6)} KSHS`
+                formatted: this.formatKshs(kshs, 6),
+                display: `${this.formatKshs(kshs, 6)} KSHS`
             };
         } catch (error) {
             console.error('[KakituConverter] Error formatting balance:', error);

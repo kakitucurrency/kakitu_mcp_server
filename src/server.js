@@ -141,9 +141,9 @@ const REQUEST_TEMPLATES = {
         },
         id: 1
     },
-    nanoConverterHelp: {
+    kakituConverterHelp: {
         jsonrpc: "2.0",
-        method: "nanoConverterHelp",
+        method: "kakituConverterHelp",
         params: {},
         id: 1
     }
@@ -390,7 +390,7 @@ const MCP_TOOLS = [
         }
     },
     {
-        name: 'nanoConverterHelp',
+        name: 'kakituConverterHelp',
         description: 'Get comprehensive help and examples for Kakitu (KSHS) conversion utilities. Includes conversion formulas, common mistakes, best practices, and ready-to-use examples. Essential for clients who are unfamiliar with Kakitu number formats and raw unit conversions.',
         inputSchema: {
             type: 'object',
@@ -442,7 +442,7 @@ class KakituMCPServer {
             defaultRepresentative: process.env.KAKITU_REPRESENTATIVE || 'kshs_3qya5xpjfsbk3ndfebo9dsrj6iy6f6idmogqtn1mtzdtwnxu6rw3dz18i6xf',
             ...config
         };
-        this.nanoTransactions = new KakituTransactions(this.config);
+        this.kakituTransactions = new KakituTransactions(this.config);
         this.schemaValidator = SchemaValidator.getInstance();
         this.testWalletManager = new TestWalletManager();
     }
@@ -476,7 +476,7 @@ class KakituMCPServer {
                     };
                     break;
                 case 'generateWallet':
-                    result = await this.nanoTransactions.generateWallet();
+                    result = await this.kakituTransactions.generateWallet();
                     break;
                 case 'getBalance':
                     // Validate address parameter
@@ -491,7 +491,7 @@ class KakituMCPServer {
                         return balanceAddressError;
                     }
                     
-                    const balanceInfo = await this.nanoTransactions.getAccountInfo(params.address);
+                    const balanceInfo = await this.kakituTransactions.getAccountInfo(params.address);
                     result = {
                         balance: balanceInfo.balance || '0',
                         pending: balanceInfo.pending || '0'
@@ -510,7 +510,7 @@ class KakituMCPServer {
                         return accountInfoAddressError;
                     }
                     
-                    result = await this.nanoTransactions.getAccountInfo(params.address);
+                    result = await this.kakituTransactions.getAccountInfo(params.address);
                     break;
                 case 'getPendingBlocks':
                     // Validate address parameter
@@ -525,7 +525,7 @@ class KakituMCPServer {
                         return pendingAddressError;
                     }
                     
-                    result = await this.nanoTransactions.getPendingBlocks(params.address);
+                    result = await this.kakituTransactions.getPendingBlocks(params.address);
                     break;
                 case 'initializeAccount':
                     // Validate address parameter
@@ -554,7 +554,7 @@ class KakituMCPServer {
                         return initKeyError;
                     }
                     
-                    result = await this.nanoTransactions.initializeAccount(params.address, params.privateKey);
+                    result = await this.kakituTransactions.initializeAccount(params.address, params.privateKey);
                     break;
                 case 'sendTransaction':
                     // Validate fromAddress parameter
@@ -617,7 +617,7 @@ class KakituMCPServer {
                         return sendKeyError;
                     }
                     
-                    result = await this.nanoTransactions.sendTransaction(
+                    result = await this.kakituTransactions.sendTransaction(
                         params.fromAddress,
                         params.privateKey,
                         params.toAddress,
@@ -651,7 +651,7 @@ class KakituMCPServer {
                         return receiveKeyError;
                     }
                     
-                    result = await this.nanoTransactions.receiveAllPending(params.address, params.privateKey);
+                    result = await this.kakituTransactions.receiveAllPending(params.address, params.privateKey);
                     break;
                 case 'generateQrCode':
                     // Validate address parameter
@@ -735,7 +735,7 @@ class KakituMCPServer {
                         };
                     }
                     
-                    result = await this.nanoTransactions.generateQrCode(params.address, params.amount);
+                    result = await this.kakituTransactions.generateQrCode(params.address, params.amount);
                     break;
                 case 'setupTestWallets':
                     result = await this.testWalletManager.generateTestWallets();
@@ -881,7 +881,7 @@ class KakituMCPServer {
                     
                     try {
                         if (from === 'kakitu' && to === 'raw') {
-                            const raw = BalanceConverter.nanoToRaw(params.amount);
+                            const raw = BalanceConverter.kshsToRaw(params.amount);
                             result = {
                                 original: params.amount,
                                 originalUnit: 'KSHS',
@@ -890,11 +890,11 @@ class KakituMCPServer {
                                 formula: 'raw = KSHS × 10^30'
                             };
                         } else if (from === 'raw' && to === 'kakitu') {
-                            const nano = BalanceConverter.rawToNano(params.amount);
+                            const kshs = BalanceConverter.rawToKshs(params.amount);
                             result = {
                                 original: params.amount,
                                 originalUnit: 'raw',
-                                converted: kakitu,
+                                converted: kshs,
                                 convertedUnit: 'KSHS',
                                 formula: 'KSHS = raw ÷ 10^30'
                             };
@@ -935,12 +935,12 @@ class KakituMCPServer {
                     // Get comprehensive account status
                     let accountInfo;
                     try {
-                        accountInfo = await this.nanoTransactions.getAccountInfo(params.address);
+                        accountInfo = await this.kakituTransactions.getAccountInfo(params.address);
                     } catch (error) {
                         accountInfo = { error: 'Account not found' };
                     }
                     
-                    const pendingBlocks = await this.nanoTransactions.getPendingBlocks(params.address);
+                    const pendingBlocks = await this.kakituTransactions.getPendingBlocks(params.address);
                     const hasPending = pendingBlocks.blocks && Object.keys(pendingBlocks.blocks).length > 0;
                     let pendingCount = 0;
                     let totalPending = BigInt(0);
@@ -987,12 +987,12 @@ class KakituMCPServer {
                         initialized: initialized,
                         balance: {
                             raw: balance,
-                            nano: BalanceConverter.rawToNano(balance)
+                            kshs: BalanceConverter.rawToKshs(balance)
                         },
                         pending: {
                             count: pendingCount,
                             totalAmount: totalPending.toString(),
-                            totalAmountNano: BalanceConverter.rawToNano(totalPending.toString())
+                            totalAmountKshs: BalanceConverter.rawToKshs(totalPending.toString())
                         },
                         capabilities: {
                             canSend: canSend,
@@ -1005,19 +1005,19 @@ class KakituMCPServer {
                             : needsAction.map(a => `${a.priority.toUpperCase()}: ${a.action} - ${a.reason}`)
                     };
                     break;
-                case 'nanoConverterHelp':
+                case 'kakituConverterHelp':
                     // Return comprehensive Kakitu conversion help for clients unfamiliar with Kakitu formats
                     result = {
                         ...KakituConverter.getConversionHelp(),
                         utilityFunctions: {
-                            xnoToRaw: {
+                            kshsToRaw: {
                                 description: "Convert KSHS amount to raw units (use this for all transaction amounts)",
-                                example: "xnoToRaw(1) => '1000000000000000000000000000000'",
+                                example: "kshsToRaw(1) => '1000000000000000000000000000000'",
                                 usage: "Always use this before sending transactions"
                             },
-                            rawToXNO: {
+                            rawToKshs: {
                                 description: "Convert raw units to KSHS amount (use for display purposes)",
-                                example: "rawToXNO('1000000000000000000000000000000') => '1'",
+                                example: "rawToKshs('1000000000000000000000000000000') => '1'",
                                 usage: "Use for human-readable display of balances"
                             },
                             isValidKakituAddress: {
@@ -1025,18 +1025,18 @@ class KakituMCPServer {
                                 example: "isValidKakituAddress('kshs_3xxx...') => true",
                                 usage: "Always validate addresses before sending"
                             },
-                            formatXNO: {
+                            formatKshs: {
                                 description: "Format KSHS amount for display with specific decimal places",
-                                example: "formatXNO('0.123456789', 6) => '0.123457'",
+                                example: "formatKshs('0.123456789', 6) => '0.123457'",
                                 usage: "Use for consistent display formatting (display only, not for calculations)"
                             }
                         },
                         exampleWorkflow: [
                             "Step 1: Get user input in KSHS (e.g., '0.1')",
-                            "Step 2: Convert to raw using KakituConverter.xnoToRaw('0.1')",
+                            "Step 2: Convert to raw using KakituConverter.kshsToRaw('0.1')",
                             "Step 3: Validate address using KakituConverter.isValidKakituAddress(address)",
                             "Step 4: Use raw amount in sendTransaction",
-                            "Step 5: Display confirmation using KakituConverter.formatXNO()"
+                            "Step 5: Display confirmation using KakituConverter.formatKshs()"
                         ],
                         integrationWithMCP: {
                             convertBalance: "Use 'convertBalance' MCP method for conversions in production",

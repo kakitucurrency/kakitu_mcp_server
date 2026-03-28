@@ -2,11 +2,11 @@ const { KakituTransactions } = require('../utils/kakitu-transactions');
 
 class KeyManager {
     constructor(config) {
-        this.nanoTransactions = new KakituTransactions({}, config);
+        this.kakituTransactions = new KakituTransactions({}, config);
     }
 
     async generateKeyPair() {
-        const wallet = await this.nanoTransactions.generateWallet();
+        const wallet = await this.kakituTransactions.generateWallet();
         return {
             publicKey: wallet.publicKey,
             privateKey: wallet.privateKey,

@@ -60,7 +60,7 @@ async function testReceiveScenario() {
         // Step 1: Generate wallet
         console.log('1. Generating new wallet...');
         
-        // Generate a new wallet using nanocurrency-web
+        // Generate a new wallet using kakitu-web
         const walletData = wallet.generateLegacy();
         const account = walletData.accounts[0].address;
         const privateKey = walletData.accounts[0].privateKey;
@@ -134,12 +134,12 @@ async function testReceiveScenario() {
             console.log('\n6. Processing pending blocks...');
             for (const [hash, blockInfo] of Object.entries(pendingResult.blocks)) {
                 // Convert raw amount to kakitu for display
-                const rawToNanoResult = await makeRPCCall('raw_to_nano', {
+                const rawToKshsResult = await makeRPCCall('raw_to_kshs', {
                     amount: blockInfo.amount
                 });
-                console.log(`Receiving ${rawToNanoResult.nano} KSHS from block ${hash}`);
+                console.log(`Receiving ${rawToKshsResult.kakitu} KSHS from block ${hash}`);
 
-                // Create and sign the receive block using nanocurrency-web
+                // Create and sign the receive block using kakitu-web
                 const receiveBlockData = {
                     walletBalanceRaw: '0', // Initial balance is 0 for first receive
                     toAddress: account,
@@ -169,10 +169,10 @@ async function testReceiveScenario() {
             });
             
             if (balanceResult.balance) {
-                const finalBalanceNano = await makeRPCCall('raw_to_nano', {
+                const finalBalanceKshs = await makeRPCCall('raw_to_kshs', {
                     amount: balanceResult.balance
                 });
-                console.log('Final balance:', finalBalanceNano.kakitu, 'KSHS');
+                console.log('Final balance:', finalBalanceKshs.kakitu, 'KSHS');
             } else {
                 console.log('Final balance:', balanceResult);
             }

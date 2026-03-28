@@ -30,8 +30,8 @@ All required npm packages are installed and up-to-date:
 - ✅ express@4.18.2
 - ✅ cors@2.8.5
 - ✅ body-parser@1.20.2
-- ✅ nanocurrency@1.12.0
-- ✅ nanocurrency-web@1.4.3
+- ✅ nanocurrency (npm package) @1.12.0
+- ✅ nanocurrency-web (npm package) @1.4.3
 - ✅ node-fetch@2.7.0
 - ✅ swagger-jsdoc@6.2.8
 - ✅ swagger-ui-express@5.0.0

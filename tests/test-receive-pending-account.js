@@ -94,8 +94,8 @@ function validateAccountCredentials() {
         // Validate private/public key pair
         logInfo('Validating private/public key pair...');
         // Use the keyPair function to derive public key from private key
-        const nanocurrency = require('nanocurrency');
-        const derivedPublicKey = nanocurrency.derivePublicKey(ACCOUNT.privateKey);
+        const kakituLib = require('nanocurrency');
+        const derivedPublicKey = kakituLib.derivePublicKey(ACCOUNT.privateKey);
         if (derivedPublicKey.toLowerCase() !== ACCOUNT.publicKey.toLowerCase()) {
             throw new Error(`Private key does not match public key. Expected: ${ACCOUNT.publicKey}, Got: ${derivedPublicKey}`);
         }
@@ -112,12 +112,12 @@ function validateAccountCredentials() {
 /**
  * Check account status on the network
  */
-async function checkAccountStatus(nanoTx) {
+async function checkAccountStatus(kakituTx) {
     logSubSection('Checking Account Status');
     
     try {
         logInfo('Querying account_info...');
-        const accountInfo = await nanoTx.rpcCall('account_info', {
+        const accountInfo = await kakituTx.rpcCall('account_info', {
             account: ACCOUNT.address,
             representative: 'true',
             weight: 'true',
@@ -132,7 +132,7 @@ async function checkAccountStatus(nanoTx) {
         logSuccess('Account is opened and active');
         logInfo('Account Information:', {
             balance_raw: accountInfo.balance,
-            balance_xno: KakituConverter.rawToXNO(accountInfo.balance),
+            balance_kshs: KakituConverter.rawToKshs(accountInfo.balance),
             frontier: accountInfo.frontier,
             representative: accountInfo.representative,
             block_count: accountInfo.block_count
@@ -148,12 +148,12 @@ async function checkAccountStatus(nanoTx) {
 /**
  * Get pending blocks for the account
  */
-async function getPendingBlocks(nanoTx) {
+async function getPendingBlocks(kakituTx) {
     logSubSection('Fetching Pending Blocks');
     
     try {
         logInfo('Querying pending blocks...');
-        const pendingResult = await nanoTx.rpcCall('pending', {
+        const pendingResult = await kakituTx.rpcCall('pending', {
             account: ACCOUNT.address,
             count: '100',
             source: 'true',
@@ -178,9 +178,9 @@ async function getPendingBlocks(nanoTx) {
         logSuccess(`Found ${pendingBlocks.length} pending block(s)`);
         
         pendingBlocks.forEach((block, idx) => {
-            const amountXNO = KakituConverter.rawToXNO(block.amount);
+            const amountKshs = KakituConverter.rawToKshs(block.amount);
             logInfo(`  ${idx + 1}. Hash: ${block.hash}`);
-            logInfo(`     Amount: ${block.amount} raw (${amountXNO} KSHS)`);
+            logInfo(`     Amount: ${block.amount} raw (${amountKshs} KSHS)`);
             if (block.source) {
                 logInfo(`     Source: ${block.source}`);
             }
@@ -196,12 +196,12 @@ async function getPendingBlocks(nanoTx) {
 /**
  * Process a single pending block
  */
-async function processPendingBlock(nanoTx, pendingBlock, accountStatus, blockIndex, totalBlocks) {
+async function processPendingBlock(kakituTx, pendingBlock, accountStatus, blockIndex, totalBlocks) {
     logSubSection(`Processing Block ${blockIndex + 1}/${totalBlocks}`);
     
     try {
         logInfo(`Block hash: ${pendingBlock.hash}`);
-        logInfo(`Amount: ${pendingBlock.amount} raw (${KakituConverter.rawToXNO(pendingBlock.amount)} KSHS)`);
+        logInfo(`Amount: ${pendingBlock.amount} raw (${KakituConverter.rawToKshs(pendingBlock.amount)} KSHS)`);
 
         // Determine if this is a new account (first receive)
         const isNewAccount = !accountStatus.exists;
@@ -214,7 +214,7 @@ async function processPendingBlock(nanoTx, pendingBlock, accountStatus, blockInd
         // Generate work
         logInfo('Generating Proof of Work...');
         const startTime = Date.now();
-        const workResult = await nanoTx.generateWork(workHash);
+        const workResult = await kakituTx.generateWork(workHash);
         const workDuration = Date.now() - startTime;
         
         // The work result can be either a string or an object with a work property
@@ -255,7 +255,7 @@ async function processPendingBlock(nanoTx, pendingBlock, accountStatus, blockInd
 
         // Broadcast block
         logInfo('Broadcasting block to network...');
-        const processResult = await nanoTx.rpcCall('process', {
+        const processResult = await kakituTx.rpcCall('process', {
             json_block: 'true',
             subtype: isNewAccount ? 'open' : 'receive',
             block: signedBlock
@@ -290,7 +290,7 @@ async function processPendingBlock(nanoTx, pendingBlock, accountStatus, blockInd
 /**
  * Receive all pending blocks
  */
-async function receiveAllPendingBlocks(nanoTx, pendingBlocks, accountStatus) {
+async function receiveAllPendingBlocks(kakituTx, pendingBlocks, accountStatus) {
     logSubSection('Receiving All Pending Blocks');
     
     const results = {
@@ -302,7 +302,7 @@ async function receiveAllPendingBlocks(nanoTx, pendingBlocks, accountStatus) {
     };
 
     for (let i = 0; i < pendingBlocks.length; i++) {
-        const result = await processPendingBlock(nanoTx, pendingBlocks[i], accountStatus, i, pendingBlocks.length);
+        const result = await processPendingBlock(kakituTx, pendingBlocks[i], accountStatus, i, pendingBlocks.length);
 
         if (result.success) {
             results.processed.push(result);
@@ -310,7 +310,7 @@ async function receiveAllPendingBlocks(nanoTx, pendingBlocks, accountStatus) {
 
             // Update account status for next iteration
             try {
-                const updatedInfo = await nanoTx.rpcCall('account_info', {
+                const updatedInfo = await kakituTx.rpcCall('account_info', {
                     account: ACCOUNT.address
                 });
                 accountStatus.exists = true;
@@ -334,7 +334,7 @@ async function receiveAllPendingBlocks(nanoTx, pendingBlocks, accountStatus) {
 /**
  * Display final results
  */
-async function displayResults(nanoTx, results) {
+async function displayResults(kakituTx, results) {
     logSection('FINAL RESULTS');
     
     logInfo(`Total pending blocks: ${results.total}`);
@@ -348,9 +348,9 @@ async function displayResults(nanoTx, results) {
             totalReceived += BigInt(item.amount);
             logInfo(`  ${idx + 1}. Hash: ${item.hash}`);
             logInfo(`     Processed Hash: ${item.processedHash}`);
-            logInfo(`     Amount: ${item.amount} raw (${KakituConverter.rawToXNO(item.amount)} KSHS)`);
+            logInfo(`     Amount: ${item.amount} raw (${KakituConverter.rawToKshs(item.amount)} KSHS)`);
         });
-        logSuccess(`Total received: ${totalReceived.toString()} raw (${KakituConverter.rawToXNO(totalReceived.toString())} KSHS)`);
+        logSuccess(`Total received: ${totalReceived.toString()} raw (${KakituConverter.rawToKshs(totalReceived.toString())} KSHS)`);
     }
 
     if (results.failedCount > 0) {
@@ -364,14 +364,14 @@ async function displayResults(nanoTx, results) {
     // Get final account status
     logSubSection('Final Account Status');
     try {
-        const finalAccountInfo = await nanoTx.rpcCall('account_info', {
+        const finalAccountInfo = await kakituTx.rpcCall('account_info', {
             account: ACCOUNT.address
         });
 
         if (finalAccountInfo && !finalAccountInfo.error) {
             logSuccess('Account Information:');
             logInfo(`  Balance (raw): ${finalAccountInfo.balance}`);
-            logInfo(`  Balance (KSHS): ${KakituConverter.rawToXNO(finalAccountInfo.balance)}`);
+            logInfo(`  Balance (KSHS): ${KakituConverter.rawToKshs(finalAccountInfo.balance)}`);
             logInfo(`  Frontier: ${finalAccountInfo.frontier}`);
             logInfo(`  Representative: ${finalAccountInfo.representative}`);
             logInfo(`  Block count: ${finalAccountInfo.block_count}`);
@@ -399,14 +399,14 @@ async function main() {
 
         // Step 2: Initialize Kakitu Transactions
         logSubSection('Initializing Kakitu Transactions');
-        const nanoTx = new KakituTransactions(RPC_CONFIG);
+        const kakituTx = new KakituTransactions(RPC_CONFIG);
         logSuccess('KakituTransactions initialized');
 
         // Step 3: Check account status
-        const accountStatus = await checkAccountStatus(nanoTx);
+        const accountStatus = await checkAccountStatus(kakituTx);
 
         // Step 4: Get pending blocks
-        const pendingBlocks = await getPendingBlocks(nanoTx);
+        const pendingBlocks = await getPendingBlocks(kakituTx);
 
         if (pendingBlocks.length === 0) {
             logWarning('No pending blocks to process. Exiting.');
@@ -416,10 +416,10 @@ async function main() {
         }
 
         // Step 5: Process all pending blocks
-        const results = await receiveAllPendingBlocks(nanoTx, pendingBlocks, accountStatus);
+        const results = await receiveAllPendingBlocks(kakituTx, pendingBlocks, accountStatus);
 
         // Step 6: Display results
-        await displayResults(nanoTx, results);
+        await displayResults(kakituTx, results);
 
         // Final summary
         logSection('SCRIPT COMPLETED SUCCESSFULLY');

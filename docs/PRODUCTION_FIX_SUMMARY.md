@@ -74,7 +74,7 @@ No regressions detected
 ### Before (Production Error)
 ```javascript
 // Work generation could hang forever
-const work = await nanocurrency.work(hash, threshold);
+const work = await kakitu.work(hash, threshold);
 // ❌ No timeout
 // ❌ No retry
 // ❌ Application hangs

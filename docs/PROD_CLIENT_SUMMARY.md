@@ -58,7 +58,7 @@ You provided TypeScript code with bugs and requested a **production-level MCP cl
 ### **1. Complete Type System**
 ```typescript
 // All types defined
-export type NanoAddress = string;
+export type KakituAddress = string;
 export type PrivateKey = string;
 export type BlockHash = string;
 export type RawAmount = string;
@@ -69,10 +69,10 @@ export interface SendTransactionResult {
 }
 
 export interface AccountStatusResult {
-  address: NanoAddress;
+  address: KakituAddress;
   initialized: boolean;
   balance: RawAmount;
-  balanceNano: string;
+  balanceKshs: string;
   pendingCount: number;
   canSend: boolean;
   needsAction: string[];
@@ -148,14 +148,14 @@ const INITIAL_RETRY_DELAY = 2000; // 2 seconds
 ### **6. Helper Functions**
 ```typescript
 // Convert KSHS to raw (instant, no API call)
-export function nanoToRaw(nanoAmount: string | number): string {
-  const kakitu = typeof nanoAmount === 'string' ? parseFloat(nanoAmount) : nanoAmount;
+export function kshsToRaw(kshsAmount: string | number): string {
+  const kshs = typeof kshsAmount === 'string' ? parseFloat(kshsAmount) : kshsAmount;
   const rawBigInt = BigInt(Math.floor(kakitu * 1e6)) * BigInt('1000000000000000000000000');
   return rawBigInt.toString();
 }
 
 // Convert raw to KSHS (instant, no API call)
-export function rawToNano(rawAmount: string): string {
+export function rawToKshs(rawAmount: string): string {
   const raw = BigInt(rawAmount);
   const kakitu = Number(raw) / 1e30;
   return kakitu.toFixed(6);
@@ -163,10 +163,10 @@ export function rawToNano(rawAmount: string): string {
 
 // Constants
 export const KSHS = {
-  ONE_NANO: '1000000000000000000000000000000',
-  POINT_ONE_NANO: '100000000000000000000000000000',
-  POINT_ZERO_ONE_NANO: '10000000000000000000000000000',
-  POINT_ZERO_ZERO_ONE_NANO: '1000000000000000000000000000'
+  ONE_KSHS: '1000000000000000000000000000000',
+  POINT_ONE_KSHS: '100000000000000000000000000000',
+  POINT_ZERO_ONE_KSHS: '10000000000000000000000000000',
+  POINT_ZERO_ZERO_ONE_KSHS: '1000000000000000000000000000'
 };
 ```
 
@@ -217,9 +217,9 @@ async getTypeScriptDefinitions(): Promise<string> {
 
 ### **Quick Start**
 ```typescript
-import { NanoMcpClient, nanoToRaw } from './kakitu-mcp-client';
+import { KakituMcpClient, kshsToRaw } from './kakitu-mcp-client';
 
-const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
 
 // Generate wallet
 const wallet = await client.generateWallet();
@@ -231,7 +231,7 @@ const status = await client.getAccountStatus(wallet.address);
 const tx = await client.sendTransaction(
   fromAddress,
   toAddress,
-  nanoToRaw('0.001'),
+  kshsToRaw('0.001'),
   privateKey
 );
 ```
@@ -274,8 +274,8 @@ try {
 | Retry Logic | ❌ Basic | ✅ Smart with backoff |
 | Error Handling | ❌ Generic | ✅ Rich with guidance |
 | Timeouts | ❌ Not managed | ✅ Production (30s/60s) |
-| Helper Functions | ❌ Missing | ✅ nanoToRaw, rawToNano |
-| Constants | ❌ Missing | ✅ KSHS.ONE_NANO, etc. |
+| Helper Functions | ❌ Missing | ✅ kshsToRaw, rawToKshs |
+| Constants | ❌ Missing | ✅ KSHS.ONE_KSHS, etc. |
 | Schema Integration | ❌ None | ✅ Full discovery |
 | Examples | ❌ None | ✅ 9 complete examples |
 | Documentation | ❌ None | ✅ Comprehensive README |
@@ -316,9 +316,9 @@ cp -r client-examples/typescript/* your-project/src/
 
 ### **2. Use in Your Code**
 ```typescript
-import { NanoMcpClient, nanoToRaw } from './kakitu-mcp-client';
+import { KakituMcpClient, kshsToRaw } from './kakitu-mcp-client';
 
-const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
 const wallet = await client.generateWallet();
 ```
 

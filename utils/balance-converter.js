@@ -11,16 +11,16 @@ const KSHS_TO_RAW_MULTIPLIER = BigInt("1000000000000000000000000000000"); // 10^
 class BalanceConverter {
     /**
      * Convert KSHS to raw units
-     * @param {string|number} nanoAmount - Amount in KSHS
+     * @param {string|number} kshsAmount - Amount in KSHS
      * @returns {string} Amount in raw units
      */
-    static nanoToRaw(nanoAmount) {
+    static kshsToRaw(kshsAmount) {
         try {
-            console.log(`[BalanceConverter] Converting ${nanoAmount} KSHS to raw`);
+            console.log(`[BalanceConverter] Converting ${kshsAmount} KSHS to raw`);
             
             // Handle string with decimal
-            const nanoStr = String(nanoAmount);
-            const [whole, decimal = '0'] = nanoStr.split('.');
+            const kshsStr = String(kshsAmount);
+            const [whole, decimal = '0'] = kshsStr.split('.');
             
             // Pad decimal to 30 digits
             const paddedDecimal = decimal.padEnd(30, '0').slice(0, 30);
@@ -35,7 +35,7 @@ class BalanceConverter {
             return result;
         } catch (error) {
             console.error('[BalanceConverter] Error converting KSHS to raw:', error);
-            throw new Error(`Invalid KSHS amount: ${nanoAmount}. Must be a valid number.`);
+            throw new Error(`Invalid KSHS amount: ${kshsAmount}. Must be a valid number.`). Must be a valid number.`);
         }
     }
 
@@ -44,7 +44,7 @@ class BalanceConverter {
      * @param {string|BigInt} rawAmount - Amount in raw units
      * @returns {string} Amount in KSHS (decimal string)
      */
-    static rawToNano(rawAmount) {
+    static rawToKshs(rawAmount) {
         try {
             console.log(`[BalanceConverter] Converting ${rawAmount} raw to KSHS`);
             
@@ -77,14 +77,14 @@ class BalanceConverter {
      */
     static getConversionExamples() {
         return {
-            "0.000001_NANO": "1000000000000000000000000",
-            "0.00001_NANO": "10000000000000000000000000",
-            "0.0001_NANO": "100000000000000000000000000",
-            "0.001_NANO": "1000000000000000000000000000",
-            "0.01_NANO": "10000000000000000000000000000",
-            "0.1_NANO": "100000000000000000000000000000",
-            "1_NANO": "1000000000000000000000000000000",
-            "10_NANO": "10000000000000000000000000000000"
+            "0.000001_KSHS": "1000000000000000000000000",
+            "0.00001_KSHS": "10000000000000000000000000",
+            "0.0001_KSHS": "100000000000000000000000000",
+            "0.001_KSHS": "1000000000000000000000000000",
+            "0.01_KSHS": "10000000000000000000000000000",
+            "0.1_KSHS": "100000000000000000000000000000",
+            "1_KSHS": "1000000000000000000000000000000",
+            "10_KSHS": "10000000000000000000000000000000"
         };
     }
 
@@ -108,7 +108,7 @@ class BalanceConverter {
      * @returns {Object} Formatted balance
      */
     static formatBalance(rawAmount) {
-        const nano = this.rawToNano(rawAmount);
+        const kshs = this.rawToKshs(rawAmount);
         return {
             raw: rawAmount,
             kakitu: kakitu,
@@ -132,8 +132,8 @@ class BalanceConverter {
                 "Not converting before API calls"
             ],
             tools: {
-                nanoToRaw: "BalanceConverter.nanoToRaw('0.1') => '100000000000000000000000000'",
-                rawToNano: "BalanceConverter.rawToNano('100000000000000000000000000') => '0.1'"
+                kshsToRaw: "BalanceConverter.kshsToRaw('0.1') => '100000000000000000000000000'",
+                rawToKshs: "BalanceConverter.rawToKshs('100000000000000000000000000') => '0.1'"
             }
         };
     }

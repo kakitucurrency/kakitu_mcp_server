@@ -332,13 +332,13 @@
  * Auto-generated from JSON Schema for AI agents and TypeScript clients
  */
 
-export type NanoAddress = string;
+export type KakituAddress = string;
 export type PrivateKey = string;
 export type BlockHash = string;
 
 export interface SendTransactionParams {
-  fromAddress: NanoAddress;
-  toAddress: NanoAddress;
+  fromAddress: KakituAddress;
+  toAddress: KakituAddress;
   amountRaw: RawAmount;
   privateKey: PrivateKey;
 }

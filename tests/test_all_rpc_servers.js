@@ -167,7 +167,7 @@ tcp6       0      0 2a0f:f01:206:43e:::7075 2a01:4f8:13b:119e:37996 ESTABLISHED
 tcp6       0      0 2a0f:f01:206:43e:::7075 2001:1c06:2584-db:50488 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      ec2-54-216-66-11.:32737 ESTABLISHED
 tcp6       0      0 2a0f:f01:206:43e:::7075 2a01:4f9:3051:44a:45278 ESTABLISHED
-tcp6       0      0 92.113.148.61:50806     thenanonode:7075        ESTABLISHED
+tcp6       0      0 92.113.148.61:50806     thekakitunode:7075        ESTABLISHED
 tcp6       0      0 92.113.148.61:38438     vmi2635844.contabo:7075 ESTABLISHED
 tcp6       0      0 2a0f:f01:206:43e:::7075 2a03:4000:5f:e15::58678 ESTABLISHED
 tcp6       0      0 92.113.148.61:7075      static.90.54.109.:37708 ESTABLISHED

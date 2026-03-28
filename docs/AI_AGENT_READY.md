@@ -114,9 +114,9 @@ Your Kakitu MCP Server is now **100% AI agent-ready** with comprehensive enhance
 {
     "success": false,
     "errorCode": "INSUFFICIENT_BALANCE",
-    "currentBalanceNano": "0.00016",
-    "attemptedAmountNano": "0.002",
-    "shortfallNano": "0.00184",
+    "currentBalanceKshs": "0.00016",
+    "attemptedAmountKshs": "0.002",
+    "shortfallKshs": "0.00184",
     "nextSteps": [
         "Step 1: Check current balance...",
         "Step 2: Reduce to 0.00016 KSHS max",

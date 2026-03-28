@@ -6,7 +6,7 @@
  * This verifies actual blockchain operations, not just schema validation.
  */
 
-import { NanoMcpClient } from './kakitu-mcp-client';
+import { KakituMcpClient } from './kakitu-mcp-client';
 
 // ============================================
 // Test Configuration
@@ -85,7 +85,7 @@ async function test1_ClientInit() {
   testHeader('Test 1: Client Initialization');
   
   try {
-    const client = new NanoMcpClient(PRODUCTION_URL);
+    const client = new KakituMcpClient(PRODUCTION_URL);
     testPass('Client initialized successfully');
     testInfo(`URL: ${PRODUCTION_URL}`);
     return client;
@@ -95,16 +95,16 @@ async function test1_ClientInit() {
   }
 }
 
-async function test2_CheckWallet1Balance(client: NanoMcpClient) {
+async function test2_CheckWallet1Balance(client: KakituMcpClient) {
   testHeader('Test 2: Check Wallet 1 Balance & Status');
   
   try {
     const balance = await client.getBalance(WALLET1.address);
     testPass('Balance retrieved successfully');
     
-    if (balance.balanceNano !== undefined) {
-      testInfo(`Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
-      testInfo(`Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
+    if (balance.balanceKshs !== undefined) {
+      testInfo(`Balance: ${balance.balanceKshs} KSHS (${balance.balance} raw)`);
+      testInfo(`Pending: ${balance.pendingKshs} KSHS (${balance.pending} raw)`);
     } else {
       testInfo(`Balance: ${balance.balance} raw`);
       testInfo(`Pending: ${balance.pending} raw`);
@@ -134,16 +134,16 @@ async function test2_CheckWallet1Balance(client: NanoMcpClient) {
   }
 }
 
-async function test3_CheckWallet2Balance(client: NanoMcpClient) {
+async function test3_CheckWallet2Balance(client: KakituMcpClient) {
   testHeader('Test 3: Check Wallet 2 Balance & Status');
   
   try {
     const balance = await client.getBalance(WALLET2.address);
     testPass('Balance retrieved successfully');
     
-    if (balance.balanceNano !== undefined) {
-      testInfo(`Balance: ${balance.balanceNano} KSHS (${balance.balance} raw)`);
-      testInfo(`Pending: ${balance.pendingNano} KSHS (${balance.pending} raw)`);
+    if (balance.balanceKshs !== undefined) {
+      testInfo(`Balance: ${balance.balanceKshs} KSHS (${balance.balance} raw)`);
+      testInfo(`Pending: ${balance.pendingKshs} KSHS (${balance.pending} raw)`);
     } else {
       testInfo(`Balance: ${balance.balance} raw`);
       testInfo(`Pending: ${balance.pending} raw`);
@@ -173,7 +173,7 @@ async function test3_CheckWallet2Balance(client: NanoMcpClient) {
   }
 }
 
-async function test4_CheckPendingBlocks(client: NanoMcpClient, address: string, walletName: string) {
+async function test4_CheckPendingBlocks(client: KakituMcpClient, address: string, walletName: string) {
   testHeader(`Test 4: Check Pending Blocks for ${walletName}`);
   
   try {
@@ -182,8 +182,8 @@ async function test4_CheckPendingBlocks(client: NanoMcpClient, address: string, 
     
     if (pending.count > 0) {
       testInfo(`Pending blocks: ${pending.count}`);
-      if (pending.totalPendingNano !== undefined) {
-        testInfo(`Total pending: ${pending.totalPendingNano} KSHS`);
+      if (pending.totalPendingKshs !== undefined) {
+        testInfo(`Total pending: ${pending.totalPendingKshs} KSHS`);
       }
       testWarn(`This wallet needs to receive ${pending.count} block(s)`);
       return { hasPending: true, count: pending.count, pending };
@@ -197,7 +197,7 @@ async function test4_CheckPendingBlocks(client: NanoMcpClient, address: string, 
   }
 }
 
-async function test5_InitializeAccount(client: NanoMcpClient, address: string, privateKey: string, walletName: string, hasPending: boolean) {
+async function test5_InitializeAccount(client: KakituMcpClient, address: string, privateKey: string, walletName: string, hasPending: boolean) {
   testHeader(`Test 5: Initialize ${walletName} (if needed)`);
   
   if (!hasPending) {
@@ -229,7 +229,7 @@ async function test5_InitializeAccount(client: NanoMcpClient, address: string, p
   }
 }
 
-async function test6_ReceiveAllPending(client: NanoMcpClient, address: string, privateKey: string, walletName: string, hasPending: boolean) {
+async function test6_ReceiveAllPending(client: KakituMcpClient, address: string, privateKey: string, walletName: string, hasPending: boolean) {
   testHeader(`Test 6: Receive All Pending for ${walletName} (if needed)`);
   
   if (!hasPending) {
@@ -260,7 +260,7 @@ async function test6_ReceiveAllPending(client: NanoMcpClient, address: string, p
   }
 }
 
-async function test7_SendTransaction(client: NanoMcpClient, wallet1Balance: any, wallet2Address: string) {
+async function test7_SendTransaction(client: KakituMcpClient, wallet1Balance: any, wallet2Address: string) {
   testHeader('Test 7: Send Transaction from Wallet 1 to Wallet 2');
   
   // Check if wallet1 has sufficient balance
@@ -300,7 +300,7 @@ async function test7_SendTransaction(client: NanoMcpClient, wallet1Balance: any,
   }
 }
 
-async function test8_QRCode(client: NanoMcpClient) {
+async function test8_QRCode(client: KakituMcpClient) {
   testHeader('Test 8: Generate QR Code for Wallet 1');
   
   try {
@@ -319,20 +319,20 @@ async function test8_QRCode(client: NanoMcpClient) {
   }
 }
 
-async function test9_BalanceConversion(client: NanoMcpClient) {
+async function test9_BalanceConversion(client: KakituMcpClient) {
   testHeader('Test 9: Balance Conversion (Kakitu ↔ Raw)');
   
   try {
     // Test conversion helpers
-    const testNano = '1.5';
+    const testKshs = '1.5';
     const testRaw = '1500000000000000000000000000000';
     
-    const toRaw = client.nanoToRaw(testNano);
-    const toNano = client.rawToNano(testRaw);
+    const toRaw = client.kshsToRaw(testKshs);
+    const toKshs = client.rawToKshs(testRaw);
     
     testPass('Client-side conversions work');
-    testInfo(`${testNano} KSHS = ${toRaw} raw`);
-    testInfo(`${testRaw} raw = ${toNano} KSHS`);
+    testInfo(`${testKshs} KSHS = ${toRaw} raw`);
+    testInfo(`${testRaw} raw = ${toKshs} KSHS`);
     
     // Test MCP convertBalance if available
     try {
@@ -354,7 +354,7 @@ async function test9_BalanceConversion(client: NanoMcpClient) {
   }
 }
 
-async function test10_ErrorHandling(client: NanoMcpClient) {
+async function test10_ErrorHandling(client: KakituMcpClient) {
   testHeader('Test 10: Error Handling & Validation');
   
   let testsRun = 0;
@@ -467,8 +467,8 @@ async function runIntegrationTests() {
     if (wallet1Pending.hasPending) {
       testHeader('Re-checking Wallet 1 Balance After Receiving');
       const updatedBalance = await client.getBalance(WALLET1.address);
-      if (updatedBalance.balanceNano !== undefined) {
-        testInfo(`Updated Balance: ${updatedBalance.balanceNano} KSHS`);
+      if (updatedBalance.balanceKshs !== undefined) {
+        testInfo(`Updated Balance: ${updatedBalance.balanceKshs} KSHS`);
       } else {
         testInfo(`Updated Balance: ${updatedBalance.balance} raw`);
       }

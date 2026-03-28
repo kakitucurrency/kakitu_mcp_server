@@ -169,12 +169,12 @@ function generateDonationQR(donationAddress, suggestedAmount) {
 Generate QR codes for in-person payments:
 
 ```javascript
-async function createPOSPayment(merchantAddress, priceInNano) {
-    const qrData = await generateQrCode(merchantAddress, priceInNano);
+async function createPOSPayment(merchantAddress, priceInKshs) {
+    const qrData = await generateQrCode(merchantAddress, priceInKshs);
     displayQRCodeToCustomer(qrData.result.qrCode);
     
     // Monitor for payment confirmation
-    await waitForPayment(merchantAddress, priceInNano);
+    await waitForPayment(merchantAddress, priceInKshs);
 }
 ```
 

@@ -82,7 +82,7 @@ In `utils/kakitu-transactions.js`, the `sendTransaction` function defined variab
 ```javascript
 async sendTransaction(fromAddress, privateKey, toAddress, amountRaw) {
     try {
-        const formattedFromAddress = String(fromAddress).replace('xrb_', 'kshs_');
+        const formattedFromAddress = String(fromAddress).replace('kshs_', 'kshs_');
         // ... more code ...
     } catch (error) {
         // ERROR: formattedFromAddress not in scope here!
@@ -106,7 +106,7 @@ async sendTransaction(fromAddress, privateKey, toAddress, amountRaw) {
     let amountRawString;
     
     try {
-        formattedFromAddress = String(fromAddress).replace('xrb_', 'kshs_');
+        formattedFromAddress = String(fromAddress).replace('kshs_', 'kshs_');
         // ... rest of code ...
     } catch (error) {
         // Now these variables are in scope!

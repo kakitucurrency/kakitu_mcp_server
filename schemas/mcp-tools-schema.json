@@ -128,7 +128,7 @@
           "address": {
             "type": "string",
             "pattern": "^(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}$",
-            "description": "Valid KSHS address (starts with 'kshs_' or 'xrb_')",
+            "description": "Valid KSHS address (starts with 'kshs_')",
             "examples": [
               "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd"
@@ -146,7 +146,7 @@
             "pattern": "^[0-9]+$",
             "description": "Current balance in raw units (1 KSHS = 10^30 raw)"
           },
-          "balanceNano": {
+          "balanceKshs": {
             "type": "string",
             "pattern": "^[0-9]+\\.[0-9]{6}$",
             "description": "Current balance in KSHS (decimal, 6 places)"
@@ -156,13 +156,13 @@
             "pattern": "^[0-9]+$",
             "description": "Pending amount in raw units"
           },
-          "pendingNano": {
+          "pendingKshs": {
             "type": "string",
             "pattern": "^[0-9]+\\.[0-9]{6}$",
             "description": "Pending amount in KSHS (decimal, 6 places)"
           }
         },
-        "required": ["balance", "balanceNano", "pending", "pendingNano"]
+        "required": ["balance", "balanceKshs", "pending", "pendingKshs"]
       },
       "examples": [
         {
@@ -178,9 +178,9 @@
             "jsonrpc": "2.0",
             "result": {
               "balance": "1500000000000000000000000000000",
-              "balanceNano": "1.500000",
+              "balanceKshs": "1.500000",
               "pending": "500000000000000000000000000000",
-              "pendingNano": "0.500000"
+              "pendingKshs": "0.500000"
             },
             "id": 1
           }
@@ -199,9 +199,9 @@
             "jsonrpc": "2.0",
             "result": {
               "balance": "0",
-              "balanceNano": "0.000000",
+              "balanceKshs": "0.000000",
               "pending": "0",
-              "pendingNano": "0.000000"
+              "pendingKshs": "0.000000"
             },
             "id": 1
           }
@@ -227,12 +227,12 @@
         },
         {
           "errorCode": "INVALID_ADDRESS_PREFIX",
-          "trigger": "Address doesn't start with 'kshs_' or 'xrb_'",
+          "trigger": "Address doesn't start with 'kshs_'",
           "example": {
             "jsonrpc": "2.0",
             "error": {
               "errorCode": "INVALID_ADDRESS_PREFIX",
-              "error": "Address must start with 'kshs_' or 'xrb_'"
+              "error": "Address must start with 'kshs_'"
             },
             "id": 1
           }
@@ -732,13 +732,13 @@
             "type": "string",
             "description": "Base64-encoded PNG image data"
           },
-          "nanoUri": {
+          "kakituUri": {
             "type": "string",
             "pattern": "^kakitu:(kshs|xrb)_[13]{1}[13456789abcdefghijkmnopqrstuwxyz]{59}(\\?amount=[0-9]+)?$",
             "description": "KSHS URI (kakitu:address?amount=raw)"
           }
         },
-        "required": ["qrCode", "nanoUri"]
+        "required": ["qrCode", "kakituUri"]
       },
       "examples": [
         {
@@ -756,7 +756,7 @@
             "jsonrpc": "2.0",
             "result": {
               "qrCode": "iVBORw0KGgoAAAANSUhEUgAA...(base64 encoded image)...CYII=",
-              "nanoUri": "kshs:3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn?amount=100000000000000000000000000000"
+              "kakituUri": "kshs:3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn?amount=100000000000000000000000000000"
             },
             "id": 1
           }
@@ -775,7 +775,7 @@
             "jsonrpc": "2.0",
             "result": {
               "qrCode": "iVBORw0KGgoAAAANSUhEUgAA...(base64 encoded image)...CYII=",
-              "nanoUri": "kshs:3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
+              "kakituUri": "kshs:3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
             },
             "id": 1
           }
@@ -919,7 +919,7 @@
             "type": "string",
             "description": "Balance in raw"
           },
-          "balanceNano": {
+          "balanceKshs": {
             "type": "string",
             "description": "Balance in KSHS"
           },
@@ -931,7 +931,7 @@
             "type": "string",
             "description": "Total pending amount in raw"
           },
-          "totalPendingNano": {
+          "totalPendingKshs": {
             "type": "string",
             "description": "Total pending amount in KSHS"
           },
@@ -951,7 +951,7 @@
             "description": "Current representative (if initialized)"
           }
         },
-        "required": ["address", "initialized", "balance", "balanceNano", "pendingCount", "canSend", "needsAction"]
+        "required": ["address", "initialized", "balance", "balanceKshs", "pendingCount", "canSend", "needsAction"]
       },
       "examples": [
         {
@@ -970,10 +970,10 @@
               "address": "kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn",
               "initialized": false,
               "balance": "0",
-              "balanceNano": "0.000000",
+              "balanceKshs": "0.000000",
               "pendingCount": 1,
               "totalPending": "500000000000000000000000000000",
-              "totalPendingNano": "0.500000",
+              "totalPendingKshs": "0.500000",
               "canSend": false,
               "needsAction": [
                 "REQUIRED: Call initializeAccount to open account and receive pending blocks",
@@ -999,10 +999,10 @@
               "address": "kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd",
               "initialized": true,
               "balance": "1500000000000000000000000000000",
-              "balanceNano": "1.500000",
+              "balanceKshs": "1.500000",
               "pendingCount": 0,
               "totalPending": "0",
-              "totalPendingNano": "0.000000",
+              "totalPendingKshs": "0.000000",
               "canSend": true,
               "needsAction": [
                 "Account is ready - you can send transactions with sendTransaction"

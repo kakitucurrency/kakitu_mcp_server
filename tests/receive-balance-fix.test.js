@@ -1,8 +1,8 @@
 const { KakituTransactions } = require('../utils/kakitu-transactions');
 
-describe('nanocurrency-web Block Balance Fix', () => {
-    test('nanocurrency-web calculates balance internally - send blocks', () => {
-        // CRITICAL: nanocurrency-web's block.send() does this internally:
+describe('kakitu-web Block Balance Fix', () => {
+    test('kakitu-web calculates balance internally - send blocks', () => {
+        // CRITICAL: kakitu-web's block.send() does this internally:
         // finalBalance = walletBalanceRaw - amountRaw
         
         const currentBalance = '5000000000000000000000000000'; // 0.005 KSHS (BEFORE send)
@@ -12,13 +12,13 @@ describe('nanocurrency-web Block Balance Fix', () => {
         const expectedNewBalance = (BigInt(currentBalance) - BigInt(amountToSend)).toString();
         expect(expectedNewBalance).toBe('4000000000000000000000000000'); // 0.004 KSHS remaining
         
-        // What we PASS to nanocurrency-web (CORRECT):
+        // What we PASS to kakitu-web (CORRECT):
         const blockData = {
             walletBalanceRaw: currentBalance, // CURRENT balance (before send)
             amountRaw: amountToSend          // Amount to send
         };
         
-        // nanocurrency-web internally calculates: 5000... - 1000... = 4000... ✓
+        // kakitu-web internally calculates: 5000... - 1000... = 4000... ✓
         expect(blockData.walletBalanceRaw).toBe(currentBalance);
         expect(blockData.amountRaw).toBe(amountToSend);
         
@@ -27,8 +27,8 @@ describe('nanocurrency-web Block Balance Fix', () => {
         // This caused DOUBLE DEDUCTION!
     });
     
-    test('nanocurrency-web calculates balance internally - receive blocks', () => {
-        // CRITICAL: nanocurrency-web's block.receive() does this internally:
+    test('kakitu-web calculates balance internally - receive blocks', () => {
+        // CRITICAL: kakitu-web's block.receive() does this internally:
         // finalBalance = walletBalanceRaw + amountRaw
         
         const currentBalance = '5000000000000000000000000000'; // 0.005 KSHS (BEFORE receive)
@@ -38,13 +38,13 @@ describe('nanocurrency-web Block Balance Fix', () => {
         const expectedNewBalance = (BigInt(currentBalance) + BigInt(amountToReceive)).toString();
         expect(expectedNewBalance).toBe('6000000000000000000000000000'); // 0.006 KSHS total
         
-        // What we PASS to nanocurrency-web (CORRECT):
+        // What we PASS to kakitu-web (CORRECT):
         const blockData = {
             walletBalanceRaw: currentBalance, // CURRENT balance (before receive)
             amountRaw: amountToReceive       // Amount to receive
         };
         
-        // nanocurrency-web internally calculates: 5000... + 1000... = 6000... ✓
+        // kakitu-web internally calculates: 5000... + 1000... = 6000... ✓
         expect(blockData.walletBalanceRaw).toBe(currentBalance);
         expect(blockData.amountRaw).toBe(amountToReceive);
         
@@ -58,7 +58,7 @@ describe('nanocurrency-web Block Balance Fix', () => {
         const currentBalance = '0';
         const amountToReceive = '2000000000000000000000000000'; // 0.002 KSHS (first receive)
         
-        // nanocurrency-web will calculate: 0 + 2000... = 2000... ✓
+        // kakitu-web will calculate: 0 + 2000... = 2000... ✓
         const blockData = {
             walletBalanceRaw: currentBalance,   // 0 (before receive)
             amountRaw: amountToReceive         // Amount to receive
@@ -72,7 +72,7 @@ describe('nanocurrency-web Block Balance Fix', () => {
         const currentBalance = '10000000000000000000000000000'; // 0.01 KSHS
         const amountToSend = '1000000000000000000000000000'; // 0.001 KSHS
         
-        // CORRECT: Pass current balance to nanocurrency-web
+        // CORRECT: Pass current balance to kakitu-web
         const correctBlockData = {
             walletBalanceRaw: currentBalance,  // ✅ CURRENT (10000...)
             amountRaw: amountToSend           // ✅ AMOUNT (1000...)
@@ -96,7 +96,7 @@ describe('nanocurrency-web Block Balance Fix', () => {
         const currentBalance = '5000000000000000000000000000'; // 0.005 KSHS
         const amountToReceive = '1000000000000000000000000000'; // 0.001 KSHS
         
-        // CORRECT: Pass current balance to nanocurrency-web
+        // CORRECT: Pass current balance to kakitu-web
         const correctBlockData = {
             walletBalanceRaw: currentBalance,  // ✅ CURRENT (5000...)
             amountRaw: amountToReceive        // ✅ AMOUNT (1000...)

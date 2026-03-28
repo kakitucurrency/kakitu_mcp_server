@@ -12,7 +12,7 @@
 - ✅ **JSON Schema Integration** - Auto-discovery and validation
 - ✅ **Comprehensive Error Handling** - Errors include `nextSteps` and guidance
 - ✅ **Production Timeouts** - 30s default, 60s for transactions
-- ✅ **Helper Functions** - `nanoToRaw()`, `rawToNano()`, constants
+- ✅ **Helper Functions** - `kshsToRaw()`, `rawToKshs()`, constants
 - ✅ **Zero Configuration** - Works out of the box
 
 ---
@@ -23,9 +23,9 @@
 
 ```typescript
 // Copy kakitu-mcp-client.ts to your project
-import { NanoMcpClient, nanoToRaw, rawToNano } from './kakitu-mcp-client';
+import { KakituMcpClient, kshsToRaw, rawToKshs } from './kakitu-mcp-client';
 
-const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
 ```
 
 ### Basic Usage
@@ -37,13 +37,13 @@ console.log(wallet.address);
 
 // Check balance
 const balance = await client.getBalance(wallet.address);
-console.log(`Balance: ${balance.balanceNano} KSHS`);
+console.log(`Balance: ${balance.balanceKshs} KSHS`);
 
 // Send transaction (with auto-retry)
 const tx = await client.sendTransaction(
   fromAddress,
   toAddress,
-  nanoToRaw('0.001'), // Helper function
+  kshsToRaw('0.001'), // Helper function
   privateKey
 );
 console.log(`Hash: ${tx.hash}`);
@@ -72,7 +72,7 @@ Get balance and pending amounts for an address.
 
 ```typescript
 const balance = await client.getBalance('kshs_...');
-// Returns: { balance, balanceNano, pending, pendingNano }
+// Returns: { balance, balanceKshs, pending, pendingKshs }
 ```
 
 #### `getAccountStatus(address)` ⭐ **RECOMMENDED**
@@ -81,8 +81,8 @@ Get comprehensive account status with actionable recommendations.
 ```typescript
 const status = await client.getAccountStatus('kshs_...');
 // Returns: {
-//   address, initialized, balance, balanceNano,
-//   pendingCount, totalPending, totalPendingNano,
+//   address, initialized, balance, balanceKshs,
+//   pendingCount, totalPending, totalPendingKshs,
 //   canSend, needsAction[], representative
 // }
 
@@ -124,7 +124,7 @@ Send KSHS with **automatic retry** on transient errors.
 const tx = await client.sendTransaction(
   'kshs_from...',
   'kshs_to...',
-  nanoToRaw('0.001'), // Convert KSHS to raw
+  kshsToRaw('0.001'), // Convert KSHS to raw
   privateKey
 );
 // Returns: { success: true, hash }
@@ -150,19 +150,19 @@ const result = await client.convertBalance('0.1', 'kakitu', 'raw');
 // Returns: { original, converted, from, to }
 ```
 
-#### `nanoToRaw(amount)` - Helper Function
+#### `kshsToRaw(amount)` - Helper Function
 Convert KSHS to raw (client-side, instant).
 
 ```typescript
-const raw = nanoToRaw('0.1');
+const raw = kshsToRaw('0.1');
 // Returns: "100000000000000000000000000000"
 ```
 
-#### `rawToNano(amount)` - Helper Function
+#### `rawToKshs(amount)` - Helper Function
 Convert raw to KSHS (client-side, instant).
 
 ```typescript
-const kakitu = rawToNano('100000000000000000000000000000');
+const kshs = rawToKshs('100000000000000000000000000000');
 // Returns: "0.100000"
 ```
 
@@ -170,9 +170,9 @@ const kakitu = rawToNano('100000000000000000000000000000');
 ```typescript
 import { KSHS } from './kakitu-mcp-client';
 
-KSHS.ONE_NANO          // "1000000000000000000000000000000"
-KSHS.POINT_ONE_NANO    // "100000000000000000000000000000"
-KSHS.POINT_ZERO_ONE_NANO  // "10000000000000000000000000000"
+KSHS.ONE_KSHS          // "1000000000000000000000000000000"
+KSHS.POINT_ONE_KSHS    // "100000000000000000000000000000"
+KSHS.POINT_ZERO_ONE_KSHS  // "10000000000000000000000000000"
 ```
 
 #### `generateQrCode(address, amount?)`
@@ -180,7 +180,7 @@ Generate QR code for payment request.
 
 ```typescript
 const qr = await client.generateQrCode('kshs_...', '0.1');
-// Returns: { qrCode: "base64...", nanoUri: "kshs:...?amount=..." }
+// Returns: { qrCode: "base64...", kakituUri: "kshs:...?amount=..." }
 ```
 
 ---
@@ -231,10 +231,10 @@ const validation = await client.validateParams('sendTransaction', {
 ### Example 1: Complete Workflow
 
 ```typescript
-import { NanoMcpClient, nanoToRaw } from './kakitu-mcp-client';
+import { KakituMcpClient, kshsToRaw } from './kakitu-mcp-client';
 
 async function completeWorkflow() {
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   
   try {
     // 1. Generate wallet
@@ -260,7 +260,7 @@ async function completeWorkflow() {
       const tx = await client.sendTransaction(
         wallet.address,
         'kshs_1x7biz69cem95oo7gxkdkdbxsfs6ixkxx833fz3ps9qxh3uofa1hr8ejkizd',
-        nanoToRaw('0.001'),
+        kshsToRaw('0.001'),
         wallet.privateKey
       );
       console.log('Transaction hash:', tx.hash);
@@ -277,7 +277,7 @@ async function completeWorkflow() {
 
 ```typescript
 async function smartStatusHandling() {
-  const client = new NanoMcpClient('https://kakitu-mcp.replit.app');
+  const client = new KakituMcpClient('https://kakitu-mcp.replit.app');
   const status = await client.getAccountStatus(address);
   
   // Automatically handle recommended actions
@@ -343,7 +343,7 @@ await client.sendTransaction(...);
 ### Custom Server URL
 
 ```typescript
-const client = new NanoMcpClient('http://localhost:8080');
+const client = new KakituMcpClient('http://localhost:8080');
 ```
 
 ### Timeouts
@@ -442,7 +442,7 @@ await example1_BasicWallet();
 
 ### `INVALID_ADDRESS_FORMAT`
 **Error:** Address format is wrong
-**Solution:** Ensure address starts with `kshs_` or `xrb_` and is 60-65 characters
+**Solution:** Ensure address starts with `kshs_` and is 60-65 characters
 
 ### `INVALID_PRIVATE_KEY_LENGTH`
 **Error:** Private key is not 64 characters

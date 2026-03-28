@@ -64,7 +64,7 @@ Every error includes:
     "pending": {
         "count": 0,
         "totalAmount": "0",
-        "totalAmountNano": "0"
+        "totalAmountKshs": "0"
     },
     "capabilities": {
         "canSend": true,
@@ -139,11 +139,11 @@ Every error includes:
     "details": {
         "address": "kshs_xxx",
         "currentBalance": "80000000000000000000000000",
-        "currentBalanceNano": "0.00016",
+        "currentBalanceKshs": "0.00016",
         "attemptedAmount": "1000000000000000000000000000",
-        "attemptedAmountNano": "0.002",
+        "attemptedAmountKshs": "0.002",
         "shortfall": "920000000000000000000000000",
-        "shortfallNano": "0.00184"
+        "shortfallKshs": "0.00184"
     },
     "nextSteps": [
         "Step 1: Check current balance using getBalance or getAccountInfo",

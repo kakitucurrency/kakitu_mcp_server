@@ -29,16 +29,16 @@ class EnhancedErrorHandler {
             details: {
                 address: address,
                 currentBalance: currentBalance,
-                currentBalanceNano: BalanceConverter.rawToNano(currentBalance),
+                currentBalanceKshs: BalanceConverter.rawToKshs(currentBalance),
                 attemptedAmount: attemptedAmount,
-                attemptedAmountNano: BalanceConverter.rawToNano(attemptedAmount),
+                attemptedAmountKshs: BalanceConverter.rawToKshs(attemptedAmount),
                 shortfall: shortfall.toString(),
-                shortfallNano: BalanceConverter.rawToNano(shortfall.toString())
+                shortfallKshs: BalanceConverter.rawToKshs(shortfall.toString())
             },
             nextSteps: [
                 "Step 1: Check current balance using getBalance or getAccountInfo",
-                `Step 2: Either reduce send amount to maximum ${BalanceConverter.rawToNano(currentBalance)} KSHS or less`,
-                `Step 3: Or fund account with additional ${BalanceConverter.rawToNano(shortfall.toString())} KSHS minimum`,
+                `Step 2: Either reduce send amount to maximum ${BalanceConverter.rawToKshs(currentBalance)} KSHS or less`,
+                `Step 3: Or fund account with additional ${BalanceConverter.rawToKshs(shortfall.toString())} KSHS minimum`,
                 "Step 4: After funding, use receiveAllPending to process pending blocks",
                 "Step 5: Retry your send transaction"
             ],
@@ -90,7 +90,7 @@ class EnhancedErrorHandler {
                     hasPendingBlocks: true,
                     pendingCount: pendingCount,
                     totalPendingAmount: totalPending.toString(),
-                    totalPendingAmountNano: BalanceConverter.rawToNano(totalPending.toString())
+                    totalPendingAmountKshs: BalanceConverter.rawToKshs(totalPending.toString())
                 },
                 nextSteps: nextSteps,
                 relatedFunctions: ["initializeAccount", "receiveAllPending", "getPendingBlocks"],
@@ -169,7 +169,7 @@ class EnhancedErrorHandler {
                 address: address,
                 pendingCount: pendingCount,
                 totalPendingAmount: totalPending.toString(),
-                totalPendingAmountNano: BalanceConverter.rawToNano(totalPending.toString())
+                totalPendingAmountKshs: BalanceConverter.rawToKshs(totalPending.toString())
             },
             recommendation: "Receive pending blocks first to ensure accurate balance and avoid transaction issues",
             nextSteps: [
@@ -201,12 +201,12 @@ class EnhancedErrorHandler {
         console.log('[EnhancedErrorHandler] Creating invalid amount format error');
         
         // Try to detect if user provided KSHS instead of raw
-        const looksLikeNano = /^\d+\.?\d*$/.test(providedAmount) && parseFloat(providedAmount) < 1000;
+        const looksLikeKshs = /^\d+\.?\d*$/.test(providedAmount) && parseFloat(providedAmount) < 1000;
         let suggestedConversion = null;
 
-        if (looksLikeNano) {
+        if (looksLikeKshs) {
             try {
-                suggestedConversion = BalanceConverter.nanoToRaw(providedAmount);
+                suggestedConversion = BalanceConverter.kshsToRaw(providedAmount);
             } catch (e) {
                 // Ignore conversion errors
             }
@@ -238,7 +238,7 @@ class EnhancedErrorHandler {
             error.suggestedCorrection = {
                 description: `If you meant to send ${providedAmount} KSHS, use this value:`,
                 correctedAmount: suggestedConversion,
-                correctedAmountNano: providedAmount
+                correctedAmountKshs: providedAmount
             };
         }
 
@@ -277,7 +277,7 @@ class EnhancedErrorHandler {
                 `   • Receive/Open blocks: fffffe0000000000 (takes 4-6 seconds)`,
                 "Step 3: If retrying fails repeatedly, possible causes:",
                 "   • CPU too slow for reliable work generation",
-                "   • nanocurrency library not properly initialized",
+                "   • kakitu library not properly initialized",
                 "Step 4: Solutions if issue persists:",
                 "   • Wait a few moments and retry (work generation is probabilistic)",
                 "   • Use a more powerful machine",
@@ -286,7 +286,7 @@ class EnhancedErrorHandler {
             ],
             relatedFunctions: ["sendTransaction", "receiveAllPending", "initializeAccount"],
             technicalDetails: {
-                workGenerationMethod: "Local CPU (nanocurrency library)",
+                workGenerationMethod: "Local CPU (kakitu library)",
                 timeEstimate: blockType === 'send' ? "10-15 seconds" : "4-6 seconds",
                 cpuIntensive: true,
                 probabilistic: true
@@ -435,7 +435,7 @@ class EnhancedErrorHandler {
                 },
                 nextSteps: [
                     `Step 1: Provide a valid KSHS address for ${parameterName}`,
-                    "Step 2: KSHS addresses start with 'kshs_' or 'xrb_'",
+                    "Step 2: KSHS addresses start with 'kshs_'",
                     "Step 3: Addresses are 64-65 characters long",
                     "Step 4: Example: kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                 ],
@@ -452,20 +452,20 @@ class EnhancedErrorHandler {
 
         const trimmedAddress = address.trim();
         
-        // Check if address starts with kshs_ or xrb_
-        if (!trimmedAddress.startsWith('kshs_') && !trimmedAddress.startsWith('xrb_')) {
+        // Check if address starts with kshs_
+        if (!trimmedAddress.startsWith('kshs_')) {
             return {
                 success: false,
-                error: `Invalid ${parameterName} format - must start with 'kshs_' or 'xrb_'`,
+                error: `Invalid ${parameterName} format - must start with 'kshs_'`,
                 errorCode: "INVALID_ADDRESS_PREFIX",
                 details: {
                     parameter: parameterName,
                     providedValue: address,
-                    issue: "Address must start with 'kshs_' or 'xrb_' prefix",
+                    issue: "Address must start with 'kshs_' prefix",
                     detectedPrefix: trimmedAddress.substring(0, 5)
                 },
                 nextSteps: [
-                    "Step 1: Ensure address starts with 'kshs_' (modern format) or 'xrb_' (legacy format)",
+                    "Step 1: Ensure address starts with 'kshs_'",
                     "Step 2: Check for typos in the address prefix",
                     "Step 3: Example valid address: kshs_3h3m6kfckrxpc4t33jn36eu8smfpukwuq1zq4hy35dh4a7drs6ormhwhkncn"
                 ],
@@ -650,7 +650,7 @@ class EnhancedErrorHandler {
             if (/^\d+\.\d+$/.test(trimmedAmount) || /^\d+\.?\d*$/.test(trimmedAmount)) {
                 let converted = null;
                 try {
-                    converted = BalanceConverter.nanoToRaw(trimmedAmount);
+                    converted = BalanceConverter.kshsToRaw(trimmedAmount);
                 } catch (e) {
                     // Conversion failed
                 }

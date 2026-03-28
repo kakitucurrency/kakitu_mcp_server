@@ -2,7 +2,7 @@ const { KakituTransactions } = require('kakitu-mcp/dist/utils/kakitu-transaction
 
 // Mock config object for testing
 const mockConfig = {
-    getNanoConfig: () => ({
+    getKakituConfig: () => ({
         rpcUrl: 'https://rpc.kakitu.org',
         rpcKey: 'RPC-KEY-BAB822FCCDAE42ECB7A331CCAAAA23',
         gpuKey: '',

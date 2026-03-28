@@ -28,7 +28,7 @@ class KakituTransactions {
      * @param {Object} config - Optional global configuration object.
      */
     constructor(customConfig, config) {
-        const globalConfig = config?.getNanoConfig() || {};
+        const globalConfig = config?.getKakituConfig?.() || config?.getNanoConfig?.() || {};
         this.rpcNodes = customConfig?.rpcNodes || [customConfig?.apiUrl] || [globalConfig.rpcUrl] || ['https://rpc.kakitu.org'];
         this.currentNodeIndex = 0;
         // Allow null rpcKey to be explicitly set
@@ -307,7 +307,7 @@ class KakituTransactions {
             const work = { work: workValue };
 
             // Ensure account is in kshs_ format
-            const nanoAccount = account.replace('xrb_', 'kshs_');
+            const kakituAccount = account.replace('xrb_', 'kshs_');
             
             // Get the representative
             let representative = this.defaultRepresentative;
@@ -333,12 +333,12 @@ class KakituTransactions {
             console.log('Expected new balance:', newBalance);
 
             // Prepare block data for block.receive
-            // IMPORTANT: nanocurrency-web's block.receive() calculates newBalance internally by doing:
+            // IMPORTANT: kakitu-web's block.receive() calculates newBalance internally by doing:
             // newBalance = walletBalanceRaw + amountRaw
             // So walletBalanceRaw should be the CURRENT balance (before receive), NOT the new balance
             const receiveBlockData = {
                 walletBalanceRaw: currentBalance, // Current balance BEFORE receive
-                toAddress: nanoAccount,
+                toAddress: kakituAccount,
                 representativeAddress: representative,
                 frontier: accountInfo && !accountInfo.error ? accountInfo.frontier : '0000000000000000000000000000000000000000000000000000000000000000',
                 transactionHash: pendingBlock,
@@ -346,9 +346,9 @@ class KakituTransactions {
                 work: work.work
             };
 
-            console.log('Block data for nanocurrency-web:', receiveBlockData);
+            console.log('Block data for kakitu-web:', receiveBlockData);
 
-            // Sign the block using nanocurrency-web's block.receive
+            // Sign the block using kakitu-web's block.receive
             const signedBlock = block.receive(receiveBlockData, privateKey);
             console.log('Signed block:', signedBlock);
 
@@ -567,8 +567,8 @@ class KakituTransactions {
             console.log('[AmountTrack] ========== SEND TRANSACTION STARTED ==========');
             console.log('[AmountTrack] Amount REQUESTED by user (raw):', amountRawString);
             try {
-                const requestedNano = BalanceConverter.rawToNano(amountRawString);
-                console.log('[AmountTrack] Amount REQUESTED by user (KSHS):', requestedNano);
+                const requestedKshs = BalanceConverter.rawToKshs(amountRawString);
+                console.log('[AmountTrack] Amount REQUESTED by user (KSHS):', requestedKshs);
             } catch (e) {
                 console.log('[AmountTrack] Could not convert to KSHS (invalid raw value?)');
             }
@@ -670,10 +670,10 @@ class KakituTransactions {
             console.log('New balance after send:', newBalance);
             console.log('[AmountTrack] Remaining balance after send (raw):', newBalance);
             try {
-                const remainingNano = BalanceConverter.rawToNano(newBalance);
-                const sendingNano = BalanceConverter.rawToNano(sendAmount.toString());
-                console.log('[AmountTrack] Amount SENDING (KSHS):', sendingNano);
-                console.log('[AmountTrack] Remaining balance (KSHS):', remainingNano);
+                const remainingKshs = BalanceConverter.rawToKshs(newBalance);
+                const sendingKshs = BalanceConverter.rawToKshs(sendAmount.toString());
+                console.log('[AmountTrack] Amount SENDING (KSHS):', sendingKshs);
+                console.log('[AmountTrack] Remaining balance (KSHS):', remainingKshs);
             } catch (e) {
                 console.log('[AmountTrack] Conversion error:', e.message);
             }
@@ -695,7 +695,7 @@ class KakituTransactions {
             console.log('Using representative:', representative);
 
             // Prepare block data
-            // IMPORTANT: nanocurrency-web's block.send() calculates newBalance internally by doing:
+            // IMPORTANT: kakitu-web's block.send() calculates newBalance internally by doing:
             // newBalance = walletBalanceRaw - amountRaw
             // So walletBalanceRaw should be the CURRENT balance (before send), NOT the remaining balance
             const blockData = {
@@ -713,7 +713,7 @@ class KakituTransactions {
             console.log('[AmountTrack] Block.amountRaw (what receiver will get):', amountRawString);
             console.log('[AmountTrack] Block.walletBalanceRaw (sender current balance BEFORE send):', currentBalance.toString());
             console.log('[AmountTrack] Expected balance AFTER send:', newBalance);
-            console.log('[AmountTrack] IMPORTANT: nanocurrency-web will calculate: finalBalance = walletBalanceRaw - amountRaw');
+            console.log('[AmountTrack] IMPORTANT: kakitu-web will calculate: finalBalance = walletBalanceRaw - amountRaw');
             console.log('[AmountTrack] IMPORTANT: This prevents double-deduction bug');
             
             // Log block-determining parameters (these create the block hash)
@@ -725,7 +725,7 @@ class KakituTransactions {
             console.log('[BlockHash]   - Representative:', representative);
             console.log('[BlockHash] NOTE: Work is NOT part of hash, only validates PoW');
 
-            // Sign the block using nanocurrency-web
+            // Sign the block using kakitu-web
             const signedBlock = nanocurrency_web_1.block.send(blockData, privateKeyString);
             console.log('Signed block:', signedBlock);
             console.log('[BlockHash] Generated block hash:', signedBlock.hash || 'N/A');

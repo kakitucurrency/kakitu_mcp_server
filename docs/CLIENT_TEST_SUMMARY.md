@@ -380,7 +380,7 @@ KAKITU_MCP_SERVER/
 ---
 
 **📦 Committed:** `fef4fee`  
-**🔗 GitHub:** https://github.com/dhyabi2/KAKITU_MCP_SERVER  
+**🔗 GitHub:** https://github.com/kakitucurrency/kakitu_mcp_server  
 **📂 Location:** `client-examples/typescript/`  
 
 ---

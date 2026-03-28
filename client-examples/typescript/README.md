@@ -162,7 +162,7 @@ const raw = nanoToRaw('0.1');
 Convert raw to KSHS (client-side, instant).
 
 ```typescript
-const nano = rawToNano('100000000000000000000000000000');
+const kakitu = rawToNano('100000000000000000000000000000');
 // Returns: "0.100000"
 ```
 
@@ -456,7 +456,7 @@ await example1_BasicWallet();
 - **Error Handling Guide:** `../../docs/AI_AGENT_ERROR_HANDLING.md`
 - **JSON Schema Guide:** `../../docs/JSON_SCHEMA_AI_AGENT_GUIDE.md`
 - **Production Server:** https://kakitu-mcp.replit.app
-- **GitHub Repository:** https://github.com/dhyabi2/KAKITU_MCP_SERVER
+- **GitHub Repository:** https://github.com/kakitucurrency/kakitu_mcp_server
 
 ---
 

@@ -1308,7 +1308,7 @@
     "aiAgentOptimized": true,
     "supportedProtocols": ["JSON-RPC 2.0"],
     "productionEndpoint": "https://kakitu-mcp.replit.app",
-    "documentation": "https://github.com/dhyabi2/KAKITU_MCP_SERVER"
+    "documentation": "https://github.com/kakitucurrency/kakitu_mcp_server"
   }
 }
 

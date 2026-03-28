@@ -5,7 +5,7 @@ Write-Host "`nStarting Full Flow Test for MCP Server...`n" -ForegroundColor Cyan
 
 # Test wallet credentials
 $testWallet = @{
-    account = "nano_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj"
+    account = "kshs_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj"
     privateKey = "3ff30bb04a99a405408a8b6a9d9f5e48f2c10bb223e53545e14dab9783a996c5"
     publicKey = "e2009ce352d8bead287f51a6093c4d4b024e6c4516bf77e58fa99524c17b5cc1"
 }

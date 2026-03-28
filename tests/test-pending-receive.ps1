@@ -3,7 +3,7 @@ $headers = @{ "Content-Type" = "application/json" }
 
 # Test the new pending receive endpoint
 $body = @{
-    account = "nano_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj"
+    account = "kshs_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj"
     privateKey = "xxx"
 } | ConvertTo-Json
 
@@ -16,7 +16,7 @@ $body = @{
     jsonrpc = "2.0"
     method = "getBalance"
     params = @{
-        address = "nano_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj"
+        address = "kshs_3ri1mmjo7p7yonn9ynf836y6tkr4bsp6c7ozgzkrzceo6m1qpq83rppcttkj"
     }
     id = 1
 } | ConvertTo-Json

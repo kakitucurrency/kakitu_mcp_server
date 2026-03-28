@@ -235,7 +235,7 @@ class SchemaProvider {
                 description: 'JSON-RPC 2.0 API for Kakitu cryptocurrency operations. AI agent optimized with comprehensive schemas and examples.',
                 contact: {
                     name: 'Kakitu MCP Server',
-                    url: metadata.documentation || 'https://github.com/dhyabi2/KAKITU_MCP_SERVER'
+                    url: metadata.documentation || 'https://github.com/kakitucurrency/kakitu_mcp_server'
                 }
             },
             servers: [

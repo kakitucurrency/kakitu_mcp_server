@@ -5,7 +5,7 @@ GREEN='\033[0;32m'
 YELLOW='\033[1;33m'
 NC='\033[0m'
 
-echo -e "${GREEN}Starting NANO MCP Full Flow Test${NC}"
+echo -e "${GREEN}Starting KSHS MCP Full Flow Test${NC}"
 echo "----------------------------------------"
 
 # Function to make JSON-RPC calls
@@ -53,9 +53,9 @@ INIT_WALLET1_RESPONSE=$(call_rpc "{
 echo "Wallet 1 initialized: $INIT_WALLET1_RESPONSE"
 echo "----------------------------------------"
 
-# Wait for initial funds (0.0001 NANO)
+# Wait for initial funds (0.0001 KSHS)
 echo -e "${YELLOW}Waiting for initial funds to Wallet 1...${NC}"
-echo "Please send 0.0001 NANO to: $WALLET1_ADDRESS"
+echo "Please send 0.0001 KSHS to: $WALLET1_ADDRESS"
 echo "Checking balance every 10 seconds for 4 minutes..."
 
 for i in {1..24}; do
@@ -125,8 +125,8 @@ INIT_WALLET2_RESPONSE=$(call_rpc "{
 echo "Wallet 2 initialized: $INIT_WALLET2_RESPONSE"
 echo "----------------------------------------"
 
-# Send 0.00005 NANO from Wallet 1 to Wallet 2
-echo -e "${YELLOW}Sending 0.00005 NANO from Wallet 1 to Wallet 2...${NC}"
+# Send 0.00005 KSHS from Wallet 1 to Wallet 2
+echo -e "${YELLOW}Sending 0.00005 KSHS from Wallet 1 to Wallet 2...${NC}"
 SEND_RESPONSE=$(call_rpc "{
     \"jsonrpc\": \"2.0\",
     \"method\": \"sendTransaction\",

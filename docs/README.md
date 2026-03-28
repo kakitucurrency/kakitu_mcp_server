@@ -1145,7 +1145,7 @@ curl -X POST http://localhost:8080 \
 - Follow `nextSteps` in error responses
 
 **For Developers:**
-- GitHub Issues: [Create issue](https://github.com/dhyabi2/KAKITU_MCP_SERVER/issues)
+- GitHub Issues: [Create issue](https://github.com/kakitucurrency/kakitu_mcp_server/issues)
 - Documentation: See files in `KAKITU_MCP_SERVER/docs/`
 
 ---

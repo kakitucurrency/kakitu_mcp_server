@@ -1,11 +1,11 @@
-# NANO MCP Server Tools Test Script
-# This script tests all primary tools of the NANO MCP server via its HTTP interface.
+# KSHS MCP Server Tools Test Script
+# This script tests all primary tools of the KSHS MCP server via its HTTP interface.
 
 # 1. Configuration
-$URL = "https://nano-mcp.replit.app"
+$URL = "https://kakitu-mcp.replit.app"
 $Headers = @{ "Content-Type" = "application/json" }
 
-Write-Host "--- NANO MCP SERVER TOOLS TEST ---" -ForegroundColor Cyan
+Write-Host "--- KSHS MCP SERVER TOOLS TEST ---" -ForegroundColor Cyan
 Write-Host "Target URL: $URL" -ForegroundColor Gray
 
 # Helper function to send requests
@@ -59,14 +59,14 @@ if ($status) {
     Write-Host "[PASS] Account Status Ready: $($status.isReady)" -ForegroundColor Green
 }
 
-# 6. Test Unit Conversion (1 NANO to raw)
+# 6. Test Unit Conversion (1 KSHS to raw)
 $conv = Send-MCPRequest "convertBalance" @{ 
     amount = "1"
-    from = "nano"
+    from = "kakitu"
     to = "raw"
 }
 if ($conv) {
-    Write-Host "[PASS] Conversion Check: 1 NANO = $($conv.convertedAmount) raw" -ForegroundColor Green
+    Write-Host "[PASS] Conversion Check: 1 KSHS = $($conv.convertedAmount) raw" -ForegroundColor Green
 }
 
 # 7. Generate a QR Code

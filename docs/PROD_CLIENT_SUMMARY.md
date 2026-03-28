@@ -358,7 +358,7 @@ ts-node example-usage.ts
 
 **🎯 Status:** PRODUCTION READY  
 **📦 Committed:** `b916702`  
-**🔗 GitHub:** https://github.com/dhyabi2/KAKITU_MCP_SERVER  
+**🔗 GitHub:** https://github.com/kakitucurrency/kakitu_mcp_server  
 **📂 Location:** `client-examples/typescript/`
 
 ---

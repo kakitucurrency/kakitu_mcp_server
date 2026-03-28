@@ -7,7 +7,7 @@ Your Kakitu MCP Server has been successfully configured and is now running!
 ## What Was Done
 
 ### 1. Repository Downloaded
-- Cloned from: https://github.com/dhyabi2/KAKITU_MCP_SERVER
+- Cloned from: https://github.com/kakitucurrency/kakitu_mcp_server
 - Location: `C:\Users\Ahmed.aldhiyabi\Downloads\cursorApps\KAKITU_MCP_SERVER`
 
 ### 2. Configuration Updated
@@ -205,7 +205,7 @@ Test-NetConnection -ComputerName localhost -Port 8080
 ## Support
 
 For issues with the Kakitu MCP Server:
-- GitHub: https://github.com/dhyabi2/KAKITU_MCP_SERVER
+- GitHub: https://github.com/kakitucurrency/kakitu_mcp_server
 - Check logs in: `logs/mcp.log`
 
 ---

@@ -256,6 +256,6 @@ Added dependency:
 ## Support
 
 For issues or questions about the QR code generation feature:
-- GitHub: https://github.com/dhyabi2/KAKITU_MCP_SERVER/issues
-- Documentation: https://github.com/dhyabi2/KAKITU_MCP_SERVER#readme
+- GitHub: https://github.com/kakitucurrency/kakitu_mcp_server/issues
+- Documentation: https://github.com/kakitucurrency/kakitu_mcp_server#readme
 
